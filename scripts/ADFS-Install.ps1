@@ -46,7 +46,7 @@ Add-WindowsFeature ADFS-Federation -IncludeManagementTools
 #Import-Module ADFS
 
 # Enabling remote powershell + CredSSP as KDSRootkey command need a Cred SSP session to process
-#Enable-PSRemoting
+Enable-PSRemoting
 #Enable-WSManCredSSP -Role client -DelegateComputer * -force
 #Enable-WSManCredSSP -Role server -force
 	
@@ -71,7 +71,7 @@ Invoke-Command  -Credential $DomainCreds -ComputerName $env:COMPUTERNAME -Script
     Set-Location $workingDir
 
 	#Import STS service root CA   
-    $RootCAfilepath = "G:\cert\*.crt"
+    $RootCAfilepath = "G:\cert\ADFS_RootCA.crt"
 	Import-Certificate -Filepath (get-childitem $RootCAfilepath) -CertStoreLocation Cert:\LocalMachine\Root
 
 	#install the certificate that will be used for ADFS Service
