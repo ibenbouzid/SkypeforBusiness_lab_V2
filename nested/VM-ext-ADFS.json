@@ -59,13 +59,47 @@
   },
   "variables": {
     "VMid": "[resourceId('Microsoft.Compute/virtualMachines', parameters('VMName'))]",
+    "VM_DjoinTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-ext-Domainjoin.json')]"
   },
   "resources": [
+    {
+      "name": "[concat('VM-ext-Domainjoin-ADFS')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('VM_DjoinTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "VMName": {
+            "value": "[parameters('VMName')]"
+          },
+          "DomainName": {
+            "value": "[parameters('domainName')]"
+          },
+          "AdminUserName": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "AdminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "_artifactsLocation": {
+            "value": "[parameters('_artifactsLocation')]"
+          }
+        }
+      }
+    },
     {
       "name": "[concat(parameters('VMName'), '/ADFS-Install')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments','VM-ext-Domainjoin-ADFS')]"
+      ],
       "tags": {
         "displayName": "ADFS-Install"
       },
@@ -77,7 +111,7 @@
         "settings": {
           "fileUris": [
             "[concat(parameters('_artifactsLocation'), '/scripts/ADFS-Install.ps1')]"
-          ]        
+          ]
         },
         "protectedsettings": {
           "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File ADFS-Install.ps1 -DomainName ', parameters('domainName'),' -Username ', parameters('adminUsername'),' -Password ', parameters('adminPassword'), ' -Share ', parameters('_SfBshareLocation'),' -sasToken ', parameters('_SfBshareSasToken'), ' -StsServiceName ', parameters('StsServiceName'),' -CertPassword ', parameters('CertPassword'))]"

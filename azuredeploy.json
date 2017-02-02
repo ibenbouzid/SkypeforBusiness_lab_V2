@@ -371,7 +371,7 @@
     //  ],
     //  "copy": {
     //    "name": "vmLoop",
-    //    "count": "[sub(length(variables('VMservers').VMName),4)]"
+    //    "count": "[sub(length(variables('VMservers').VMName),3)]"
     //  },
     //  "properties": {
     //    "mode": "Incremental",
@@ -600,7 +600,7 @@
     //  }
     //},
     //{
-    //  "name": "[concat('VM-deploy-CL', copyIndex(1))]",
+    //  "name": "[concat('VM-deploy-CL', copyIndex())]",
     //  "type": "Microsoft.Resources/deployments",
     //  "apiVersion": "2015-01-01",
     //  "dependsOn": [
@@ -609,7 +609,7 @@
     //  ],
     //  "copy": {
     //    "name": "vmLoop",
-    //    "count": "[sub(length(variables('VMclients').VMName),4)]"
+    //    "count": "[sub(length(variables('VMclients').VMName),0)]"
     //  },
     //  "properties": {
     //    "mode": "Incremental",
@@ -634,34 +634,34 @@
     //        "value": "[variables('LBBackEndName')]"
     //      },
     //      "VMName": {
-    //        "value": "[variables('VMclients').VMName[copyIndex(1)]]"
+    //        "value": "[variables('VMclients').VMName[copyIndex()]]"
     //      },
     //      "VMSize": {
-    //        "value": "[variables('VMclients').VMSize[copyIndex(1)]]"
+    //        "value": "[variables('VMclients').VMSize[copyIndex()]]"
     //      },
     //      "VMFENATport": {
-    //        "value": "[variables('VMclients').FENATPort[copyIndex(1)]]"
+    //        "value": "[variables('VMclients').FENATPort[copyIndex()]]"
     //      },
     //      "VMIPtype": {
-    //        "value": "[variables('VMclients').VMIPtype[copyIndex(1)]]"
+    //        "value": "[variables('VMclients').VMIPtype[copyIndex()]]"
     //      },
     //      "VMIPaddr": {
-    //        "value": "[variables('VMclients').VMIPaddr[copyIndex(1)]]"
+    //        "value": "[variables('VMclients').VMIPaddr[copyIndex()]]"
     //      },
     //      "VMimagePublisher": {
-    //        "value": "[variables('VMclients').publisher[copyIndex(1)]]"
+    //        "value": "[variables('VMclients').publisher[copyIndex()]]"
     //      },
     //      "VMimageOffer": {
-    //        "value": "[variables('VMclients').offer[copyIndex(1)]]"
+    //        "value": "[variables('VMclients').offer[copyIndex()]]"
     //      },
     //      "VMimageSKU": {
-    //        "value": "[variables('VMclients').sku[copyIndex(1)]]"
+    //        "value": "[variables('VMclients').sku[copyIndex()]]"
     //      },
     //      "VnetName": {
     //        "value": "[variables('VnetName')]"
     //      },
     //      "VMVnetSubnetName": {
-    //        "value": "[variables('VMclients').VMSubnet[copyIndex(1)]]"
+    //        "value": "[variables('VMclients').VMSubnet[copyIndex()]]"
     //      },
     //      "AdminUserName": {
     //        "value": "[parameters('adminUsername')]"
@@ -676,19 +676,13 @@
     //  }
     //},
     //{
-    //  "name": "[concat('VM-ext-Domainjoin-', copyIndex())]",
+    //  "name": "[concat('VM-ext-Domainjoin-CL1')]",
     //  "type": "Microsoft.Resources/deployments",
     //  "apiVersion": "2015-01-01",
     //  "dependsOn": [
     //    "[resourceId('Microsoft.Resources/deployments','VM-ext-ADDSCS')]",
-    //    "[concat('Microsoft.Resources/deployments/', 'VM-deploy-1')]",
-    //    "[concat('Microsoft.Resources/deployments/', 'VM-deploy-2')]",
-    //    "[concat('Microsoft.Resources/deployments/', 'VM-deploy-3')]"
+    //    "[concat('Microsoft.Resources/deployments/', 'VM-deploy-CL1')]",
     //  ],
-    //  "copy": {
-    //    "name": "DomainJLoop",
-    //    "count": "[length(variables('tojoindomain'))]"
-    //  },
     //  "properties": {
     //    "mode": "Incremental",
     //    "templateLink": {
@@ -697,7 +691,7 @@
     //    },
     //    "parameters": {
     //      "VMName": {
-    //        "value": "[variables('tojoindomain')[copyIndex()]]"
+    //        "value": "[variables('VMclients').VMName[0]]"
     //      },
     //      "DomainName": {
     //        "value": "[parameters('domainName')]"
@@ -720,7 +714,7 @@
     //  "apiVersion": "2015-01-01",
     //  "dependsOn": [
     //    "[concat('Microsoft.Resources/deployments/', 'Shared-Resources')]",
-    //    "[resourceId('Microsoft.Resources/deployments','VM-ext-Domainjoin-0')]"
+    //    "[resourceId('Microsoft.Resources/deployments','VM-ext-ADDSCS')]"
     //  ],
     //  "properties": {
     //    "mode": "Incremental",
@@ -758,13 +752,12 @@
     //  "type": "Microsoft.Resources/deployments",
     //  "apiVersion": "2015-01-01",
     //  "dependsOn": [
-    //    "[concat('Microsoft.Resources/deployments/', 'Shared-Resources')]",
-    //    "[resourceId('Microsoft.Resources/deployments','VM-ext-Domainjoin-2')]",
+    //    "[resourceId('Microsoft.Resources/deployments','VM-ext-Domainjoin-CL1')]",
     //    "[concat('Microsoft.Resources/deployments/', 'VM-deploy-CL2')]"
     //  ],
     //  "copy": {
     //    "name": "SfBClientLoop",
-    //    "count": "[sub(length(variables('VMclients')),0)]"
+    //    "count": "[sub(length(variables('VMclients').VMName),0)]"
     //  },
     //  "properties": {
     //    "mode": "Incremental",
@@ -774,7 +767,7 @@
     //    },
     //    "parameters": {
     //      "VMName": {
-    //        "value": "[variables('VMclients')[copyIndex()]]"
+    //        "value": "[variables('VMclients').VMName[copyIndex()]]"
     //      },
     //      "DomainName": {
     //        "value": "[parameters('domainName')]"
@@ -803,7 +796,7 @@
     //  "apiVersion": "2015-01-01",
     //  "dependsOn": [
     //    "[concat('Microsoft.Resources/deployments/', 'Shared-Resources')]",
-    //    "[resourceId('Microsoft.Resources/deployments','VM-ext-Domainjoin-1')]"
+    //    "[resourceId('Microsoft.Resources/deployments','VM-ext-ADDSCS')]"
     //  ],
     //  "properties": {
     //    "mode": "Incremental",
@@ -813,7 +806,7 @@
     //    },
     //    "parameters": {
     //      "VMName": {
-    //        "value": "[variables('VMservers').VMName[3]]"
+    //        "value": "[variables('VMservers').VMName[2]]"
     //      },
     //      "DomainName": {
     //        "value": "[parameters('domainName')]"
@@ -859,7 +852,7 @@
     //    },
     //    "parameters": {
     //      "VMName": {
-    //        "value": "[variables('VMservers').VMName[4]]"
+    //        "value": "[variables('VMservers').VMName[3]]"
     //      },
     //      "DomainName": {
     //        "value": "[parameters('domainName')]"
@@ -886,7 +879,7 @@
     //        "value": "[parameters('StsServiceName')]"
     //      },
     //      "StsServiceIPaddr": {
-    //        "value": "[variables('VMservers').VMIPaddr[3]]"
+    //        "value": "[variables('VMservers').VMIPaddr[2]]"
     //      },
     //      "CertPassword": {
     //        "value": "[parameters('CertPassword')]"
@@ -911,7 +904,7 @@
     //    },
     //    "parameters": {
     //      "VMName": {
-    //        "value": "[variables('VMservers').VMName[5]]"
+    //        "value": "[variables('VMservers').VMName[4]]"
     //      },
     //      "DomainName": {
     //        "value": "[parameters('domainName')]"
@@ -945,11 +938,10 @@
     //    "[resourceId('Microsoft.Resources/deployments','VM-ext-ADDSCS')]",
     //    "[resourceId('Microsoft.Resources/deployments','VM-ext-SFBFE')]",
     //    "[resourceId('Microsoft.Resources/deployments','VM-ext-ADFS')]",
-    //    "[resourceId('Microsoft.Resources/deployments','VM-ext-SFBClient-0')]"
     //  ],
     //  "copy": {
     //    "name": "DiagLoop",
-    //    "count": "[sub(length(variables('VMservers').VMName),3)]"
+    //    "count": "[sub(length(variables('VMservers').VMName),2)]"
     //  },
     //  "properties": {
     //    "mode": "Incremental",
