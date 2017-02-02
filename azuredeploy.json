@@ -468,19 +468,19 @@
             "value": "[variables('LBBackEndName')]"
           },
           "VMName": {
-            "value": "[variables('VMservers').VMName[4]]"
+            "value": "[variables('VMservers').VMName[3]]"
           },
           "VMSize": {
-            "value": "[variables('VMservers').VMSize[4]]"
+            "value": "[variables('VMservers').VMSize[3]]"
           },
           "VMFENATport": {
-            "value": "[variables('VMservers').FENATPort[4]]"
+            "value": "[variables('VMservers').FENATPort[3]]"
           },
           "VMIP-INT-type": {
-            "value": "[variables('VMservers').VMIPtype[4]]"
+            "value": "[variables('VMservers').VMIPtype[3]]"
           },
           "VMIP-INT-addr": {
-            "value": "[variables('VMservers').VMIPaddr[4]]"
+            "value": "[variables('VMservers').VMIPaddr[3]]"
           },
           "VMIP-EXT-type": {
             "value": "Static"
@@ -489,13 +489,13 @@
             "value": "[variables('DMZEXT-IPaddr')[0]]"
           },
           "VMimagePublisher": {
-            "value": "[variables('VMservers').publisher[4]]"
+            "value": "[variables('VMservers').publisher[3]]"
           },
           "VMimageOffer": {
-            "value": "[variables('VMservers').offer[4]]"
+            "value": "[variables('VMservers').offer[3]]"
           },
           "VMimageSKU": {
-            "value": "[variables('VMservers').sku[4]]"
+            "value": "[variables('VMservers').sku[3]]"
           },
           "VnetName": {
             "value": "[variables('VnetName')]"
@@ -549,19 +549,19 @@
     //        "value": "[variables('LBBackEndName')]"
     //      },
     //      "VMName": {
-    //        "value": "[variables('VMservers').VMName[5]]"
+    //        "value": "[variables('VMservers').VMName[4]]"
     //      },
     //      "VMSize": {
-    //        "value": "[variables('VMservers').VMSize[5]]"
+    //        "value": "[variables('VMservers').VMSize[4]]"
     //      },
     //      "VMFENATport": {
-    //        "value": "[variables('VMservers').FENATPort[5]]"
+    //        "value": "[variables('VMservers').FENATPort[4]]"
     //      },
     //      "VMIP-INT-type": {
-    //        "value": "[variables('VMservers').VMIPtype[5]]"
+    //        "value": "[variables('VMservers').VMIPtype[4]]"
     //      },
     //      "VMIP-INT-addr": {
-    //        "value": "[variables('VMservers').VMIPaddr[5]]"
+    //        "value": "[variables('VMservers').VMIPaddr[4]]"
     //      },
     //      "VMIP-EXT-type": {
     //        "value": "Static"
@@ -570,13 +570,13 @@
     //        "value": "[variables('DMZEXT-IPaddr')[1]]"
     //      },
     //      "VMimagePublisher": {
-    //        "value": "[variables('VMservers').publisher[5]]"
+    //        "value": "[variables('VMservers').publisher[4]]"
     //      },
     //      "VMimageOffer": {
-    //        "value": "[variables('VMservers').offer[5]]"
+    //        "value": "[variables('VMservers').offer[4]]"
     //      },
     //      "VMimageSKU": {
-    //        "value": "[variables('VMservers').sku[5]]"
+    //        "value": "[variables('VMservers').sku[4]]"
     //      },
     //      "VnetName": {
     //        "value": "[variables('VnetName')]"
