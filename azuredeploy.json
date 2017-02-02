@@ -105,7 +105,7 @@
     "VMservers": {
       "VMName": [ "VM-SFB-AD01", "VM-SFB-FE01", "VM-SFB-ADFS01", "VM-SFB-RP01", "VM-SFB-EDGE01" ],
       "FENATPort": [ "33891", "33892", "33893", "33894", "33895"],
-      "VMSize": [ "Standard_D1_V2", "Standard_D2_V2", "Standard_A1_V2", "Standard_A2_V2", "Standard_A2_V2" ],
+      "VMSize": [ "Standard_D1_V2", "Standard_D2_V2", "Standard_D1_V2", "Standard_A2_V2", "Standard_A2_V2" ],
       "VMIPtype": [ "Static", "Static", "Static", "Static", "Static" ],
       "VMIPaddr": [ "10.0.0.4", "10.0.0.5", "10.0.0.6", "10.0.0.7", "10.0.0.8", "10.0.0.9" ],
       "VMSubnet": [ "[variables('Subnet-INT-1')]", "[variables('Subnet-INT-1')]", "[variables('Subnet-INT-1')]", "[variables('Subnet-INT-1')]", "[variables('Subnet-INT-1')]" ],
