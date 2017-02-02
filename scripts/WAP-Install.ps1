@@ -12,7 +12,7 @@ Param (
         [string]$Password,
 		
 		[Parameter(Mandatory)]
-        [string]$CAName,
+        [string]$CAComputerName,
 
 		[Parameter(Mandatory)]
         [string]$Share,
@@ -42,7 +42,6 @@ $PublicCert= $false
 # Add Web Application Proxy Role
 Install-WindowsFeature RSAT-RemoteAccess, RSAT-AD-PowerShell, Web-Application-Proxy -IncludeManagementTools
  
-
 #This allow to authenticate from a different domain, or with an account local to the remote server
 New-Itemproperty -name LocalAccountTokenFilterPolicy -path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System -propertyType DWord -value 1 -ErrorAction SilentlyContinue
 
@@ -89,8 +88,8 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	$CertificateWAPsubjectCN = "CN=" + $CertificateWAPsubject
 
 	# CA for Online Request
-	#$CertificateAuthority = $_CAComputerName+'.'+$_DomainName+'\csalab-VM-SFB-AD01-CA'
-	$CertificateAuthority = "VM-SFB-AD01.csalab.local\csalab-VM-SFB-AD01-CA"
+	#$CertificateAuthority = "VM-SFB-AD01.csalab.local\csalab-VM-SFB-AD01-CA"
+	$CertificateAuthority = $_CAComputerName+'.'+$_DomainName+'\'+$_DomainName+'-CA'
 
     #connect to file share on storage account
     net use G: $_Share /u:$_User $_sasToken
@@ -111,11 +110,11 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	  }
 	
 	#Import ADFS root CA
-	$RootCA= "G:\Share\RootCA.crt"
+	$RootCA= "G:\Share\"+$_DomainName+"-CA.crt"
 	Import-Certificate -Filepath $RootCA -CertStoreLocation Cert:\LocalMachine\Root
 
 	#Import STS service root CA   
-    $RootCAfilepath = "G:\cert\*.crt"
+    $RootCAfilepath = "G:\cert\ADFS_RootCA.crt"
 	Import-Certificate -Filepath (get-childitem $RootCAfilepath) -CertStoreLocation Cert:\LocalMachine\Root
 
 	#install the certificate that will be used for ADFS Service
@@ -156,7 +155,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	$pn = $sa.namespace("C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Administrative Tools").parsename('Windows PowerShell ISE.lnk')
 	$pn.invokeverb('taskbarpin')
 
-} -ArgumentList $PSScriptRoot, $Share, $User, $sasToken, $SecureCertPassword, $StsServiceName, $StsServiceIpaddr, $DomainCreds, $DomainName, $CAName, $PublicCert
+} -ArgumentList $PSScriptRoot, $Share, $User, $sasToken, $SecureCertPassword, $StsServiceName, $StsServiceIpaddr, $DomainCreds, $DomainName, $CAComputerName, $PublicCert
 
 	
 

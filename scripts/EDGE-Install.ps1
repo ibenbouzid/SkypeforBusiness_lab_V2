@@ -80,13 +80,13 @@ Import-Module "C:\Program Files\Common Files\Skype for Business Server 2015\Modu
 
 
 ## Variables ##
+$_DomainName = $DomainName
 $Logfilespath = "G:\Logs\"
 $Databasespaths= "F:\SQLLogs","F:\SQLData"
 $CSConfigExp = "G:\Share\ConfigForEdge.zip"
-$RootCA= "G:\Share\RootCA.crt"
-#$CAName = $_CAComputerName+'.'+$_DomainName+'\csalab-VM-SFB-AD01-CA'
-$CAName = $CAComputerName+'.'+$DomainName+'\csalab-VM-SFB-AD01-CA'
-$_DomainName = $DomainName
+$RootCA= "G:\Share\"+$_DomainName+"-CA.crt"
+$CAName = $_CAComputerName+'.'+$_DomainName+'\'+$_DomainName+'-CA'
+#$CAName = $CAComputerName+'.'+$_DomainName+'\csalab-VM-SFB-AD01-CA'
 
 #Import RootCA Certificate to Trusted Root Store
 Import-Certificate -Filepath $RootCA -CertStoreLocation Cert:\LocalMachine\Root
@@ -134,7 +134,8 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 		$_PublicCert
     )
 	$Logfilespath = "G:\Logs\"
-	$CAName = $_CAComputerName+'.'+$_DomainName+'\csalab-VM-SFB-AD01-CA'
+	#$CAName = $_CAComputerName+'.'+$_DomainName+'\csalab-VM-SFB-AD01-CA'
+	$CAName = $_CAComputerName+'.'+$_DomainName+'\'+$_DomainName+'-CA'
 
 	##connect to file share on storage account
 	net use G: $_Share /u:$_User $_sasToken
