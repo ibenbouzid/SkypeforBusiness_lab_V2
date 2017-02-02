@@ -96,7 +96,7 @@
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15", 
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments','VM-ext-Domainjoin-SFBE')]"
+        "[resourceId('Microsoft.Resources/deployments','VM-ext-Domainjoin-SFBFE')]"
       ],
       "tags": {
         "displayName": "SfB-Prereqs"
