@@ -1,15 +1,6 @@
 #
 # ADFS_Install.ps1
 #
-<#
-param (
-    $vmAdminUsername,
-    $vmAdminPassword,
-    $fsServiceName,
-    $vmDCname,
-    $resourceLocation
-)
-#>
 Param (		
 		[Parameter(Mandatory)]
         [String]$DomainName,
@@ -38,15 +29,12 @@ $SecurePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
 $SecureCertPassword = ConvertTo-SecureString -String $CertPassword -AsPlainText -Force
 $User=$Share
 $Share="\\"+$Share+".file.core.windows.net\skype"
-#$CertPassword = $SecurePassword
-#$StsServiceName = "fs1.guylab.fr" 
 
 # ADFS Install
 Add-WindowsFeature ADFS-Federation -IncludeManagementTools
-#Import-Module ADFS
 
 # Enabling remote powershell + CredSSP as KDSRootkey command need a Cred SSP session to process
-Enable-PSRemoting
+#Enable-PSRemoting
 #Enable-WSManCredSSP -Role client -DelegateComputer * -force
 #Enable-WSManCredSSP -Role server -force
 	
@@ -86,15 +74,6 @@ Invoke-Command  -Credential $DomainCreds -ComputerName $env:COMPUTERNAME -Script
  
 	Install-AdfsFarm -CertificateThumbprint $certificateThumbprint -FederationServiceName $_stsServiceName -Credential $_DomainCreds `
 	 -FederationServiceDisplayName "SFBlab AD Federation Service" -ServiceAccountCredential $_DomainCreds -OverwriteConfiguration 
-	
-	<# 
-	Add-KdsRootKey -EffectiveTime (Get-Date).AddHours(-10)
-
-	$adfsServiceAccount = $env:USERDOMAIN+"\"+"svc_adfs$"
-    Install-AdfsFarm -CertificateThumbprint $certificateThumbprint -FederationServiceDisplayName: "SFBlab AD Federation Service" `
-	-FederationServiceName $_stsServiceName -GroupServiceAccountIdentifier $adfsServiceAccount -OverwriteConfiguration
-	#>
-
 
 	#Remove installation file Drive
 	net use G: /d
@@ -106,7 +85,8 @@ Invoke-Command  -Credential $DomainCreds -ComputerName $env:COMPUTERNAME -Script
 
 } -ArgumentList $PSScriptRoot, $Share, $User, $sasToken, $SecureCertPassword, $StsServiceName, $DomainCreds
 
-Restart-Computer
+
 #Disable-PSRemoting
 #Disable-WSManCredSSP -role client
 #Disable-WSManCredSSP -role server
+Restart-Computer
