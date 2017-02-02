@@ -360,164 +360,164 @@
           }
         }
       }
-    }
-    //{
-    //  "name": "[concat('VM-deploy-', copyIndex(1))]",
-    //  "type": "Microsoft.Resources/deployments",
-    //  "apiVersion": "2015-01-01",
-    //  "dependsOn": [
-    //    "[concat('Microsoft.Resources/deployments/', 'Shared-Resources')]",
-    //    "[resourceId('Microsoft.Resources/deployments', 'VM-ext-ADDSCS')]"
-    //  ],
-    //  "copy": {
-    //    "name": "vmLoop",
-    //    "count": "[sub(length(variables('VMservers').VMName),3)]"
-    //  },
-    //  "properties": {
-    //    "mode": "Incremental",
-    //    "templateLink": {
-    //      "uri": "[variables('VM_deployTemplateUri')]",
-    //      "contentVersion": "1.0.0.0"
-    //    },
-    //    "parameters": {
-    //      "StorageAccountName": {
-    //        "value": "[variables('StorageAccountName')]"
-    //      },
-    //      "AvailabilitySetName": {
-    //        "value": "[variables('AvailabilitySetName')[0]]"
-    //      },
-    //      "LoadBalancerName": {
-    //        "value": "[variables('LoadBalancerName')]"
-    //      },
-    //      "LBFEConfig": {
-    //        "value": "[variables('LBFrontEndName')]"
-    //      },
-    //      "LBBEPoolName": {
-    //        "value": "[variables('LBBackEndName')]"
-    //      },
-    //      "VMName": {
-    //        "value": "[variables('VMservers').VMName[copyIndex(1)]]"
-    //      },
-    //      "VMSize": {
-    //        "value": "[variables('VMservers').VMSize[copyIndex(1)]]"
-    //      },
-    //      "VMFENATport": {
-    //        "value": "[variables('VMservers').FENATPort[copyIndex(1)]]"
-    //      },
-    //      "VMIPtype": {
-    //        "value": "[variables('VMservers').VMIPtype[copyIndex(1)]]"
-    //      },
-    //      "VMIPaddr": {
-    //        "value": "[variables('VMservers').VMIPaddr[copyIndex(1)]]"
-    //      },
-    //      "VMimagePublisher": {
-    //        "value": "[variables('VMservers').publisher[copyIndex(1)]]"
-    //      },
-    //      "VMimageOffer": {
-    //        "value": "[variables('VMservers').offer[copyIndex(1)]]"
-    //      },
-    //      "VMimageSKU": {
-    //        "value": "[variables('VMservers').sku[copyIndex(1)]]"
-    //      },
-    //      "VnetName": {
-    //        "value": "[variables('VnetName')]"
-    //      },
-    //      "VMVnetSubnetName": {
-    //        "value": "[variables('VMservers').VMSubnet[copyIndex(1)]]"
-    //      },
-    //      "AdminUserName": {
-    //        "value": "[parameters('adminUsername')]"
-    //      },
-    //      "AdminPassword": {
-    //        "value": "[parameters('adminPassword')]"
-    //      },
-    //      "_artifactsLocation": {
-    //        "value": "[parameters('_artifactsLocation')]"
-    //      }
-    //    }
-    //  }
-    //},
-    //{
-    //  "name": "[concat('VM-deploy-WAP')]",
-    //  "type": "Microsoft.Resources/deployments",
-    //  "apiVersion": "2015-01-01",
-    //  "dependsOn": [
-    //    "[concat('Microsoft.Resources/deployments/', 'Shared-Resources')]",
-    //    "[resourceId('Microsoft.Resources/deployments', 'VM-ext-ADDSCS')]"
-    //  ],
-    //  "properties": {
-    //    "mode": "Incremental",
-    //    "templateLink": {
-    //      "uri": "[variables('VM_deployWAPTemplateUri')]",
-    //      "contentVersion": "1.0.0.0"
-    //    },
-    //    "parameters": {
-    //      "StorageAccountName": {
-    //        "value": "[variables('StorageAccountName')]"
-    //      },
-    //      "AvailabilitySetName": {
-    //        "value": "[variables('AvailabilitySetName')[1]]"
-    //      },
-    //      "LoadBalancerName": {
-    //        "value": "[variables('LoadBalancerName')[1]]"
-    //      },
-    //      "LBFEConfig": {
-    //        "value": "[variables('LBFrontEndName')]"
-    //      },
-    //      "LBBEPoolName": {
-    //        "value": "[variables('LBBackEndName')]"
-    //      },
-    //      "VMName": {
-    //        "value": "[variables('VMservers').VMName[4]]"
-    //      },
-    //      "VMSize": {
-    //        "value": "[variables('VMservers').VMSize[4]]"
-    //      },
-    //      "VMFENATport": {
-    //        "value": "[variables('VMservers').FENATPort[4]]"
-    //      },
-    //      "VMIP-INT-type": {
-    //        "value": "[variables('VMservers').VMIPtype[4]]"
-    //      },
-    //      "VMIP-INT-addr": {
-    //        "value": "[variables('VMservers').VMIPaddr[4]]"
-    //      },
-    //      "VMIP-EXT-type": {
-    //        "value": "Static"
-    //      },
-    //      "VMIP-EXT-addr": {
-    //        "value": "[variables('DMZEXT-IPaddr')[0]]"
-    //      },
-    //      "VMimagePublisher": {
-    //        "value": "[variables('VMservers').publisher[4]]"
-    //      },
-    //      "VMimageOffer": {
-    //        "value": "[variables('VMservers').offer[4]]"
-    //      },
-    //      "VMimageSKU": {
-    //        "value": "[variables('VMservers').sku[4]]"
-    //      },
-    //      "VnetName": {
-    //        "value": "[variables('VnetName')]"
-    //      },
-    //      "EXTSubnetName": {
-    //        "value": "[variables('Subnet-DMZ-EXT')]"
-    //      },
-    //      "INTSubnetName": {
-    //        "value": "[variables('Subnet-INT-1')]"
-    //      },
-    //      "AdminUserName": {
-    //        "value": "[parameters('adminUsername')]"
-    //      },
-    //      "AdminPassword": {
-    //        "value": "[parameters('adminPassword')]"
-    //      },
-    //      "_artifactsLocation": {
-    //        "value": "[parameters('_artifactsLocation')]"
-    //      }
-    //    }
-    //  }
-    //},
+    },
+    {
+      "name": "[concat('VM-deploy-', copyIndex(1))]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'Shared-Resources')]",
+        "[resourceId('Microsoft.Resources/deployments', 'VM-ext-ADDSCS')]"
+      ],
+      "copy": {
+        "name": "vmLoop",
+        "count": "[sub(length(variables('VMservers').VMName),3)]"
+      },
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('VM_deployTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "StorageAccountName": {
+            "value": "[variables('StorageAccountName')]"
+          },
+          "AvailabilitySetName": {
+            "value": "[variables('AvailabilitySetName')[0]]"
+          },
+          "LoadBalancerName": {
+            "value": "[variables('LoadBalancerName')]"
+          },
+          "LBFEConfig": {
+            "value": "[variables('LBFrontEndName')]"
+          },
+          "LBBEPoolName": {
+            "value": "[variables('LBBackEndName')]"
+          },
+          "VMName": {
+            "value": "[variables('VMservers').VMName[copyIndex(1)]]"
+          },
+          "VMSize": {
+            "value": "[variables('VMservers').VMSize[copyIndex(1)]]"
+          },
+          "VMFENATport": {
+            "value": "[variables('VMservers').FENATPort[copyIndex(1)]]"
+          },
+          "VMIPtype": {
+            "value": "[variables('VMservers').VMIPtype[copyIndex(1)]]"
+          },
+          "VMIPaddr": {
+            "value": "[variables('VMservers').VMIPaddr[copyIndex(1)]]"
+          },
+          "VMimagePublisher": {
+            "value": "[variables('VMservers').publisher[copyIndex(1)]]"
+          },
+          "VMimageOffer": {
+            "value": "[variables('VMservers').offer[copyIndex(1)]]"
+          },
+          "VMimageSKU": {
+            "value": "[variables('VMservers').sku[copyIndex(1)]]"
+          },
+          "VnetName": {
+            "value": "[variables('VnetName')]"
+          },
+          "VMVnetSubnetName": {
+            "value": "[variables('VMservers').VMSubnet[copyIndex(1)]]"
+          },
+          "AdminUserName": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "AdminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "_artifactsLocation": {
+            "value": "[parameters('_artifactsLocation')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "[concat('VM-deploy-WAP')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'Shared-Resources')]",
+        "[resourceId('Microsoft.Resources/deployments', 'VM-ext-ADDSCS')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('VM_deployWAPTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "StorageAccountName": {
+            "value": "[variables('StorageAccountName')]"
+          },
+          "AvailabilitySetName": {
+            "value": "[variables('AvailabilitySetName')[1]]"
+          },
+          "LoadBalancerName": {
+            "value": "[variables('LoadBalancerName')[1]]"
+          },
+          "LBFEConfig": {
+            "value": "[variables('LBFrontEndName')]"
+          },
+          "LBBEPoolName": {
+            "value": "[variables('LBBackEndName')]"
+          },
+          "VMName": {
+            "value": "[variables('VMservers').VMName[4]]"
+          },
+          "VMSize": {
+            "value": "[variables('VMservers').VMSize[4]]"
+          },
+          "VMFENATport": {
+            "value": "[variables('VMservers').FENATPort[4]]"
+          },
+          "VMIP-INT-type": {
+            "value": "[variables('VMservers').VMIPtype[4]]"
+          },
+          "VMIP-INT-addr": {
+            "value": "[variables('VMservers').VMIPaddr[4]]"
+          },
+          "VMIP-EXT-type": {
+            "value": "Static"
+          },
+          "VMIP-EXT-addr": {
+            "value": "[variables('DMZEXT-IPaddr')[0]]"
+          },
+          "VMimagePublisher": {
+            "value": "[variables('VMservers').publisher[4]]"
+          },
+          "VMimageOffer": {
+            "value": "[variables('VMservers').offer[4]]"
+          },
+          "VMimageSKU": {
+            "value": "[variables('VMservers').sku[4]]"
+          },
+          "VnetName": {
+            "value": "[variables('VnetName')]"
+          },
+          "EXTSubnetName": {
+            "value": "[variables('Subnet-DMZ-EXT')]"
+          },
+          "INTSubnetName": {
+            "value": "[variables('Subnet-INT-1')]"
+          },
+          "AdminUserName": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "AdminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "_artifactsLocation": {
+            "value": "[parameters('_artifactsLocation')]"
+          }
+        }
+      }
+    },
     //{
     //  "name": "[concat('VM-deploy-EDGE')]",
     //  "type": "Microsoft.Resources/deployments",
@@ -790,103 +790,103 @@
     //    }
     //  }
     //},
-    //{
-    //  "name": "VM-ext-ADFS",
-    //  "type": "Microsoft.Resources/deployments",
-    //  "apiVersion": "2015-01-01",
-    //  "dependsOn": [
-    //    "[concat('Microsoft.Resources/deployments/', 'Shared-Resources')]",
-    //    "[resourceId('Microsoft.Resources/deployments','VM-ext-ADDSCS')]"
-    //  ],
-    //  "properties": {
-    //    "mode": "Incremental",
-    //    "templateLink": {
-    //      "uri": "[variables('VM_ADFSTemplateUri')]",
-    //      "contentVersion": "1.0.0.0"
-    //    },
-    //    "parameters": {
-    //      "VMName": {
-    //        "value": "[variables('VMservers').VMName[2]]"
-    //      },
-    //      "DomainName": {
-    //        "value": "[parameters('domainName')]"
-    //      },
-    //      "AdminUserName": {
-    //        "value": "[parameters('adminUsername')]"
-    //      },
-    //      "AdminPassword": {
-    //        "value": "[parameters('adminPassword')]"
-    //      },
-    //      "_artifactsLocation": {
-    //        "value": "[parameters('_artifactsLocation')]"
-    //      },
-    //      "_SfBshareLocation": {
-    //        "value": "[parameters('ShareLocation')]"
-    //      },
-    //      "_SfBshareSasToken": {
-    //        "value": "[parameters('ShareAccessKey')]"
-    //      },
-    //      "StsServiceName": {
-    //        "value": "[parameters('StsServiceName')]"
-    //      },
-    //      "CertPassword": {
-    //        "value": "[parameters('CertPassword')]"
-    //      }
-    //    }
-    //  }
-    //},
-    //{
-    //  "name": "VM-ext-WAP",
-    //  "type": "Microsoft.Resources/deployments",
-    //  "apiVersion": "2015-01-01",
-    //  "dependsOn": [
-    //    "[concat('Microsoft.Resources/deployments/', 'Shared-Resources')]",
-    //    "[resourceId('Microsoft.Resources/deployments','VM-deploy-WAP')]",
-    //    "[resourceId('Microsoft.Resources/deployments','VM-ext-ADFS')]"
-    //  ],
-    //  "properties": {
-    //    "mode": "Incremental",
-    //    "templateLink": {
-    //      "uri": "[variables('VM_WAPTemplateUri')]",
-    //      "contentVersion": "1.0.0.0"
-    //    },
-    //    "parameters": {
-    //      "VMName": {
-    //        "value": "[variables('VMservers').VMName[3]]"
-    //      },
-    //      "DomainName": {
-    //        "value": "[parameters('domainName')]"
-    //      },
-    //      "AdminUserName": {
-    //        "value": "[parameters('adminUsername')]"
-    //      },
-    //      "AdminPassword": {
-    //        "value": "[parameters('adminPassword')]"
-    //      },
-    //      "_artifactsLocation": {
-    //        "value": "[parameters('_artifactsLocation')]"
-    //      },
-    //      "_SfBshareLocation": {
-    //        "value": "[parameters('ShareLocation')]"
-    //      },
-    //      "_SfBshareSasToken": {
-    //        "value": "[parameters('ShareAccessKey')]"
-    //      },
-    //      "ADFS_CA_Name": {
-    //        "value": "[variables('VMservers').VMName[0]]"
-    //      },
-    //      "StsServiceName": {
-    //        "value": "[parameters('StsServiceName')]"
-    //      },
-    //      "StsServiceIPaddr": {
-    //        "value": "[variables('VMservers').VMIPaddr[2]]"
-    //      },
-    //      "CertPassword": {
-    //        "value": "[parameters('CertPassword')]"
-    //      }
-    //    }
-    //  }
-    //},
+    {
+      "name": "VM-ext-ADFS",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'Shared-Resources')]",
+        "[resourceId('Microsoft.Resources/deployments','VM-ext-ADDSCS')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('VM_ADFSTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "VMName": {
+            "value": "[variables('VMservers').VMName[2]]"
+          },
+          "DomainName": {
+            "value": "[parameters('domainName')]"
+          },
+          "AdminUserName": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "AdminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "_artifactsLocation": {
+            "value": "[parameters('_artifactsLocation')]"
+          },
+          "_SfBshareLocation": {
+            "value": "[parameters('ShareLocation')]"
+          },
+          "_SfBshareSasToken": {
+            "value": "[parameters('ShareAccessKey')]"
+          },
+          "StsServiceName": {
+            "value": "[parameters('StsServiceName')]"
+          },
+          "CertPassword": {
+            "value": "[parameters('CertPassword')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "VM-ext-WAP",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'Shared-Resources')]",
+        "[resourceId('Microsoft.Resources/deployments','VM-deploy-WAP')]",
+        "[resourceId('Microsoft.Resources/deployments','VM-ext-ADFS')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('VM_WAPTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "VMName": {
+            "value": "[variables('VMservers').VMName[3]]"
+          },
+          "DomainName": {
+            "value": "[parameters('domainName')]"
+          },
+          "AdminUserName": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "AdminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "_artifactsLocation": {
+            "value": "[parameters('_artifactsLocation')]"
+          },
+          "_SfBshareLocation": {
+            "value": "[parameters('ShareLocation')]"
+          },
+          "_SfBshareSasToken": {
+            "value": "[parameters('ShareAccessKey')]"
+          },
+          "ADFS_CA_Name": {
+            "value": "[variables('VMservers').VMName[0]]"
+          },
+          "StsServiceName": {
+            "value": "[parameters('StsServiceName')]"
+          },
+          "StsServiceIPaddr": {
+            "value": "[variables('VMservers').VMIPaddr[2]]"
+          },
+          "CertPassword": {
+            "value": "[parameters('CertPassword')]"
+          }
+        }
+      }
+    }
     //{
     //  "name": "VM-ext-EDGE",
     //  "type": "Microsoft.Resources/deployments",
