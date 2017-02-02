@@ -102,19 +102,29 @@
     "DMZPublicIPName": "DMZPublicIP",
     "LBFrontEndName": "SFBLBFE",
     "LBBackEndName": "SFBLBBE",
-    "VMconfig": {
-      "VMName": [ "VM-SFB-AD01", "VM-SFB-FE01", "VM-SFB-CL1", "VM-SFB-ADFS01", "VM-SFB-RP01", "VM-SFB-EDGE01", "VM-SFB-CL2" ],
-      "FENATPort": [ "33891", "33892", "33893", "33894", "33895", "33896", "33897" ],
-      "VMSize": [ "Standard_D1", "Standard_D2", "Standard_A1", "Standard_D1", "Standard_D2", "Standard_D2", "Standard_D1" ],
-      "VMIPtype": [ "Static", "Static", "Static", "Static", "Static", "Static", "Static" ],
-      "VMIPaddr": [ "10.0.0.4", "10.0.0.5", "10.0.0.10", "10.0.0.6", "10.0.0.8", "10.0.0.9", "10.0.0.11" ],
-      "VMSubnet": [ "[variables('Subnet-INT-1')]", "[variables('Subnet-INT-1')]", "[variables('Subnet-INT-1')]", "[variables('Subnet-INT-1')]", "[variables('Subnet-DMZ-INT')]", "[variables('Subnet-DMZ-INT')]", "[variables('Subnet-INT-1')]" ],
-      "publisher": [ "MicrosoftWindowsServer", "MicrosoftWindowsServer", "MicrosoftWindowsServer", "MicrosoftWindowsServer", "MicrosoftWindowsServer", "MicrosoftWindowsServer", "MicrosoftWindowsServer", "MicrosoftVisualStudio" ],
-      "offer": [ "WindowsServer", "WindowsServer", "WindowsServer", "WindowsServer", "WindowsServer", "WindowsServer", "WindowsServer", "Windows" ],
-      "sku": [ "2016-Datacenter", "2012-R2-Datacenter", "2016-Datacenter", "2016-Datacenter", "2016-Datacenter", "2012-R2-Datacenter", "2016-Datacenter", "Windows-10-N-x64" ]
+    "VMservers": {
+      "VMName": [ "VM-SFB-AD01", "VM-SFB-FE01", "VM-SFB-ADFS01", "VM-SFB-RP01", "VM-SFB-EDGE01" ],
+      "FENATPort": [ "33891", "33892", "33893", "33894", "33895"],
+      "VMSize": [ "Standard_D1_V2", "Standard_D2_V2", "Standard_A1_V2", "Standard_A2_V2", "Standard_A2_V2" ],
+      "VMIPtype": [ "Static", "Static", "Static", "Static", "Static" ],
+      "VMIPaddr": [ "10.0.0.4", "10.0.0.5", "10.0.0.6", "10.0.0.7", "10.0.0.8", "10.0.0.9" ],
+      "VMSubnet": [ "[variables('Subnet-INT-1')]", "[variables('Subnet-INT-1')]", "[variables('Subnet-INT-1')]", "[variables('Subnet-INT-1')]", "[variables('Subnet-INT-1')]" ],
+      "publisher": [ "MicrosoftWindowsServer", "MicrosoftWindowsServer", "MicrosoftWindowsServer", "MicrosoftWindowsServer", "MicrosoftWindowsServer" ],
+      "offer": [ "WindowsServer", "WindowsServer", "WindowsServer", "WindowsServer", "WindowsServer" ],
+      "sku": [ "2016-Datacenter", "2012-R2-Datacenter", "2016-Datacenter", "2016-Datacenter", "2012-R2-Datacenter" ]
+    },
+    "VMclients": {
+      "VMName": [ "VM-SFB-CL1", "VM-SFB-CL2" ],
+      "FENATPort": [ "33896", "33897" ],
+      "VMSize": [ "Standard_A1_V2", "Standard_A1_V2" ],
+      "VMIPtype": [ "Static", "Static"],
+      "VMIPaddr": [ "10.0.0.10", "10.0.0.11" ],
+      "VMSubnet": [ "[variables('Subnet-INT-1')]", "[variables('Subnet-INT-1')]"],
+      "publisher": [  "MicrosoftWindowsServer", "MicrosoftWindowsServer", "MicrosoftVisualStudio" ],
+      "offer": [ "WindowsServer", "WindowsServer", "Windows" ],
+      "sku": [ "2016-Datacenter","2016-Datacenter", "Windows-10-N-x64" ]
     },
     "tojoindomain": [ "VM-SFB-FE01", "VM-SFB-ADFS01", "VM-SFB-CL1" ],
-    "Clients": [ "VM-SFB-CL1", "VM-SFB-CL2" ],
     "Shared-ResourcesTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/Shared.json')]",
     "VM_deployTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-deploy.json')]",
     "VM_deployWAPTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-deploy-WAP.json')]",
@@ -235,34 +245,34 @@
             "value": "[variables('LBBackEndName')]"
           },
           "VMName": {
-            "value": "[variables('VMconfig').VMName[0]]"
+            "value": "[variables('VMservers').VMName[0]]"
           },
           "VMSize": {
-            "value": "[variables('VMconfig').VMSize[0]]"
+            "value": "[variables('VMservers').VMSize[0]]"
           },
           "VMFENATport": {
-            "value": "[variables('VMconfig').FENATPort[0]]"
+            "value": "[variables('VMservers').FENATPort[0]]"
           },
           "VMIPtype": {
-            "value": "[variables('VMconfig').VMIPtype[0]]"
+            "value": "[variables('VMservers').VMIPtype[0]]"
           },
           "VMIPaddr": {
-            "value": "[variables('VMconfig').VMIPaddr[0]]"
+            "value": "[variables('VMservers').VMIPaddr[0]]"
           },
           "VMimagePublisher": {
-            "value": "[variables('VMconfig').publisher[0]]"
+            "value": "[variables('VMservers').publisher[0]]"
           },
           "VMimageOffer": {
-            "value": "[variables('VMconfig').offer[0]]"
+            "value": "[variables('VMservers').offer[0]]"
           },
           "VMimageSKU": {
-            "value": "[variables('VMconfig').sku[0]]"
+            "value": "[variables('VMservers').sku[0]]"
           },
           "VnetName": {
             "value": "[variables('VnetName')]"
           },
           "VMVnetSubnetName": {
-            "value": "[variables('VMconfig').VMSubnet[0]]"
+            "value": "[variables('VMservers').VMSubnet[0]]"
           },
           "AdminUserName": {
             "value": "[parameters('adminUsername')]"
@@ -292,7 +302,7 @@
         },
         "parameters": {
           "VMName": {
-            "value": "[variables('VMconfig').VMName[0]]"
+            "value": "[variables('VMservers').VMName[0]]"
           },
           "VnetName": {
             "value": "[variables('VnetName')]"
@@ -304,7 +314,7 @@
             "value": "[variables('Vnet2Prefix')]"
           },
           "VMNicIPAddress": {
-            "value": "[variables('VMconfig').VMIPaddr[0]]"
+            "value": "[variables('VMservers').VMIPaddr[0]]"
           },
           "Vnet1Subnet1Name": {
             "value": "[variables('Subnet-INT-1')]"
@@ -337,10 +347,10 @@
             "value": "[parameters('_artifactsLocation')]"
           },
           "DMZ_DNSRecordsNames": {
-            "value": [ "[parameters('StsServiceName')]", "[variables('VMconfig').VMName[4]]", "[variables('VMconfig').VMName[5]]" ]
+            "value": [ "[parameters('StsServiceName')]", "[variables('VMservers').VMName[4]]", "[variables('VMservers').VMName[5]]" ]
           },
           "DMZ_DNSRecordsIP": {
-            "value": [ "[variables('VMconfig').VMIPaddr[5]]", "[variables('VMconfig').VMIPaddr[4]]", "[variables('VMconfig').VMIPaddr[5]]" ]
+            "value": [ "[variables('VMservers').VMIPaddr[5]]", "[variables('VMservers').VMIPaddr[4]]", "[variables('VMservers').VMIPaddr[5]]" ]
           },
           "_ShareLocation": {
             "value": "[parameters('ShareLocation')]"
@@ -361,7 +371,7 @@
     //  ],
     //  "copy": {
     //    "name": "vmLoop",
-    //    "count": "[sub(length(variables('VMconfig').VMName),4)]"
+    //    "count": "[sub(length(variables('VMservers').VMName),4)]"
     //  },
     //  "properties": {
     //    "mode": "Incremental",
@@ -386,34 +396,34 @@
     //        "value": "[variables('LBBackEndName')]"
     //      },
     //      "VMName": {
-    //        "value": "[variables('VMconfig').VMName[copyIndex(1)]]"
+    //        "value": "[variables('VMservers').VMName[copyIndex(1)]]"
     //      },
     //      "VMSize": {
-    //        "value": "[variables('VMconfig').VMSize[copyIndex(1)]]"
+    //        "value": "[variables('VMservers').VMSize[copyIndex(1)]]"
     //      },
     //      "VMFENATport": {
-    //        "value": "[variables('VMconfig').FENATPort[copyIndex(1)]]"
+    //        "value": "[variables('VMservers').FENATPort[copyIndex(1)]]"
     //      },
     //      "VMIPtype": {
-    //        "value": "[variables('VMconfig').VMIPtype[copyIndex(1)]]"
+    //        "value": "[variables('VMservers').VMIPtype[copyIndex(1)]]"
     //      },
     //      "VMIPaddr": {
-    //        "value": "[variables('VMconfig').VMIPaddr[copyIndex(1)]]"
+    //        "value": "[variables('VMservers').VMIPaddr[copyIndex(1)]]"
     //      },
     //      "VMimagePublisher": {
-    //        "value": "[variables('VMconfig').publisher[copyIndex(1)]]"
+    //        "value": "[variables('VMservers').publisher[copyIndex(1)]]"
     //      },
     //      "VMimageOffer": {
-    //        "value": "[variables('VMconfig').offer[copyIndex(1)]]"
+    //        "value": "[variables('VMservers').offer[copyIndex(1)]]"
     //      },
     //      "VMimageSKU": {
-    //        "value": "[variables('VMconfig').sku[copyIndex(1)]]"
+    //        "value": "[variables('VMservers').sku[copyIndex(1)]]"
     //      },
     //      "VnetName": {
     //        "value": "[variables('VnetName')]"
     //      },
     //      "VMVnetSubnetName": {
-    //        "value": "[variables('VMconfig').VMSubnet[copyIndex(1)]]"
+    //        "value": "[variables('VMservers').VMSubnet[copyIndex(1)]]"
     //      },
     //      "AdminUserName": {
     //        "value": "[parameters('adminUsername')]"
@@ -458,19 +468,19 @@
     //        "value": "[variables('LBBackEndName')]"
     //      },
     //      "VMName": {
-    //        "value": "[variables('VMconfig').VMName[4]]"
+    //        "value": "[variables('VMservers').VMName[4]]"
     //      },
     //      "VMSize": {
-    //        "value": "[variables('VMconfig').VMSize[4]]"
+    //        "value": "[variables('VMservers').VMSize[4]]"
     //      },
     //      "VMFENATport": {
-    //        "value": "[variables('VMconfig').FENATPort[4]]"
+    //        "value": "[variables('VMservers').FENATPort[4]]"
     //      },
     //      "VMIP-INT-type": {
-    //        "value": "[variables('VMconfig').VMIPtype[4]]"
+    //        "value": "[variables('VMservers').VMIPtype[4]]"
     //      },
     //      "VMIP-INT-addr": {
-    //        "value": "[variables('VMconfig').VMIPaddr[4]]"
+    //        "value": "[variables('VMservers').VMIPaddr[4]]"
     //      },
     //      "VMIP-EXT-type": {
     //        "value": "Static"
@@ -479,13 +489,13 @@
     //        "value": "[variables('DMZEXT-IPaddr')[0]]"
     //      },
     //      "VMimagePublisher": {
-    //        "value": "[variables('VMconfig').publisher[4]]"
+    //        "value": "[variables('VMservers').publisher[4]]"
     //      },
     //      "VMimageOffer": {
-    //        "value": "[variables('VMconfig').offer[4]]"
+    //        "value": "[variables('VMservers').offer[4]]"
     //      },
     //      "VMimageSKU": {
-    //        "value": "[variables('VMconfig').sku[4]]"
+    //        "value": "[variables('VMservers').sku[4]]"
     //      },
     //      "VnetName": {
     //        "value": "[variables('VnetName')]"
@@ -539,19 +549,19 @@
     //        "value": "[variables('LBBackEndName')]"
     //      },
     //      "VMName": {
-    //        "value": "[variables('VMconfig').VMName[5]]"
+    //        "value": "[variables('VMservers').VMName[5]]"
     //      },
     //      "VMSize": {
-    //        "value": "[variables('VMconfig').VMSize[5]]"
+    //        "value": "[variables('VMservers').VMSize[5]]"
     //      },
     //      "VMFENATport": {
-    //        "value": "[variables('VMconfig').FENATPort[5]]"
+    //        "value": "[variables('VMservers').FENATPort[5]]"
     //      },
     //      "VMIP-INT-type": {
-    //        "value": "[variables('VMconfig').VMIPtype[5]]"
+    //        "value": "[variables('VMservers').VMIPtype[5]]"
     //      },
     //      "VMIP-INT-addr": {
-    //        "value": "[variables('VMconfig').VMIPaddr[5]]"
+    //        "value": "[variables('VMservers').VMIPaddr[5]]"
     //      },
     //      "VMIP-EXT-type": {
     //        "value": "Static"
@@ -560,13 +570,13 @@
     //        "value": "[variables('DMZEXT-IPaddr')[1]]"
     //      },
     //      "VMimagePublisher": {
-    //        "value": "[variables('VMconfig').publisher[5]]"
+    //        "value": "[variables('VMservers').publisher[5]]"
     //      },
     //      "VMimageOffer": {
-    //        "value": "[variables('VMconfig').offer[5]]"
+    //        "value": "[variables('VMservers').offer[5]]"
     //      },
     //      "VMimageSKU": {
-    //        "value": "[variables('VMconfig').sku[5]]"
+    //        "value": "[variables('VMservers').sku[5]]"
     //      },
     //      "VnetName": {
     //        "value": "[variables('VnetName')]"
@@ -620,34 +630,34 @@
     //        "value": "[variables('LBBackEndName')]"
     //      },
     //      "VMName": {
-    //        "value": "[variables('VMconfig').VMName[6]]"
+    //        "value": "[variables('VMservers').VMName[6]]"
     //      },
     //      "VMSize": {
-    //        "value": "[variables('VMconfig').VMSize[6]]"
+    //        "value": "[variables('VMservers').VMSize[6]]"
     //      },
     //      "VMFENATport": {
-    //        "value": "[variables('VMconfig').FENATPort[6]]"
+    //        "value": "[variables('VMservers').FENATPort[6]]"
     //      },
     //      "VMIPtype": {
-    //        "value": "[variables('VMconfig').VMIPtype[6]]"
+    //        "value": "[variables('VMservers').VMIPtype[6]]"
     //      },
     //      "VMIPaddr": {
-    //        "value": "[variables('VMconfig').VMIPaddr[6]]"
+    //        "value": "[variables('VMservers').VMIPaddr[6]]"
     //      },
     //      "VMimagePublisher": {
-    //        "value": "[variables('VMconfig').publisher[6]]"
+    //        "value": "[variables('VMservers').publisher[6]]"
     //      },
     //      "VMimageOffer": {
-    //        "value": "[variables('VMconfig').offer[6]]"
+    //        "value": "[variables('VMservers').offer[6]]"
     //      },
     //      "VMimageSKU": {
-    //        "value": "[variables('VMconfig').sku[6]]"
+    //        "value": "[variables('VMservers').sku[6]]"
     //      },
     //      "VnetName": {
     //        "value": "[variables('VnetName')]"
     //      },
     //      "VMVnetSubnetName": {
-    //        "value": "[variables('VMconfig').VMSubnet[6]]"
+    //        "value": "[variables('VMservers').VMSubnet[6]]"
     //      },
     //      "AdminUserName": {
     //        "value": "[parameters('adminUsername')]"
@@ -716,7 +726,7 @@
     //    },
     //    "parameters": {
     //      "VMName": {
-    //        "value": "[variables('VMconfig').VMName[1]]"
+    //        "value": "[variables('VMservers').VMName[1]]"
     //      },
     //      "DomainName": {
     //        "value": "[parameters('domainName')]"
@@ -750,7 +760,7 @@
     //  ],
     //  "copy": {
     //    "name": "SfBClientLoop",
-    //    "count": "[sub(length(variables('Clients')),0)]"
+    //    "count": "[sub(length(variables('VMclients')),0)]"
     //  },
     //  "properties": {
     //    "mode": "Incremental",
@@ -760,7 +770,7 @@
     //    },
     //    "parameters": {
     //      "VMName": {
-    //        "value": "[variables('Clients')[copyIndex()]]"
+    //        "value": "[variables('VMclients')[copyIndex()]]"
     //      },
     //      "DomainName": {
     //        "value": "[parameters('domainName')]"
@@ -799,7 +809,7 @@
     //    },
     //    "parameters": {
     //      "VMName": {
-    //        "value": "[variables('VMconfig').VMName[3]]"
+    //        "value": "[variables('VMservers').VMName[3]]"
     //      },
     //      "DomainName": {
     //        "value": "[parameters('domainName')]"
@@ -845,7 +855,7 @@
     //    },
     //    "parameters": {
     //      "VMName": {
-    //        "value": "[variables('VMconfig').VMName[4]]"
+    //        "value": "[variables('VMservers').VMName[4]]"
     //      },
     //      "DomainName": {
     //        "value": "[parameters('domainName')]"
@@ -866,13 +876,13 @@
     //        "value": "[parameters('ShareAccessKey')]"
     //      },
     //      "ADFS_CA_Name": {
-    //        "value": "[variables('vmconfig').VMName[0]]"
+    //        "value": "[variables('VMservers').VMName[0]]"
     //      },
     //      "StsServiceName": {
     //        "value": "[parameters('StsServiceName')]"
     //      },
     //      "StsServiceIPaddr": {
-    //        "value": "[variables('VMconfig').VMIPaddr[3]]"
+    //        "value": "[variables('VMservers').VMIPaddr[3]]"
     //      },
     //      "CertPassword": {
     //        "value": "[parameters('CertPassword')]"
@@ -897,7 +907,7 @@
     //    },
     //    "parameters": {
     //      "VMName": {
-    //        "value": "[variables('VMconfig').VMName[5]]"
+    //        "value": "[variables('VMservers').VMName[5]]"
     //      },
     //      "DomainName": {
     //        "value": "[parameters('domainName')]"
@@ -918,7 +928,7 @@
     //        "value": "[parameters('ShareAccessKey')]"
     //      },
     //      "CAComputerName": {
-    //        "value": "[variables('VMconfig').VMName[0]]"
+    //        "value": "[variables('VMservers').VMName[0]]"
     //      }
     //    }
     //  }
@@ -935,7 +945,7 @@
     //  ],
     //  "copy": {
     //    "name": "DiagLoop",
-    //    "count": "[sub(length(variables('VMconfig').VMName),3)]"
+    //    "count": "[sub(length(variables('VMservers').VMName),3)]"
     //  },
     //  "properties": {
     //    "mode": "Incremental",
@@ -945,7 +955,7 @@
     //    },
     //    "parameters": {
     //      "VMName": {
-    //        "value": "[variables('VMconfig').VMName[copyIndex()]]"
+    //        "value": "[variables('VMservers').VMName[copyIndex()]]"
     //      },
     //      "StorageAccountName": {
     //        "value": "[variables('StorageAccountName')]"
