@@ -39,3 +39,29 @@ Here is SfBServer2015 and SfB2016 folders components
 <img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V2/master/images/SfBServer2015.jpg"/>
 <img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V2/master/images/SfB2016.jpg"/>
 </a>
+
+
+# Software Download
+
+You can download Skype for business eval version here :
+https://www.microsoft.com/en-gb/evalcenter/evaluate-skype-for-business-server
+
+And the Skype 2016 or Basic client Here
+https://products.office.com/en-gb/skype-for-business/download-app?tab=tabs-3
+
+# How to fillin parameters
+
+ "dnsPrefix":  The DNS prefix for the public IP address used by the Load Balancer
+
+ "domainName": The FQDN of the AD Domain eg: contoso.com or adatum.local
+     
+ "adminUsername": The name of the Administrator of all your VM's and Domain Admin
+     
+ "adminPassword": The password for the Administrator account: must be at least 12 caracters
+    
+"_artifactsLocation":  The location of resources such as templates and DSC modules that the script is dependent. Don't Change the defaultValue: "https://raw.githubusercontent.com/ibenbouzid/Azure_sfb2015_lab/master"
+   
+ "ShareLocation": the name of your azure storage account - not the url - eg "mystorage" where you created your "skype" folder with all the source files 
+ 
+ "ShareAccessKey": The token to used to access your storage account. You can find it on your storage account settings.
+
