@@ -796,7 +796,8 @@
       "apiVersion": "2015-01-01",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'Shared-Resources')]",
-        "[resourceId('Microsoft.Resources/deployments','VM-ext-ADDSCS')]"
+        "[resourceId('Microsoft.Resources/deployments','VM-ext-ADDSCS')]",
+        "[resourceId('Microsoft.Resources/deployments','VM-deploy-2')]"
       ],
       "properties": {
         "mode": "Incremental",
