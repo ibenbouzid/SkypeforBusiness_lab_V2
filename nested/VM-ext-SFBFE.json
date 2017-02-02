@@ -11,7 +11,7 @@
     "DomainName": {
       "type": "string",
       "metadata": {
-        "description": "The FQDN of the AD Domain created "
+        "description": "The FQDN of the AD Domain created"
       }
     },
     "adminUsername": {
