@@ -347,10 +347,10 @@
             "value": "[parameters('_artifactsLocation')]"
           },
           "DMZ_DNSRecordsNames": {
-            "value": [ "[parameters('StsServiceName')]", "[variables('VMservers').VMName[4]]", "[variables('VMservers').VMName[5]]" ]
+            "value": [ "[parameters('StsServiceName')]", "[variables('VMservers').VMName[3]]", "[variables('VMservers').VMName[4]]" ]
           },
           "DMZ_DNSRecordsIP": {
-            "value": [ "[variables('VMservers').VMIPaddr[5]]", "[variables('VMservers').VMIPaddr[4]]", "[variables('VMservers').VMIPaddr[5]]" ]
+            "value": [ "[variables('VMservers').VMIPaddr[5]]", "[variables('VMservers').VMIPaddr[3]]", "[variables('VMservers').VMIPaddr[4]]" ]
           },
           "_ShareLocation": {
             "value": "[parameters('ShareLocation')]"
@@ -600,13 +600,17 @@
     //  }
     //},
     //{
-    //  "name": "[concat('VM-deploy-CL2')]",
+    //  "name": "[concat('VM-deploy-CL', copyIndex(1))]",
     //  "type": "Microsoft.Resources/deployments",
     //  "apiVersion": "2015-01-01",
     //  "dependsOn": [
     //    "[concat('Microsoft.Resources/deployments/', 'Shared-Resources')]",
     //    "[resourceId('Microsoft.Resources/deployments', 'VM-ext-ADDSCS')]"
     //  ],
+    //  "copy": {
+    //    "name": "vmLoop",
+    //    "count": "[sub(length(variables('VMclients').VMName),4)]"
+    //  },
     //  "properties": {
     //    "mode": "Incremental",
     //    "templateLink": {
@@ -630,34 +634,34 @@
     //        "value": "[variables('LBBackEndName')]"
     //      },
     //      "VMName": {
-    //        "value": "[variables('VMservers').VMName[6]]"
+    //        "value": "[variables('VMclients').VMName[copyIndex(1)]]"
     //      },
     //      "VMSize": {
-    //        "value": "[variables('VMservers').VMSize[6]]"
+    //        "value": "[variables('VMclients').VMSize[copyIndex(1)]]"
     //      },
     //      "VMFENATport": {
-    //        "value": "[variables('VMservers').FENATPort[6]]"
+    //        "value": "[variables('VMclients').FENATPort[copyIndex(1)]]"
     //      },
     //      "VMIPtype": {
-    //        "value": "[variables('VMservers').VMIPtype[6]]"
+    //        "value": "[variables('VMclients').VMIPtype[copyIndex(1)]]"
     //      },
     //      "VMIPaddr": {
-    //        "value": "[variables('VMservers').VMIPaddr[6]]"
+    //        "value": "[variables('VMclients').VMIPaddr[copyIndex(1)]]"
     //      },
     //      "VMimagePublisher": {
-    //        "value": "[variables('VMservers').publisher[6]]"
+    //        "value": "[variables('VMclients').publisher[copyIndex(1)]]"
     //      },
     //      "VMimageOffer": {
-    //        "value": "[variables('VMservers').offer[6]]"
+    //        "value": "[variables('VMclients').offer[copyIndex(1)]]"
     //      },
     //      "VMimageSKU": {
-    //        "value": "[variables('VMservers').sku[6]]"
+    //        "value": "[variables('VMclients').sku[copyIndex(1)]]"
     //      },
     //      "VnetName": {
     //        "value": "[variables('VnetName')]"
     //      },
     //      "VMVnetSubnetName": {
-    //        "value": "[variables('VMservers').VMSubnet[6]]"
+    //        "value": "[variables('VMclients').VMSubnet[copyIndex(1)]]"
     //      },
     //      "AdminUserName": {
     //        "value": "[parameters('adminUsername')]"

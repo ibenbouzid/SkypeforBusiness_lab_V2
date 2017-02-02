@@ -56,14 +56,48 @@
     "VMid": "[resourceId('Microsoft.Compute/virtualMachines', parameters('VMName'))]",
     "Prereqsid": "[concat(variables('VMid'),'/extensions/Prereqs')]",
     "SFBPrereqs-dscmoduleURL": "[concat(parameters('_artifactsLocation'), '/dsc/', 'Prereqs.ps1.zip')]",
-    "PrereqsFunction": "Prereqs.ps1\\Prereqs"
+    "PrereqsFunction": "Prereqs.ps1\\Prereqs",
+    "VM_DjoinTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-ext-Domainjoin.json')]"
   },
   "resources": [
+    {
+      "name": "[concat('VM-ext-Domainjoin-SFBFE')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('VM_DjoinTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "VMName": {
+            "value": "[parameters('VMName')]"
+          },
+          "DomainName": {
+            "value": "[parameters('domainName')]"
+          },
+          "AdminUserName": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "AdminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "_artifactsLocation": {
+            "value": "[parameters('_artifactsLocation')]"
+          }
+        }
+      }
+    },
     {
       "name": "[concat(parameters('VMName'), '/Prereqs')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2015-06-15", 
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments','VM-ext-Domainjoin-SFBE')]"
+      ],
       "tags": {
         "displayName": "SfB-Prereqs"
       },
