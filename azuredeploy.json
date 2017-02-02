@@ -56,7 +56,7 @@
       "metadata": {
         "description": "The location of resources such as templates and DSC modules that the script is dependent"
       },
-      "defaultValue": "https://raw.githubusercontent.com/ibenbouzid/AzureSfb_lab/master"
+      "defaultValue": "https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V2/master"
     },
     "ShareLocation": {
       "type": "string",
