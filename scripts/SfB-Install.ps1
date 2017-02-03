@@ -5,18 +5,22 @@
 Param (		
 		[Parameter(Mandatory)]
         [String]$DomainName,
-
         [Parameter(Mandatory)]
         [string]$Username,
-
 	    [Parameter(Mandatory)]
         [string]$Password,
-
 		[Parameter(Mandatory)]
         [string]$Share,
-
 		[Parameter(Mandatory)]
-        [string]$sasToken
+        [string]$sasToken,
+		[Parameter(Mandatory)]
+        [string]$EdgeName,
+		[Parameter(Mandatory)]
+        [string]$EdgeIntIp,
+		[Parameter(Mandatory)]
+        [string]$EdgeExtIp,
+		[Parameter(Mandatory)]
+        [string]$EdgePubIp
 
        )
 
@@ -67,7 +71,12 @@ param (
         $workingDir,
         $_Share,
         $_User,
-        $_sasToken
+        $_sasToken,
+		$_EdgeName,
+		$_internalIP,
+		$_externalIP,
+		$_PublicIP
+
     )
     # Working variables
 
@@ -125,10 +134,10 @@ Get-smbshare -name $fileshareName | Grant-SmbShareAccess -AccessRight Full -Acco
 
 $sipdomain = $DomainDNSName
 $externalweburl = "webext"+'.'+$sipdomain
-$edgeName = "VM-SFB-EDGE01"
-$internalIP = "10.0.0.9"
-$externalIP = "192.168.0.5"
-$PublicIP = (Invoke-RestMethod https://api.ipify.org?format=json).ip
+#$_EdgeName = "VM-SFB-EDGE01"
+#$_internalIP = "10.0.0.9"
+#$_externalIP = "192.168.0.5"
+#$_PublicIP = (Invoke-RestMethod https://api.ipify.org?format=json).ip
 $edgeUrls="sip."+$sipdomain
 
 
@@ -141,11 +150,11 @@ $xml.Topology.Clusters.cluster[0].fqdn = $Computer
 $xml.Topology.Clusters.cluster[0].machine.Fqdn = $Computer
 $xml.Topology.Clusters.cluster[0].machine.FaultDomain = $Computer
 $xml.Topology.Clusters.cluster[0].machine.UpgradeDomain = $Computer
-$xml.Topology.Clusters.cluster[1].fqdn = $edgeName+'.'+$DomainDNSName
-$xml.Topology.Clusters.cluster[1].machine.Fqdn = $edgeName+'.'+$DomainDNSName
-$xml.Topology.Clusters.cluster[1].machine.NetInterface[0].IPAddress = $internalIP
-$xml.Topology.Clusters.cluster[1].machine.NetInterface[1].IPAddress = $externalIP
-$xml.Topology.Clusters.cluster[1].machine.NetInterface[1].ConfiguredIPAddress = $PublicIP
+$xml.Topology.Clusters.cluster[1].fqdn = $_EdgeName+'.'+$DomainDNSName
+$xml.Topology.Clusters.cluster[1].machine.Fqdn = $_EdgeName+'.'+$DomainDNSName
+$xml.Topology.Clusters.cluster[1].machine.NetInterface[0].IPAddress = $_internalIP
+$xml.Topology.Clusters.cluster[1].machine.NetInterface[1].IPAddress = $_externalIP
+$xml.Topology.Clusters.cluster[1].machine.NetInterface[1].ConfiguredIPAddress = $_PublicIP
 $xml.Topology.Services.Service.Webservice.externalsettings.host = $externalweburl
 $xml.Topology.Services.Service[3].FileStoreService.ShareName = $fileshareName
 $xml.Topology.Services.Service[11].Ports.Port[1].ConfiguredFqdn = $edgeUrls
@@ -246,7 +255,7 @@ net use G: /d
 cd $workingDir
 .\Enable-CsUsers.ps1 -SipDomain $sipdomain
 
-} -ArgumentList $PSScriptRoot, $Share, $User, $sasToken
+} -ArgumentList $PSScriptRoot, $Share, $User, $sasToken, $EdgeName, $EdgeIntIp, $EdgeExtIp, $EdgePubIp
 Disable-PSRemoting
 Disable-WSManCredSSP -role client
 Disable-WSManCredSSP -role server

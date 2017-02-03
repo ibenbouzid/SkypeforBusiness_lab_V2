@@ -33,6 +33,12 @@
         "description": "Specifies an organizational unit (OU) for the domain account. Enter the full distinguished name of the OU in quotation marks. Example: 'OU=testOU; DC=domain; DC=Domain; DC=com"
       }
     },
+    "EdgeConfig": {
+      "type": "object",
+      "metadata": {
+        "description": "Specifies the Edge config : EdgeName, EdgeIntIP, EdgeExtIP, EdgePubIP"
+      }
+    },
     "_artifactsLocation": {
       "type": "string",
       "metadata": {
@@ -152,7 +158,7 @@
         },
         "protectedsettings": {
           //"commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File Lync-Install.ps1 -DomainName ', parameters('domainName'),' -Username ', parameters('adminUsername'),' -Password ', parameters('adminPassword'), ' -Share ', parameters('_SfBshareLocation'),' -sasToken ', parameters('_SfBshareSasToken'))]"
-          "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File SfB-Install.ps1 -DomainName ', parameters('domainName'),' -Username ', parameters('adminUsername'),' -Password ', parameters('adminPassword'), ' -Share ', parameters('_SfBshareLocation'),' -sasToken ', parameters('_SfBshareSasToken'))]"
+          "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File SfB-Install.ps1 -DomainName ', parameters('domainName'),' -Username ', parameters('adminUsername'),' -Password ', parameters('adminPassword'),' -EdgeName ', parameters('EdgeConfig').EdgeName,' -EdgeIntIP ', parameters('EdgeConfig').EdgeIntIP,' -EdgeExtIP ', parameters('EdgeConfig').EdgeExtIP,' -EdgePubIP ', parameters('EdgeConfig').EdgePubIP, ' -Share ', parameters('_SfBshareLocation'),' -sasToken ', parameters('_SfBshareSasToken'))]"
         }
       }
     }

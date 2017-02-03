@@ -292,6 +292,10 @@
       }
     }
   ],
-    "outputs": {
+  "outputs": {
+    "DMZPublicIP": {
+      "value": "[reference(parameters('DMZPublicIPName')).properties.ipAddress]",
+      "type": "string"
     }
+  }
 }
