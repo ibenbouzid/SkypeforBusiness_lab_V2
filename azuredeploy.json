@@ -128,7 +128,8 @@
       "EdgeName": "[variables('VMservers').VMName[4]]",
       "EdgeIntIP": "[variables('VMservers').IPaddr[4]]",
       "EdgeExtIP": "[variables('DMZEXT-IPaddr')[1]]",
-      "EdgePubIp": "[reference('Microsoft.Resources/deployments/Shared-Resources').DMZPublicIP.value]"
+      "EdgePubIP": "1.1.1.1"
+      //"EdgePubIp": "[reference('Microsoft.Resources/deployments/Shared-Resources').DMZPublicIP.value]"
       //"EdgePubIP": "[reference('Shared-Resources').DMZPublicIP.value]"
     },
     "[resourceId('Microsoft.Compute/virtualMachines', parameters('VMName'))]": null,
