@@ -13,7 +13,7 @@
         "Premium_LRS"
       ],
       "metadata": {
-        "description": "The storage account Type used to store VHD's "
+        "description": "The storage account Type used to store VHD's"
       }
     },
     "publicIPAddressType": {
