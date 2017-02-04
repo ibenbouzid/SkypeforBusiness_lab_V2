@@ -54,7 +54,7 @@
     "_SfBshareSasToken": {
       "type": "string",
       "metadata": {
-        "description": "The token to access the storage name location of Skype Software"
+        "description": "The token to access the storage name location of Skype Software "
       }
     }
   },
