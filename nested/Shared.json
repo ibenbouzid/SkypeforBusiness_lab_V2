@@ -293,9 +293,9 @@
     }
   ],
   "outputs": {
-    //"DMZPublicIP": {
-    //  "value": "[reference(concat('Microsoft.Network/publicIPAddresses/',parameters('DMZPublicIPName'))).properties.ipAddress]", 
-    //  "type": "string"
-    //}
+    "DMZPublicIP": {
+      "value": "[reference(concat('Microsoft.Network/publicIPAddresses/',parameters('DMZPublicIPName'))).properties.ipAddress]", 
+      "type": "string"
+    }
   }
 }
