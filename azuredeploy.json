@@ -128,7 +128,7 @@
       "EdgeName": "[variables('VMservers').VMName[4]]",
       "EdgeIntIP": "[variables('VMservers').VMIPaddr[4]]",
       "EdgeExtIP": "[variables('DMZEXT-IPaddr')[1]]",
-      "EdgePubIp": "[reference('Microsoft.Resources/deployments/Shared-Resources').DMZPublicIP.value]"
+      "EdgePubIp": "[outputs('DMZPublicIP').value]"
     },
     //"EdgePubIp": "[reference('Microsoft.Resources/deployments/Shared-Resources').DMZPublicIP.value]",
     //"EdgePubIP": "[reference('Shared-Resources').outputs.DMZPublicIP.value]",
@@ -973,6 +973,10 @@
     }
   ],
   "outputs": {
+    "DMZPublicIP": {
+      "value": "[reference('Shared-Resources').outputs.DMZPublicIP.value]",
+      "type": "string"
+    }
   }
 }
 
