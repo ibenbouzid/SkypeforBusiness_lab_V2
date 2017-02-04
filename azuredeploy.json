@@ -81,10 +81,6 @@
       "metadata": {
         "description": "The password of the pfx SSL certificate"
       }
-    },
-    "DMZPublicIP": {
-      "value": "[reference('Shared-Resources').outputs.DMZPublicIP.value]",
-      "type": "string"
     }
   },
   "variables": {
@@ -131,8 +127,7 @@
     "EdgeConfig": {
       "EdgeName": "[variables('VMservers').VMName[4]]",
       "EdgeIntIP": "[variables('VMservers').VMIPaddr[4]]",
-      "EdgeExtIP": "[variables('DMZEXT-IPaddr')[1]]",
-      "EdgePubIp": "[parameters('DMZPublicIP')]"
+      "EdgeExtIP": "[variables('DMZEXT-IPaddr')[1]]"
     },
     //"EdgePubIp": "[reference('Microsoft.Resources/deployments/Shared-Resources').DMZPublicIP.value]",
     //"EdgePubIP": "[reference('Shared-Resources').outputs.DMZPublicIP.value]",
@@ -750,6 +745,9 @@
           "EdgeConfig": {
             "value": "[variables('EdgeConfig')]"
           },
+          "EdgePubIP": {
+            "value": "[reference('Shared-Resources').outputs.DMZPublicIP.value]"
+          },
           "_artifactsLocation": {
             "value": "[parameters('_artifactsLocation')]"
           },
@@ -977,10 +975,7 @@
     }
   ],
   "outputs": {
-    "DMZPublicIP": {
-      "value": "[reference('Shared-Resources').outputs.DMZPublicIP.value]",
-      "type": "string"
-    }
+
   }
 }
 
