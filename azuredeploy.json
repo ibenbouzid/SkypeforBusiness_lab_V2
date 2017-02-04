@@ -357,7 +357,7 @@
             "value": [ "[parameters('StsServiceName')]", "[variables('VMservers').VMName[3]]", "[variables('VMservers').VMName[4]]" ]
           },
           "DMZ_DNSRecordsIP": {
-            "value": [ "[variables('VMservers').VMIPaddr[5]]", "[variables('VMservers').VMIPaddr[3]]", "[variables('VMservers').VMIPaddr[4]]" ]
+            "value": [ "[variables('VMservers').VMIPaddr[2]]", "[variables('VMservers').VMIPaddr[3]]", "[variables('VMservers').VMIPaddr[4]]" ]
           },
           "_ShareLocation": {
             "value": "[parameters('ShareLocation')]"
