@@ -117,8 +117,8 @@
     }
   },
   "variables": {
-    "VMid": "[resourceId('Microsoft.Compute/virtualMachines', parameters('VMName'))]",
-    "CreatADDSCSid": "[concat(variables('VMid'),'/extensions/CreateADDSCS')]",
+    //"VMid": "[resourceId('Microsoft.Compute/virtualMachines', parameters('VMName'))]",
+    //"CreatADDSCSid": "[concat(variables('VMid'),'/extensions/CreateADDSCS')]",
     "CreateADDSCS-dscmoduleURL": "[concat(parameters('_artifactsLocation'), '/dsc/', 'CreateADDSCS.ps1.zip')]",
     "CreateADDSCSConfigurationFunction": "CreateADDSCS.ps1\\CreateADDSCS"
   },
@@ -155,56 +155,62 @@
         }
       }
     },
-     {
-        "name": "[parameters('VnetName')]",
-        "type": "Microsoft.Network/virtualNetworks",
-        "location": "[resourceGroup().location]",
-        "apiVersion": "2015-06-15",
-        "tags": {
-          "displayName": "Update-Vnet1-DNS"
+    {
+      "name": "[parameters('VnetName')]",
+      "type": "Microsoft.Network/virtualNetworks",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "tags": {
+        "displayName": "Update-Vnet1-DNS"
+      },
+      //"dependsOn": [
+      //  "[variables('CreatADDSCSid')]"
+      //],
+      "dependsOn": [
+        "[concat('/', parameters('VMName'), '/CreateADDSCS')]"
+      ],
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('Vnet1Prefix')]",
+            "[parameters('Vnet2Prefix')]"
+          ]
         },
-        "dependsOn": [
-          "[variables('CreatADDSCSid')]"
-        ],
-        "properties": {
-          "addressSpace": {
-            "addressPrefixes": [
-              "[parameters('Vnet1Prefix')]",
-              "[parameters('Vnet2Prefix')]"
-            ]
+        "dhcpOptions": {
+          "dnsServers": [ "[parameters('VMNicIPAddress')]" ]
+        },
+        "subnets": [
+          {
+            "name": "[parameters('Vnet1Subnet1Name')]",
+            "properties": {
+              "addressPrefix": "[parameters('Vnet1Subnet1Prefix')]"
+            }
           },
-            "dhcpOptions": {
-              "dnsServers": [ "[parameters('VMNicIPAddress')]" ]
-            },
-            "subnets": [
-              {
-                "name": "[parameters('Vnet1Subnet1Name')]",
-                "properties": {
-                  "addressPrefix": "[parameters('Vnet1Subnet1Prefix')]"
-                }
-              },
-              {
-                "name": "[parameters('Vnet1Subnet2Name')]",
-                "properties": {
-                  "addressPrefix": "[parameters('Vnet1Subnet2Prefix')]"
-                }
-              },
-              {
-                "name": "[parameters('Vnet1Subnet3Name')]",
-                "properties": {
-                  "addressPrefix": "[parameters('Vnet1Subnet3Prefix')]"
-                }
-              }
-            ]
-         }
-     },
+          {
+            "name": "[parameters('Vnet1Subnet2Name')]",
+            "properties": {
+              "addressPrefix": "[parameters('Vnet1Subnet2Prefix')]"
+            }
+          },
+          {
+            "name": "[parameters('Vnet1Subnet3Name')]",
+            "properties": {
+              "addressPrefix": "[parameters('Vnet1Subnet3Prefix')]"
+            }
+          }
+        ]
+      }
+    },
     {
       "name": "[concat(parameters('VMName'), '/Add-ADUsers')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
+      //"dependsOn": [
+      //  "[variables('CreatADDSCSid')]"
+      //],
       "dependsOn": [
-        "[variables('CreatADDSCSid')]"
+        "[concat('/', parameters('VMName'), '/CreateADDSCS')]"
       ],
       "tags": {
         "displayName": "Add-ADUsers"
@@ -216,9 +222,9 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-              "[concat(parameters('_artifactsLocation'), '/scripts/Add-ADUsers.ps1')]",
-              "[concat(parameters('_artifactsLocation'), '/scripts/New-ADUsers.csv')]"
-              ]
+            "[concat(parameters('_artifactsLocation'), '/scripts/Add-ADUsers.ps1')]",
+            "[concat(parameters('_artifactsLocation'), '/scripts/New-ADUsers.csv')]"
+          ]
         },
         "protectedsettings": {
           "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File Add-ADUsers.ps1 -Password ', parameters('adminPassword'),' -Share ', parameters('_ShareLocation'), ' -sasToken ', parameters('_ShareSasToken'),' -DNSName1 ', parameters('DMZ_DNSRecordsNames')[0], ' -DNSIPrecord1 ', parameters('DMZ_DNSRecordsIP')[0],' -DNSName2 ', parameters('DMZ_DNSRecordsNames')[1], ' -DNSIPrecord2 ', parameters('DMZ_DNSRecordsIP')[1],' -DNSName3 ', parameters('DMZ_DNSRecordsNames')[2],' -DNSIPrecord3 ', parameters('DMZ_DNSRecordsIP')[2])]"

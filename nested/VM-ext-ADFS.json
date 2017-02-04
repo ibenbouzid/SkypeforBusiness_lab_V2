@@ -58,7 +58,6 @@
     }
   },
   "variables": {
-    "VMid": "[resourceId('Microsoft.Compute/virtualMachines', parameters('VMName'))]",
     "VM_DjoinTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-ext-Domainjoin.json')]"
   },
   "resources": [
