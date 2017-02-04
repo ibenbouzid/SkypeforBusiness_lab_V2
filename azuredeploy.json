@@ -746,8 +746,7 @@
             "value": "[variables('EdgeConfig')]"
           },
           "EdgePubIP": {
-            value :  "1.1.1.1"
-            //"value": "[reference('Shared-Resources').outputs.DMZPublicIP.value]"
+            "value": "1.1.1.1"
           },
           "_artifactsLocation": {
             "value": "[parameters('_artifactsLocation')]"
@@ -761,6 +760,7 @@
         }
       }
     },
+
     //{
     //  "name": "[concat('VM-ext-SFBClient-', copyIndex())]",
     //  "type": "Microsoft.Resources/deployments",
