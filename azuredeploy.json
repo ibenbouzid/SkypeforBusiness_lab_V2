@@ -126,7 +126,7 @@
     },
     "EdgeConfig": {
       "EdgeName": "[variables('VMservers').VMName[4]]",
-      "EdgeIntIP": "[variables('VMservers').IPaddr[4]]",
+      "EdgeIntIP": "[variables('VMservers').VMIPaddr[4]]",
       "EdgeExtIP": "[variables('DMZEXT-IPaddr')[1]]",
       "EdgePubIP": "[reference('Shared-Resources').outputs.DMZPublicIP.value]"
     },
