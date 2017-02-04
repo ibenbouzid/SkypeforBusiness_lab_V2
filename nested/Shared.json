@@ -294,7 +294,7 @@
   ],
   "outputs": {
     "DMZPublicIP": {
-      "value": "[reference(concat('Microsoft.Network/publicIPAddresses/',parameters('DMZPublicIPName'))).properties.ipAddress]", 
+      "value" : "[reference(concat(parameters('DMZPublicIPName'),0)).properties.ipAddress]", 
       "type": "string"
     }
   }

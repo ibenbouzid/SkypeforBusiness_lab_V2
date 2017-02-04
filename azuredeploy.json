@@ -975,7 +975,10 @@
     }
   ],
   "outputs": {
-
+    "DMZPublicIP": {
+      "value": "[reference('Shared-Resources').outputs.DMZPublicIP.value]",
+      "type": "string"
+    }
   }
 }
 
