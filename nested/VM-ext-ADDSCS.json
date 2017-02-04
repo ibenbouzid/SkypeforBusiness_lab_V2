@@ -117,8 +117,8 @@
     }
   },
   "variables": {
-    //"VMid": "[resourceId('Microsoft.Compute/virtualMachines', parameters('VMName'))]",
-    //"CreatADDSCSid": "[concat(variables('VMid'),'/extensions/CreateADDSCS')]",
+    "VMid": "[resourceId('Microsoft.Compute/virtualMachines', parameters('VMName'))]",
+    "CreatADDSCSid": "[concat(variables('VMid'),'/extensions/CreateADDSCS')]",
     "CreateADDSCS-dscmoduleURL": "[concat(parameters('_artifactsLocation'), '/dsc/', 'CreateADDSCS.ps1.zip')]",
     "CreateADDSCSConfigurationFunction": "CreateADDSCS.ps1\\CreateADDSCS"
   },
@@ -163,11 +163,8 @@
       "tags": {
         "displayName": "Update-Vnet1-DNS"
       },
-      //"dependsOn": [
-      //  "[variables('CreatADDSCSid')]"
-      //],
       "dependsOn": [
-        "[concat('/', parameters('VMName'), '/CreateADDSCS')]"
+        "[variables('CreatADDSCSid')]"
       ],
       "properties": {
         "addressSpace": {
@@ -206,11 +203,8 @@
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
-      //"dependsOn": [
-      //  "[variables('CreatADDSCSid')]"
-      //],
       "dependsOn": [
-        "[concat('/', parameters('VMName'), '/CreateADDSCS')]"
+        "[variables('CreatADDSCSid')]"
       ],
       "tags": {
         "displayName": "Add-ADUsers"

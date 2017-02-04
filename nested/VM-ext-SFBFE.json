@@ -65,8 +65,8 @@
     }
   },
   "variables": {
-    //"VMid": "[resourceId('Microsoft.Compute/virtualMachines', parameters('VMName'))]",
-    //"Prereqsid": "[concat(variables('VMid'),'/extensions/Prereqs')]",
+    "VMid": "[resourceId('Microsoft.Compute/virtualMachines', parameters('VMName'))]",
+    "Prereqsid": "[concat(variables('VMid'),'/extensions/Prereqs')]",
     "SFBPrereqs-dscmoduleURL": "[concat(parameters('_artifactsLocation'), '/dsc/', 'Prereqs.ps1.zip')]",
     "PrereqsFunction": "Prereqs.ps1\\Prereqs",
     "VM_DjoinTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-ext-Domainjoin.json')]"
@@ -142,11 +142,8 @@
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
-      //"dependsOn": [
-      //  "[variables('Prereqsid')]"
-      //],
       "dependsOn": [
-        "[concat(parameters('VMName'), '/Prereqs')]"
+        "[variables('Prereqsid')]"
       ],
       "tags": {
         "displayName": "SfB-Install"
