@@ -52,8 +52,8 @@
     }
   },
   "variables": {
-    "VMid": "[resourceId('Microsoft.Compute/virtualMachines', parameters('VMName'))]",
-    "DSCid": "[concat(variables('VMid'),'/extensions/DnsSuffix')]",
+    //"VMid": "[resourceId('Microsoft.Compute/virtualMachines', parameters('VMName'))]",
+    //"DSCid": "[concat(variables('VMid'),'/extensions/DnsSuffix')]",
     "DnsSuffix-dscmoduleURL": "[concat(parameters('_artifactsLocation'), '/dsc/', 'DnsSuffix.ps1.zip')]",
     "DnsSuffixFunction": "DnsSuffix.ps1\\DnsSuffix"
   },
@@ -88,8 +88,11 @@
       "tags": {
         "displayName": "EDGE-Install"
       },
+      //"dependsOn": [
+      //  "[variables('DSCid')]"
+      //],
       "dependsOn": [
-        "[variables('DSCid')]"
+        "[concat(parameters('VMName'), '/DnsSuffix')]"
       ],
       "properties": {
         "publisher": "Microsoft.Compute",
