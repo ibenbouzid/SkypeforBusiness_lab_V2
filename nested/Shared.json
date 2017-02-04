@@ -294,7 +294,7 @@
   ],
   "outputs": {
     "DMZPublicIP": {
-      "value" : "[reference(concat(parameters('DMZPublicIPName'),0)).properties.ipAddress]", 
+      "value" : "[reference(parameters('DMZPublicIPName')).properties.ipAddress]", 
       "type": "string"
     }
   }
