@@ -128,9 +128,10 @@
       "EdgeName": "[variables('VMservers').VMName[4]]",
       "EdgeIntIP": "[variables('VMservers').VMIPaddr[4]]",
       "EdgeExtIP": "[variables('DMZEXT-IPaddr')[1]]",
-      "EdgePubIP": "[reference('Shared-Resources').outputs.DMZPublicIP.value]"
+      "EdgePubIp": "[reference('Microsoft.Resources/deployments/Shared-Resources').DMZPublicIP.value]"
     },
     //"EdgePubIp": "[reference('Microsoft.Resources/deployments/Shared-Resources').DMZPublicIP.value]",
+    //"EdgePubIP": "[reference('Shared-Resources').outputs.DMZPublicIP.value]",
     "tojoindomain": [ "VM-SFB-FE01", "VM-SFB-ADFS01", "VM-SFB-CL1" ],
     "Shared-ResourcesTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/Shared.json')]",
     "VM_deployTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-deploy.json')]",
