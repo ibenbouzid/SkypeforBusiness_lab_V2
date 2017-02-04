@@ -746,7 +746,8 @@
             "value": "[variables('EdgeConfig')]"
           },
           "EdgePubIP": {
-            "value": "[reference('Shared-Resources').outputs.DMZPublicIP.value]"
+            value :  "1.1.1.1"
+            //"value": "[reference('Shared-Resources').outputs.DMZPublicIP.value]"
           },
           "_artifactsLocation": {
             "value": "[parameters('_artifactsLocation')]"
