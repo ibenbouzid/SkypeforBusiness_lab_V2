@@ -196,6 +196,7 @@ Add-DnsServerResourceRecordA -IPv4Address $lyncIP.IPv4Address -Name sip -ZoneNam
 Add-DnsServerResourceRecordA -IPv4Address $lyncIP.IPv4Address -Name meet -ZoneName $DomainDNSName -ComputerName $DC.HostName
 Add-DnsServerResourceRecordA -IPv4Address $lyncIP.IPv4Address -Name admin -ZoneName $DomainDNSName -ComputerName $DC.HostName
 Add-DnsServerResourceRecordA -IPv4Address $lyncIP.IPv4Address -Name dialin -ZoneName $DomainDNSName -ComputerName $DC.HostName
+Add-DnsServerResourceRecordA -IPv4Address $lyncIP.IPv4Address -Name webext -ZoneName $DomainDNSName -ComputerName $DC.HostName
 
 $urlEntry1 = New-CsSimpleUrlEntry -Url "https://dialin.$sipdomain"
 $simpleUrl1 = New-CsSimpleUrl -Component "dialin" -Domain "*" -SimpleUrlEntry $urlEntry1 -ActiveUrl "https://dialin.$sipdomain"
