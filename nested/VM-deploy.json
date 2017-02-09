@@ -67,7 +67,7 @@
     "LBNATid": "[concat(resourceId('Microsoft.Network/loadBalancers',parameters('LoadBalancerName')[0]),'/inboundNatRules/',parameters('VMConfig').VMname[parameters('VMIndex')],'-RDP')]",
     "VMOsDisk": "[concat(parameters('VMConfig').VMname[parameters('VMIndex')],'-OSdisk1')]",
     "VMDataDisk": "[concat(parameters('VMConfig').VMname[parameters('VMIndex')],'-disk2')]",
-    "VMDataDiskSize": 50
+    "VMDataDiskSize": 100
   },
   "resources": [
     {
