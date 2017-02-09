@@ -917,13 +917,12 @@
     //    }
     //  }
     //}
-    //"DMZPublicIPtemp": {
-    //  "value": "[reference('Shared-Resources').outputs.DMZPublicIP.value]",
-    //  "type": "string"
-    //}
   ],
   "outputs": {
-
+    "DMZPublicIP": {
+      "value": "[reference('Shared-Resources').outputs.DMZPublicIP.value]",
+      "type": "string"
+    }
   }
 }
 
