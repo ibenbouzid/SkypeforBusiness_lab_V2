@@ -378,7 +378,7 @@
             "value": "[variables('VMservers')]"
           },
           "VMindex": {
-            "value": "[copyIndex(1)]"
+            "value": "[sub(copyIndex(1),0)]"
           },
           "AdminUserName": {
             "value": "[parameters('adminUsername')]"
