@@ -32,6 +32,12 @@
         "description": "The VM Config"
       }
     },
+    "VMIndex": {
+      "type": "string",
+      "metadata": {
+        "description": "The VM index"
+      }
+    },
     "adminUsername": {
       "type": "string",
       "metadata": {
@@ -52,22 +58,22 @@
     }
   },
   "variables": {
-    "VM-NICName": "[concat(parameters('VMConfig').VMname,'-NIC')]",
-    "VM-NICVnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('VMConfig').VMVnet)]",
-    "VM-NICSubnetRef": "[concat(variables('VM-NICVnetID'), '/subnets/', parameters('VMConfig').VMsubnet)]",
-    "AVsetid": "[resourceId('Microsoft.Compute/availabilitySets', parameters('VMConfig').VMAVSet)]",
+    "VM-NICName": "[concat(parameters('VMConfig').VMname[parameters('VMIndex')],'-NIC')]",
+    "VM-NICVnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('VMConfig').VMVnet[parameters('VMIndex')])]",
+    "VM-NICSubnetRef": "[concat(variables('VM-NICVnetID'), '/subnets/', parameters('VMConfig').VMsubnet[parameters('VMIndex')])]",
+    "AVsetid": "[resourceId('Microsoft.Compute/availabilitySets', parameters('VMConfig').VMAVSet[parameters('VMIndex')])]",
     "LBFEid": "[concat(resourceId('Microsoft.Network/loadBalancers',parameters('LoadBalancerName')[0]),'/frontendIPConfigurations/',parameters('LBFEConfig'))]",
     "LBBEid": "[concat(resourceId('Microsoft.Network/loadBalancers',parameters('LoadBalancerName')[0]),'/BackendAddressPools/',parameters('LBBEPoolName'))]",
-    "LBNATid": "[concat(resourceId('Microsoft.Network/loadBalancers',parameters('LoadBalancerName')[0]),'/inboundNatRules/',parameters('VMConfig').VMname,'-RDP')]",
-    "VMOsDisk": "[concat(parameters('VMConfig').VMname,'-OSdisk1')]",
-    "VMDataDisk": "[concat(parameters('VMConfig').VMname,'-disk2')]",
+    "LBNATid": "[concat(resourceId('Microsoft.Network/loadBalancers',parameters('LoadBalancerName')[0]),'/inboundNatRules/',parameters('VMConfig').VMname[parameters('VMIndex')],'-RDP')]",
+    "VMOsDisk": "[concat(parameters('VMConfig').VMname[parameters('VMIndex')],'-OSdisk1')]",
+    "VMDataDisk": "[concat(parameters('VMConfig').VMname[parameters('VMIndex')],'-disk2')]",
     "VMDataDiskSize": 50
   },
   "resources": [
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/loadBalancers/inboundNatRules",
-      "name": "[concat('/',parameters('LoadBalancerName')[0],'/',parameters('VMConfig').VMname,'-RDP')]",
+      "name": "[concat('/',parameters('LoadBalancerName')[0],'/',parameters('VMConfig').VMname[parameters('VMIndex')],'-RDP')]",
       "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "VM-LBINT-NAT-Rule"
@@ -77,7 +83,7 @@
           "id": "[variables('LBFEid')]"
         },
         "protocol": "tcp",
-        "frontendPort": "[parameters('VMConfig').FENATport]",
+        "frontendPort": "[parameters('VMConfig').FENATport[parameters('VMIndex')]]",
         "backendPort": 3389,
         "enableFloatingIP": false
       }
@@ -95,8 +101,8 @@
           {
             "name": "[concat('ipcfg-', variables('VM-NICName'))]",
             "properties": {
-              "privateIPAllocationMethod": "[parameters('VMConfig').VMIPtype]",
-              "privateIPAddress": "[parameters('VMConfig').VMIPaddr]",
+              "privateIPAllocationMethod": "[parameters('VMConfig').VMIPtype[parameters('VMIndex')]]",
+              "privateIPAddress": "[parameters('VMConfig').VMIPaddr[parameters('VMIndex')]]",
               "subnet": {
                 "id": "[variables('VM-NICSubnetRef')]"
               },
@@ -118,28 +124,28 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[parameters('VMConfig').VMname]",
+      "name": "[parameters('VMConfig').VMname[parameters('VMIndex')]]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkInterfaces',variables('VM-NICName'))]"
       ],
       "properties": {
         "hardwareProfile": {
-          "vmSize": "[parameters('VMConfig').VMSize]"
+          "vmSize": "[parameters('VMConfig').VMSize[parameters('VMIndex')]]"
         },
         "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('VMConfig').VMAVSet)]"
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('VMConfig').VMAVSet[parameters('VMIndex')])]"
         },
         "osProfile": {
-          "computerName": "[parameters('VMConfig').VMname]",
+          "computerName": "[parameters('VMConfig').VMname[parameters('VMIndex')]]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
         "storageProfile": {
           "imageReference": {
-            "publisher": "[parameters('VMConfig').publisher]",
-            "offer": "[parameters('VMConfig').offer]",
-            "sku": "[parameters('VMConfig').sku]",
+            "publisher": "[parameters('VMConfig').publisher[parameters('VMIndex')]]",
+            "offer": "[parameters('VMConfig').offer[parameters('VMIndex')]]",
+            "sku": "[parameters('VMConfig').sku[parameters('VMIndex')]]",
             "version": "latest"
           },
           "osDisk": {

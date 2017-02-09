@@ -251,7 +251,10 @@
             "value": "[variables('LBBackEndName')]"
           },
           "VMConfig": {
-            "value": "[variables('VMservers')[0]]"
+            "value": "[variables('VMservers')]"
+          },
+          "VMindex": {
+            "value": "0"
           },
           "AdminUserName": {
             "value": "[parameters('adminUsername')]"
@@ -372,7 +375,10 @@
             "value": "[variables('LBBackEndName')]"
           },
           "VMConfig": {
-            "value": "[variables('VMservers')[copyIndex(1)]]"
+            "value": "[variables('VMservers')]"
+          },
+          "VMindex": {
+            "value": "copyIndex(1)"
           },
           "AdminUserName": {
             "value": "[parameters('adminUsername')]"
