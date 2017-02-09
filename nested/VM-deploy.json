@@ -8,11 +8,6 @@
         "description": "The Storage Account Name "
       }
     },
-    "AvailabilitySetName": {
-      "type": "string",
-      "minLength": 1,
-      "defaultValue": "AVailabilitySet1"
-    },
     "LoadBalancerName": {
       "type": "array",
       "metadata": {
@@ -37,64 +32,6 @@
         "description": "The VM Config"
       }
     },
-    //"VMSize": {
-    //  "type": "string",
-    //  "metadata": {
-    //    "description": "The size of the VM Created"
-    //  },
-    //  "defaultValue": "Standard_D1"
-    //},
-    //"VMimagePublisher": {
-    //  "type": "string",
-    //  "metadata": {
-    //    "description": "Windows server Publisher"
-    //  },
-    //  "defaultValue": "MicrosoftWindowsServer"
-    //},
-    //"VMimageOffer": {
-    //  "type": "string",
-    //  "metadata": {
-    //    "description": "Windows server Offer"
-    //  },
-    //  "defaultValue": "WindowsServer"
-    //},
-    //"VMimageSKU": {
-    //  "type": "string",
-    //  "metadata": {
-    //    "description": "Windows server SKU"
-    //  },
-    //  "defaultValue": "2012-R2-Datacenter"
-    //},
-    //"VMIPaddr": {
-    //  "type": "string",
-    //  "metadata": {
-    //    "description": "The IP address of the new VM"
-    //  }
-    //},
-    //"VMIPtype": {
-    //  "type": "string",
-    //  "metadata": {
-    //    "description": "The IP address of the new VM"
-    //  }
-    //},
-    //"VMFENATport": {
-    //  "type": "string",
-    //  "metadata": {
-    //    "description": "LB Front end NAT port "
-    //  }
-    //},
-    //"VnetName": {
-    //  "type": "string",
-    //  "metadata": {
-    //    "description": "The Front End Config of the Load Balancer"
-    //  }
-    //},
-    //"VMVnetSubnetName": {
-    //  "type": "string",
-    //  "metadata": {
-    //    "description": "The IP address of the new AD VM"
-    //  }
-    //},
     "adminUsername": {
       "type": "string",
       "metadata": {
@@ -118,7 +55,7 @@
     "VM-NICName": "[concat(parameters('VMConfig').VMname,'-NIC')]",
     "VM-NICVnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('VMConfig').VMVnet)]",
     "VM-NICSubnetRef": "[concat(variables('VM-NICVnetID'), '/subnets/', parameters('VMConfig').VMsubnet)]",
-    "AVsetid": "[resourceId('Microsoft.Compute/availabilitySets', parameters('AvailabilitySetName'))]",
+    "AVsetid": "[resourceId('Microsoft.Compute/availabilitySets', parameters('VMConfig').VMAVSet)]",
     "LBFEid": "[concat(resourceId('Microsoft.Network/loadBalancers',parameters('LoadBalancerName')[0]),'/frontendIPConfigurations/',parameters('LBFEConfig'))]",
     "LBBEid": "[concat(resourceId('Microsoft.Network/loadBalancers',parameters('LoadBalancerName')[0]),'/BackendAddressPools/',parameters('LBBEPoolName'))]",
     "LBNATid": "[concat(resourceId('Microsoft.Network/loadBalancers',parameters('LoadBalancerName')[0]),'/inboundNatRules/',parameters('VMConfig').VMname,'-RDP')]",
@@ -191,7 +128,7 @@
           "vmSize": "[parameters('VMConfig').VMSize]"
         },
         "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('AvailabilitySetName'))]"
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('VMConfig').VMAVSet)]"
         },
         "osProfile": {
           "computerName": "[parameters('VMConfig').VMname]",
