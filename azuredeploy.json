@@ -253,7 +253,7 @@
           "VMConfig": {
             "value": "[variables('VMservers')]"
           },
-          "VMindex": {
+          "VMIndex": {
             "value": "0"
           },
           "AdminUserName": {
