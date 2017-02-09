@@ -21,37 +21,43 @@
       ]
     },
     "AvailabilitySetName": {
-      "type": "array"
+      "type": "array",
+      "defaultValue": [ "AV1", "AV2" ]
     },
     "LoadBalancerName": {
       "type": "array",
       "metadata": {
         "description": "The Name of the Load Balancer"
-      }
+      },
+      "defaultValue": [ "LB1", "LB2" ]
     },
     "LBFEConfig": {
       "type": "string",
       "metadata": {
         "description": "The Front End Config of the Load Balancer"
-      }
+      },
+      "defaultValue": "LBFEName"
     },
     "LBBEPoolName": {
       "type": "string",
       "metadata": {
         "description": "The Back End Pool of the Load Balancer"
-      }
+      },
+      "defaultValue": "LBPName"
     },
     "DMZPublicIPName": {
       "type": "string",
       "metadata": {
         "description": "The IP address of the Load Balancer"
-      }
+      },
+      "defaultValue": "DMZPublicIPName"
     },
     "PublicIPName": {
       "type": "string",
       "metadata": {
         "description": "The Front End Config of the Load Balancer"
-      }
+      },
+      "defaultValue": "PublicIPName"
     },
     "publicIPAddressType": {
       "type": "string",
@@ -62,7 +68,7 @@
       "metadata": {
         "description": "The type of the public IP address used by the Load Balancer"
       },
-      "defaultValue": "Dynamic"
+      "defaultValue": "Static"
     },
     "dnsPrefix": {
       "type": "string",
@@ -74,37 +80,43 @@
       "type": "string",
       "metadata": {
         "description": "The Front End Config of the Load Balancer"
-      }
+      },
+      "defaultValue": "Vnet1"
     },
     "Vnet1Prefix": {
       "type": "string",
       "metadata": {
         "description": "The address range of the new VNET in CIDR format "
-      }
+      },
+      "defaultValue": "10.0.0.0/16"
     },
     "Vnet2Prefix": {
       "type": "string",
       "metadata": {
         "description": "The address range of the new VNET in CIDR format"
-      }
+      },
+      "defaultValue": "192.168.0.0/24"
     },
     "Subnet-INT-1": {
       "type": "string",
       "metadata": {
         "description": "The IP address of the new AD VM"
-      }
+      },
+      "defaultValue": "Subnet-INT-1"
     },
     "Subnet-DMZ-INT": {
       "type": "string",
       "metadata": {
         "description": "The IP address of the new AD VM"
-      }
+      },
+      "defaultValue": "Subnet-DMZ-INT"
     },
     "Subnet-DMZ-EXT": {
       "type": "string",
       "metadata": {
         "description": "The IP address of the new AD VM"
-      }
+      },
+      "defaultValue": "Subnet-DMZ-EXT"
     },
     "Subnet-INT-1-Prefix": {
       "type": "string",
