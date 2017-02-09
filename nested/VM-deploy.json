@@ -33,7 +33,7 @@
       }
     },
     "VMIndex": {
-      "type": "string",
+      "type": "int",
       "metadata": {
         "description": "The VM index"
       }
