@@ -223,7 +223,7 @@
           }
         }
       }
-    }
+    },
     {
       "name": "[concat('VM-deploy-0')]",
       "type": "Microsoft.Resources/deployments",
