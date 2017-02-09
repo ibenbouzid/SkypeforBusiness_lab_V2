@@ -919,10 +919,10 @@
     //}
   ],
   "outputs": {
-    "DMZPublicIPtemp": {
-      "value": "[reference('Shared-Resources').outputs.DMZPublicIP.value]",
-      "type": "string"
-    }
+    //"DMZPublicIPtemp": {
+    //  "value": "[reference('Shared-Resources').outputs.DMZPublicIP.value]",
+    //  "type": "string"
+    //}
   }
 }
 
