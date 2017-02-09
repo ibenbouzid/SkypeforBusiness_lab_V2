@@ -23,7 +23,7 @@
         "Static"
       ],
       "metadata": {
-        "description": "The type of the public IP address used by the Load Balancer"
+        "description": "The type of the public IP address used by the Load Balancer "
       },
       "defaultValue": "Dynamic"
     },
