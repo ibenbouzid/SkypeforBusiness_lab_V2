@@ -27,7 +27,9 @@ Param (
         [string]$StsServiceIpaddr,
 
 		[Parameter(Mandatory)]
-        [string]$CertPassword
+        [string]$CertPassword,
+		[Parameter(Mandatory)]
+        [boolean]$PublicCert
 
        )
 
@@ -37,7 +39,7 @@ $SecureCertPassword = ConvertTo-SecureString -String $CertPassword -AsPlainText 
 [PSCredential ]$LocalCreds = New-Object PSCredential ("$env:COMPUTERNAME\$Username", $SecurePassword)
 $User=$Share
 $Share="\\"+$Share+".file.core.windows.net\skype"
-$PublicCert= $false
+#$PublicCert= $false
 
 # Add Web Application Proxy Role
 Install-WindowsFeature RSAT-RemoteAccess, RSAT-AD-PowerShell, Web-Application-Proxy -IncludeManagementTools

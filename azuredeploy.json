@@ -81,6 +81,12 @@
       "metadata": {
         "description": "The password of the pfx SSL certificate"
       }
+    },
+    "PublicCertificate": {
+      "type": "bool",
+      "metadata": {
+        "description": "Using public certificate"
+      }
     }
   },
   "variables": {
@@ -131,8 +137,6 @@
       "EdgeIntIP": "[variables('VMservers').VMIPaddr[4]]",
       "EdgeExtIP": "[variables('DMZEXT-IPaddr')[1]]"
     },
-    //"EdgePubIp": "[reference('Microsoft.Resources/deployments/Shared-Resources').DMZPublicIP.value]",
-    //"EdgePubIP": "[reference('Shared-Resources').outputs.DMZPublicIP.value]",
     "tojoindomain": [ "VM-SFB-FE01", "VM-SFB-ADFS01", "VM-SFB-CL1" ],
     "Shared-ResourcesTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/Shared.json')]",
     "VM_deployTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-deploy.json')]",
@@ -847,6 +851,9 @@
           },
           "CertPassword": {
             "value": "[parameters('CertPassword')]"
+          },
+          "PublicCert": {
+            "value": "[parameters('PublicCertificate')]"
           }
         }
       }

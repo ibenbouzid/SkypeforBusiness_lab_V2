@@ -67,6 +67,12 @@
       "metadata": {
         "description": "The password of the pfx SSL certificate"
       }
+    },
+    "PublicCert": {
+      "type": "bool",
+      "metadata": {
+        "description": "Is public Certificate to use"
+      }
     }
   },
   "variables": {
@@ -121,7 +127,7 @@
           ]
         },
         "protectedsettings": {
-          "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File WAP-Install.ps1 -DomainName ', parameters('domainName'),' -Username ', parameters('adminUsername'),' -Password ', parameters('adminPassword'),' -CAComputerName ', parameters('ADFS_CA_Name'), ' -Share ', parameters('_SfBshareLocation'),' -sasToken ', parameters('_SfBshareSasToken'), ' -StsServiceName ', parameters('StsServiceName'),' -CertPassword ', parameters('CertPassword'),' -StsServiceIPaddr ', parameters('StsServiceIPaddr'))]"
+          "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File WAP-Install.ps1 -DomainName ', parameters('domainName'),' -Username ', parameters('adminUsername'),' -Password ', parameters('adminPassword'),' -CAComputerName ', parameters('ADFS_CA_Name'), ' -Share ', parameters('_SfBshareLocation'),' -sasToken ', parameters('_SfBshareSasToken'), ' -StsServiceName ', parameters('StsServiceName'),' -CertPassword ', parameters('CertPassword'),' -StsServiceIPaddr ', parameters('StsServiceIPaddr'),' -PublicCert ', parameters('PublicCert'))]"
         }
       }
     }
