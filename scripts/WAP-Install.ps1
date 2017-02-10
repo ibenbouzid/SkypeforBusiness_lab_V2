@@ -83,15 +83,9 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	$_SkypeWebServicesRoot = "webext."
 	$OfficeWebAppsRoot = "owas."
 	$externalweburl = $_SkypeWebServicesRoot+$_Sipdomain
-	
-	# WAP config
 	$CertificateWAPsubject = $externalweburl
-	$CertificateWAPsans = $externalweburl,"lyncdiscover.$_Sipdomain","meet.$_Sipdomain","dialin.$_Sipdomain","owas.$_Sipdomain"
-	$CertificateWAPsubjectCN = "CN=" + $CertificateWAPsubject
 
-	# CA for Online Request
-	#$CertificateAuthority = "VM-SFB-AD01.csalab.local\csalab-VM-SFB-AD01-CA"
-	$CertificateAuthority = $_CAComputerName+'.'+$_DomainName+'\'+$_DomainName+'-CA'
+
 
     #connect to file share on storage account
     net use G: $_Share /u:$_User $_sasToken
@@ -129,13 +123,21 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
     Install-WebApplicationProxy –CertificateThumbprint $certificateThumbprint -FederationServiceName $_stsServiceName -FederationServiceTrustCredential $_DomainCreds
  
 	if ($_PublicCert) {
-	#install the certificate that will be used for ADFS Service
-    Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath "G:\cert\wap_certificate.pfx"     
+		#install the WAP certificate
+		Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath "G:\cert\wap_certificate.pfx"     
 	}
 	else {
-	Import-Module .\NewCertReq.ps1
-	# Request Web Application Proxy certificate
-    New-CertificateRequest -subject $CertificateWAPsubjectCN -SANs $CertificateWAPsans -OnlineCA $CertificateAuthority
+		
+		# CA for Online Request
+		$CertificateAuthority = $_CAComputerName+'.'+$_DomainName+'\'+$_DomainName+'-CA'
+
+		# WAP cert config
+		$CertificateWAPsans = $externalweburl,"lyncdiscover.$_Sipdomain","meet.$_Sipdomain","dialin.$_Sipdomain","owas.$_Sipdomain"
+		$CertificateWAPsubjectCN = "CN=" + $CertificateWAPsubject
+		
+		Import-Module .\NewCertReq.ps1
+		# Request Web Application Proxy certificate
+		New-CertificateRequest -subject $CertificateWAPsubjectCN -SANs $CertificateWAPsans -OnlineCA $CertificateAuthority
  	}
 
 	## Web Application Proxy Applications

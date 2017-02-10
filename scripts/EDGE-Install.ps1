@@ -145,7 +145,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 
 	if ($_PublicCert) {
 		#install the certificate that will be used for ADFS Service
-		Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath "G:\cert\wap_certificate.pfx"     
+		Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath "G:\cert\Edge_certificate.pfx"     
 	}
 	else {
 		#Request Internal Edge Private Certificate from RootCA
