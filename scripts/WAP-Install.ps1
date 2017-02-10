@@ -29,7 +29,7 @@ Param (
 		[Parameter(Mandatory)]
         [string]$CertPassword,
 		[Parameter(Mandatory)]
-        [boolean]$PublicCert
+        [string]$PublicCert
 
        )
 
@@ -39,7 +39,7 @@ $SecureCertPassword = ConvertTo-SecureString -String $CertPassword -AsPlainText 
 [PSCredential ]$LocalCreds = New-Object PSCredential ("$env:COMPUTERNAME\$Username", $SecurePassword)
 $User=$Share
 $Share="\\"+$Share+".file.core.windows.net\skype"
-#$PublicCert= $false
+$PublicCertbool= [System.Convert]::ToBoolean($PublicCert)
 
 # Add Web Application Proxy Role
 Install-WindowsFeature RSAT-RemoteAccess, RSAT-AD-PowerShell, Web-Application-Proxy -IncludeManagementTools
@@ -157,7 +157,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	$pn = $sa.namespace("C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Administrative Tools").parsename('Windows PowerShell ISE.lnk')
 	$pn.invokeverb('taskbarpin')
 
-} -ArgumentList $PSScriptRoot, $Share, $User, $sasToken, $SecureCertPassword, $StsServiceName, $StsServiceIpaddr, $DomainCreds, $DomainName, $CAComputerName, $PublicCert
+} -ArgumentList $PSScriptRoot, $Share, $User, $sasToken, $SecureCertPassword, $StsServiceName, $StsServiceIpaddr, $DomainCreds, $DomainName, $CAComputerName, $PublicCertbool
 
 	
 
