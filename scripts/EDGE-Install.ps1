@@ -94,21 +94,22 @@ Import-Certificate -Filepath $RootCA -CertStoreLocation Cert:\LocalMachine\Root
 start-sleep -Seconds 10
 & 'C:\Program Files\Skype for Business Server 2015\Deployment\bootstrapper.exe' /Bootstraplocalmgmt /SourceDirectory:"G:\SfBServer2015\Setup\amd64"
 
-start-sleep -Seconds 10
+#start-sleep -Seconds 10
 ##Install SQL databases RTCLOCAL and LYNCLOCAL
 #Start-Process  -FilePath G:\SfBServer2015\Setup\amd64\SQLEXPR_x64.exe  -ArgumentList '/UpdateEnabled=0 /QUIET /IACCEPTSQLSERVERLICENSETERMS /HIDECONSOLE /ACTION=Install /FEATURES=SQLEngine,Tools /INSTANCENAME=RTCLOCAL /TCPENABLED=1 /SQLSVCACCOUNT="NT AUTHORITY\NetworkService" /SQLSYSADMINACCOUNTS="Builtin\Administrators" /BROWSERSVCSTARTUPTYPE="Automatic" /AGTSVCACCOUNT="NT AUTHORITY\NetworkService" /SQLSVCSTARTUPTYPE=Automatic' -Wait -NoNewWindow
 #Start-Process  -FilePath G:\SfBServer2015\Setup\amd64\SQLEXPR_x64.exe  -ArgumentList '/UpdateEnabled=0 /QUIET /IACCEPTSQLSERVERLICENSETERMS /HIDECONSOLE /ACTION=Install /FEATURES=SQLEngine,Tools /INSTANCENAME=LYNCLOCAL /TCPENABLED=1 /SQLSVCACCOUNT="NT AUTHORITY\NetworkService" /SQLSYSADMINACCOUNTS="Builtin\Administrators" /BROWSERSVCSTARTUPTYPE="Automatic" /AGTSVCACCOUNT="NT AUTHORITY\NetworkService" /SQLSVCSTARTUPTYPE=Automatic' -Wait -NoNewWindow
-& 'C:\Program Files\Skype for Business Server 2015\Deployment\bootstrapper.exe' /Bootstraplocalmgmt /SourceDirectory:"G:\SfBServer2015\Setup\amd64"
+#& 'C:\Program Files\Skype for Business Server 2015\Deployment\bootstrapper.exe' /Bootstraplocalmgmt /SourceDirectory:"G:\SfBServer2015\Setup\amd64"
 #Start-CSwindowsService Replica -Report $Logfilespath'02_Test-apres-bootsrapper_EDGE.html'
-## Filling the local configuration store RTClocal and enabling Replica
 
+
+## Filling the local configuration store RTClocal and enabling Replica
 Import-CsConfiguration -FileName $CSConfigExp -Localstore
 Enable-CsReplica -Report $Logfilespath'17_Enable-CsReplica_EDGE.html'
 Start-CSwindowsService Replica -Report $Logfilespath'18_Start-CSwindowsService-Replica_EDGE.html'
 
 
 ## Install Local databases RTClocal and lync local in the specified path (By default the following bootstraper will do it in C drive instead)
-#Install-CSDatabase -LocalDatabases -DatabasePaths $Databasespaths -Report $Logfilespath'181_InstallLocalstoreDatabases.html'
+Install-CSDatabase -LocalDatabases -DatabasePaths $Databasespaths -Report $Logfilespath'181_InstallLocalstoreDatabases.html'
 
 ### Install Lync EDGE Component
 & 'C:\Program Files\Skype for Business Server 2015\Deployment\Bootstrapper.exe' /SourceDirectory:"G:\SfBServer2015\Setup\amd64"
