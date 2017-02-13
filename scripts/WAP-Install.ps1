@@ -142,7 +142,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
     Install-WebApplicationProxy –CertificateThumbprint $certificateSTSThumbprint -FederationServiceName $_stsServiceName -FederationServiceTrustCredential $_DomainCreds
  
 
-	#Get thumbprint of WAP  certificate
+	#Get thumbprint of WAP certificate
 	$CertificateWAPThumbprint = (dir Cert:\LocalMachine\My | where {$_.subject -match $CertificateWAPsubject}).thumbprint
  
 	# Publish Lync Urls
