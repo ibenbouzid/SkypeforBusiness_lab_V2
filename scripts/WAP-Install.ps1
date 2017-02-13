@@ -116,15 +116,10 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	#install the certificate that will be used for ADFS Service
     Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath "G:\cert\ssl_certificate.pfx"     
 	
-	#Get thumbprint of ADFS certificate
-	$certificateThumbprint = (get-childitem Cert:\LocalMachine\My | where {$_.subject -eq "CN="+$_stsServiceName} | Sort-Object -Descending NotBefore)[0].thumbprint
- 
-	# install WAP
-    Install-WebApplicationProxy –CertificateThumbprint $certificateThumbprint -FederationServiceName $_stsServiceName -FederationServiceTrustCredential $_DomainCreds
- 
+
 	if ($_PublicCert) {
 		#install the WAP certificate
-		Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath "G:\cert\wap_certificate.pfx"     
+	Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath "G:\cert\wap_certificate.pfx"     
 	}
 	else {
 		
@@ -140,7 +135,14 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 		New-CertificateRequest -subject $CertificateWAPsubjectCN -SANs $CertificateWAPsans -OnlineCA $CertificateAuthority
  	}
 
-	## Web Application Proxy Applications
+	#Get thumbprint of ADFS certificate
+	$certificateSTSThumbprint = (get-childitem Cert:\LocalMachine\My | where {$_.subject -eq "CN="+$_stsServiceName} | Sort-Object -Descending NotBefore)[0].thumbprint
+ 
+	# install WAP
+    Install-WebApplicationProxy –CertificateThumbprint $certificateSTSThumbprint -FederationServiceName $_stsServiceName -FederationServiceTrustCredential $_DomainCreds
+ 
+
+	#Get thumbprint of WAP certificate
 	$CertificateWAPThumbprint = (dir Cert:\LocalMachine\My | where {$_.subject -match $CertificateWAPsubject}).thumbprint
  
 	# Publish Lync Urls
@@ -149,6 +151,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	Add-WebApplicationProxyApplication -Name 'Skype Dialin' -ExternalPreAuthentication PassThrough -ExternalUrl "https://dialin.$_Sipdomain/" -BackendServerUrl ("https://dialin."+$_Sipdomain+":4443/") -ExternalCertificateThumbprint $CertificateWAPThumbprint
 	Add-WebApplicationProxyApplication -Name 'Skype Meet' -ExternalPreAuthentication PassThrough -ExternalUrl "https://meet.$_Sipdomain/" -BackendServerUrl ("https://meet."+$_Sipdomain+":4443/") -ExternalCertificateThumbprint $CertificateWAPThumbprint
 	Add-WebApplicationProxyApplication -Name 'Office Web Apps Server' -ExternalPreAuthentication PassThrough -ExternalUrl "https://$OfficeWebAppsRoot$_Sipdomain/" -BackendServerUrl ("https://"+$OfficeWebAppsRoot+$_Sipdomain+"/") -ExternalCertificateThumbprint $CertificateWAPThumbprint
+	Add-WebApplicationProxyApplication -Name 'Federation service' -ExternalPreAuthentication PassThrough -ExternalUrl "https://$_stsServiceName/" -BackendServerUrl ("https://"+$_stsServiceName+"/") -ExternalCertificateThumbprint $certificateSTSThumbprint
  
 
 
