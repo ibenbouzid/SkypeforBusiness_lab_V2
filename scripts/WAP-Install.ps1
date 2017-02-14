@@ -147,7 +147,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
  
 	# Publish Lync Urls
 	Add-WebApplicationProxyApplication -Name 'Skype Web Services' -ExternalPreAuthentication PassThrough -ExternalUrl "https://$_SkypeWebServicesRoot$_Sipdomain/" -BackendServerUrl ("https://"+$_SkypeWebServicesRoot+$_Sipdomain+":4443/") -ExternalCertificateThumbprint $CertificateWAPThumbprint
-	Add-WebApplicationProxyApplication -Name 'Skye Lyncdiscover' -ExternalPreAuthentication PassThrough -ExternalUrl "https://lyncdiscover.$_Sipdomain/" -BackendServerUrl ("https://lyncdiscover."+$_Sipdomain+":4443/") -ExternalCertificateThumbprint $CertificateWAPThumbprint
+	Add-WebApplicationProxyApplication -Name 'Skype Lyncdiscover' -ExternalPreAuthentication PassThrough -ExternalUrl "https://lyncdiscover.$_Sipdomain/" -BackendServerUrl ("https://lyncdiscover."+$_Sipdomain+":4443/") -ExternalCertificateThumbprint $CertificateWAPThumbprint
 	Add-WebApplicationProxyApplication -Name 'Skype Dialin' -ExternalPreAuthentication PassThrough -ExternalUrl "https://dialin.$_Sipdomain/" -BackendServerUrl ("https://dialin."+$_Sipdomain+":4443/") -ExternalCertificateThumbprint $CertificateWAPThumbprint
 	Add-WebApplicationProxyApplication -Name 'Skype Meet' -ExternalPreAuthentication PassThrough -ExternalUrl "https://meet.$_Sipdomain/" -BackendServerUrl ("https://meet."+$_Sipdomain+":4443/") -ExternalCertificateThumbprint $CertificateWAPThumbprint
 	Add-WebApplicationProxyApplication -Name 'Office Web Apps Server' -ExternalPreAuthentication PassThrough -ExternalUrl "https://$OfficeWebAppsRoot$_Sipdomain/" -BackendServerUrl ("https://"+$OfficeWebAppsRoot+$_Sipdomain+"/") -ExternalCertificateThumbprint $CertificateWAPThumbprint
