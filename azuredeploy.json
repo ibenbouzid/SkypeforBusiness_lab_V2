@@ -900,36 +900,36 @@
           }
         }
       }
-    },
-    {
-      "name": "[concat('VM-ext-Diagnostics-', copyIndex())]",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments','VM-ext-ADDSCS')]",
-        "[resourceId('Microsoft.Resources/deployments','VM-ext-SFBFE')]",
-        "[resourceId('Microsoft.Resources/deployments','VM-ext-ADFS')]"
-      ],
-      "copy": {
-        "name": "DiagLoop",
-        "count": "[sub(length(variables('VMservers').VMName),2)]"
-      },
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('VM_DiagTemplateUri')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "VMName": {
-            "value": "[variables('VMservers').VMName[copyIndex()]]"
-          },
-          "StorageAccountName": {
-            "value": "[variables('StorageAccountName')]"
-          }
-        }
-      }
     }
+    //{
+    //  "name": "[concat('VM-ext-Diagnostics-', copyIndex())]",
+    //  "type": "Microsoft.Resources/deployments",
+    //  "apiVersion": "2015-01-01",
+    //  "dependsOn": [
+    //    "[resourceId('Microsoft.Resources/deployments','VM-ext-ADDSCS')]",
+    //    "[resourceId('Microsoft.Resources/deployments','VM-ext-SFBFE')]",
+    //    "[resourceId('Microsoft.Resources/deployments','VM-ext-ADFS')]"
+    //  ],
+    //  "copy": {
+    //    "name": "DiagLoop",
+    //    "count": "[sub(length(variables('VMservers').VMName),2)]"
+    //  },
+    //  "properties": {
+    //    "mode": "Incremental",
+    //    "templateLink": {
+    //      "uri": "[variables('VM_DiagTemplateUri')]",
+    //      "contentVersion": "1.0.0.0"
+    //    },
+    //    "parameters": {
+    //      "VMName": {
+    //        "value": "[variables('VMservers').VMName[copyIndex()]]"
+    //      },
+    //      "StorageAccountName": {
+    //        "value": "[variables('StorageAccountName')]"
+    //      }
+    //    }
+    //  }
+    //}
   ],
   "outputs": {
     "DMZPublicIP": {

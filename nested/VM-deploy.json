@@ -67,7 +67,8 @@
     "LBNATid": "[concat(resourceId('Microsoft.Network/loadBalancers',parameters('LoadBalancerName')[0]),'/inboundNatRules/',parameters('VMConfig').VMname[parameters('VMIndex')],'-RDP')]",
     "VMOsDisk": "[concat(parameters('VMConfig').VMname[parameters('VMIndex')],'-OSdisk1')]",
     "VMDataDisk": "[concat(parameters('VMConfig').VMname[parameters('VMIndex')],'-disk2')]",
-    "VMDataDiskSize": 100
+    "VMDataDiskSize": 100,
+    "VM_DiagTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-ext-Diagnostics.json')]"
   },
   "resources": [
     {
@@ -178,6 +179,29 @@
               "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('VM-NICName'))]"
             }
           ]
+        }
+      }
+    },
+    {
+      "name": "[concat('VM-ext-Diagnostics-', parameters('VMConfig').VMname[parameters('VMIndex')])]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('VMConfig').VMname[parameters('VMIndex')])]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('VM_DiagTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "VMName": {
+            "value": "[parameters('VMConfig').VMname[parameters('VMIndex')]]"
+          },
+          "StorageAccountName": {
+            "value": "[parameters('StorageAccountName')]"
+          }
         }
       }
     }
