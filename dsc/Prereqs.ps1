@@ -157,13 +157,6 @@ Import-DscResource -ModuleName PSDesiredStateConfiguration, xPendingReboot, xDis
             Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
         }
-		WindowsFeature WebDynCompression
-        {
-            Name = "Web-Dyn-Compression"
-            Ensure = "Present"
-            Source = $Source
-            DependsOn = "[WindowsFeature]WebServerRole"
-        }		
 		WindowsFeature NETWCFHTTPActivation45
         {
             Name = "NET-WCF-HTTP-Activation45"
@@ -249,7 +242,7 @@ Import-DscResource -ModuleName PSDesiredStateConfiguration, xPendingReboot, xDis
 	  xPendingReboot Reboot2
       { 
             Name = "AfterPrereqsInstall"
-			DependsOn = "[Script]ServerMediaFoundation", "[cDiskNoRestart]ADDataDisk"
+			DependsOn = "[WindowsFeature]ServerMediaFoundation", "[cDiskNoRestart]ADDataDisk"
       }
 
 	  LocalConfigurationManager 
