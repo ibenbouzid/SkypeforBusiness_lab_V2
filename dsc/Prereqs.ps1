@@ -199,13 +199,6 @@ Import-DscResource -ModuleName PSDesiredStateConfiguration, xPendingReboot, xDis
            # Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
         }
-        WindowsFeature DesktopExperience
-        {
-            Name = "Desktop-Experience"
-            Ensure = "Present"
-           # Source = $Source
-            DependsOn = "[WindowsFeature]WebServerRole"
-            }
         WindowsFeature BITS
         {
             Name = "BITS"
@@ -238,11 +231,17 @@ Import-DscResource -ModuleName PSDesiredStateConfiguration, xPendingReboot, xDis
             DiskNumber = 2
             DriveLetter = "F"
         }
-
+		  WindowsFeature DesktopExperience
+        {
+            Name = "Desktop-Experience"
+            Ensure = "Present"
+           # Source = $Source
+            DependsOn = "[WindowsFeature]WebServerRole"
+        }
 	  xPendingReboot Reboot2
       { 
             Name = "AfterPrereqsInstall"
-			DependsOn = "[WindowsFeature]ServerMediaFoundation", "[cDiskNoRestart]ADDataDisk"
+			DependsOn = "[WindowsFeature]DesktopExperience", "[cDiskNoRestart]ADDataDisk"
       }
 
 	  LocalConfigurationManager 
