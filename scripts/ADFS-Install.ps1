@@ -49,7 +49,8 @@ Invoke-Command  -Credential $DomainCreds -ComputerName $env:COMPUTERNAME -Script
         $_sasToken,
 		$_certPassword,
 		$_stsServiceName,
-		$_DomainCreds
+		$_DomainCreds,
+		$_DomainName
     )
 
     #connect to file share on storage account
@@ -59,11 +60,12 @@ Invoke-Command  -Credential $DomainCreds -ComputerName $env:COMPUTERNAME -Script
     Set-Location $workingDir
 
 	#Import STS service root CA   
-    $RootCAfilepath = "G:\cert\ADFS_RootCA.crt"
-	Import-Certificate -Filepath (get-childitem $RootCAfilepath) -CertStoreLocation Cert:\LocalMachine\Root
+    $RootCAfilepath = "G:\cert\STS_RootCA.crt"
+	Import-Certificate -Filepath (get-childitem $RootCAfilepath) -CertStoreLocation Cert:\LocalMachine\Root -ErrorAction Continue
 
 	#install the certificate that will be used for ADFS Service
-    Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath "G:\cert\ssl_certificate.pfx"  
+  	$STScert = 'G:\cert\sts.'+$_DomainName+'.pfx'
+    Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath $STScert  
             
 	#get thumbprint of certificate
 	#$cert = Get-ChildItem -Path Cert:\LocalMachine\my | ?{$_.Subject -eq "CN=$_stsServiceName, OU=Free SSL, OU=Domain Control Validated"} 
@@ -83,7 +85,7 @@ Invoke-Command  -Credential $DomainCreds -ComputerName $env:COMPUTERNAME -Script
    $pn = $sa.namespace("C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Administrative Tools").parsename('Windows PowerShell ISE.lnk')
    $pn.invokeverb('taskbarpin')
 
-} -ArgumentList $PSScriptRoot, $Share, $User, $sasToken, $SecureCertPassword, $StsServiceName, $DomainCreds
+} -ArgumentList $PSScriptRoot, $Share, $User, $sasToken, $SecureCertPassword, $StsServiceName, $DomainCreds, $DomainName
 
 
 #Disable-PSRemoting

@@ -110,16 +110,18 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	Import-Certificate -Filepath $RootCA -CertStoreLocation Cert:\LocalMachine\Root
 
 	#Import STS service root CA   
-    $RootCAfilepath = "G:\cert\ADFS_RootCA.crt"
-	Import-Certificate -Filepath (get-childitem $RootCAfilepath) -CertStoreLocation Cert:\LocalMachine\Root
+    $RootCAfilepath = "G:\cert\STS_RootCA.crt"
+	Import-Certificate -Filepath (get-childitem $RootCAfilepath) -CertStoreLocation Cert:\LocalMachine\Root -ErrorAction Continue
 
 	#install the certificate that will be used for ADFS Service
-    Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath "G:\cert\ssl_certificate.pfx"     
+	$STScert = 'G:\cert\sts.'+$_DomainName+'.pfx'
+    Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath $STScert     
 	
 
 	if ($_PublicCert) {
 		#install the WAP certificate
-	Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath "G:\cert\wap_certificate.pfx"     
+		$WApcert = 'G:\cert\wap.'+$_DomainName+'.pfx'
+		Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath $WApcert     
 	}
 	else {
 		

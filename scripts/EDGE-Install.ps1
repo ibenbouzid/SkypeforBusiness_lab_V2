@@ -18,7 +18,10 @@ Param (
         [string]$sasToken,
 
 		[Parameter(Mandatory)]
-        [string]$CAComputerName
+        [string]$CAComputerName,
+
+		[Parameter(Mandatory)]
+        [string]$PublicCert
 
        )
 
@@ -27,7 +30,7 @@ $SecurePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
 [PSCredential ]$DomainCreds = New-Object PSCredential ("$DomainName\$Username", $SecurePassword)
 $User=$Share
 $Share="\\"+$Share+".file.core.windows.net\skype"
-$PublicCert = $false
+#$PublicCert = $false
 
 #Install all the prereqs
 Add-WindowsFeature RSAT-ADDS, NET-Framework-Core, NET-Framework-45-Core, NET-Framework-45-ASPNET,`
@@ -144,8 +147,9 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 
 
 	if ($_PublicCert) {
+		$Edgecert = 'G:\cert\sip.'+$_DomainName+'.pfx'
 		#install the certificate that will be used for ADFS Service
-		Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath "G:\cert\Edge_certificate.pfx"     
+		Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath $Edgecert     
 	}
 	else {
 		#Request Internal Edge Private Certificate from RootCA

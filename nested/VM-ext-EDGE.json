@@ -44,10 +44,16 @@
         "description": "The token to access the storage name location of Skype Software"
       }
     },
-     "CAComputerName": {
+    "CAComputerName": {
       "type": "string",
       "metadata": {
         "description": "The Server Name of the Certificate Authority"
+      }
+    },
+    "PublicCert": {
+      "type": "bool",
+      "metadata": {
+        "description": "Is public Certificate to use"
       }
     }
   },
@@ -102,7 +108,7 @@
           ]
         },
         "protectedsettings": {
-          "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File EDGE-Install.ps1 -DomainName ', parameters('domainName'),' -Username ', parameters('adminUsername'),' -Password ', parameters('adminPassword'),' -CAComputerName ', parameters('CAComputerName'), ' -Share ', parameters('_SfBshareLocation'),' -sasToken ', parameters('_SfBshareSasToken'))]"
+          "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File EDGE-Install.ps1 -DomainName ', parameters('domainName'),' -Username ', parameters('adminUsername'),' -Password ', parameters('adminPassword'),' -CAComputerName ', parameters('CAComputerName'), ' -Share ', parameters('_SfBshareLocation'),' -sasToken ', parameters('_SfBshareSasToken'),' -PublicCert ', parameters('PublicCert'))]"
         }
       }
     }
