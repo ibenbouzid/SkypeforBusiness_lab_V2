@@ -246,8 +246,9 @@ Set-CsAccessEdgeConfiguration -Identity "Global" -AllowAnonymousUsers $true -All
 Set-CsExternalAccessPolicy -Identity "Global" -EnableFederationAccess $True -EnableOutsideAccess $True
 
 #Export the topology for the Edge srever
-Remove-Item G:\Share\ConfigForEdge.zip -ErrorAction SilentlyContinue
-Export-CsConfiguration -FileName G:\Share\ConfigForEdge.zip
+$EdgeCsConfig = 'G:\Share\Config'+$sipdomain+'.zip'
+Remove-Item $EdgeCsConfig -ErrorAction SilentlyContinue
+Export-CsConfiguration -FileName $EdgeCsConfig
 
 #Remove installation file Drive
 net use G: /d
