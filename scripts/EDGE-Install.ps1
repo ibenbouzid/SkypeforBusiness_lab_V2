@@ -86,7 +86,7 @@ Import-Module "C:\Program Files\Common Files\Skype for Business Server 2015\Modu
 $_DomainName = $DomainName
 $Logfilespath = "G:\Logs\"
 $Databasespaths= "F:\SQLLogs","F:\SQLData"
-$CSConfigExp = "G:\Share\ConfigForEdge.zip"
+$CSConfigExp = 'G:\Share\Config'+$_DomainName+'.zip'
 $RootCA= "G:\Share\"+$_DomainName+"-CA.crt"
 $CAName = $_CAComputerName+'.'+$_DomainName+'\'+$_DomainName+'-CA'
 #$CAName = $CAComputerName+'.'+$_DomainName+'\csalab-VM-SFB-AD01-CA'
