@@ -147,7 +147,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 
 
 	if ($_PublicCert) {
-		$Edgecert = 'G:\cert\sip.'+$_DomainName+'.pfx'
+		$Edgecert = 'G:\cert\edge.'+$_DomainName+'.pfx'
 		#install the certificate that will be used for ADFS Service
 		Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath $Edgecert     
 	}
