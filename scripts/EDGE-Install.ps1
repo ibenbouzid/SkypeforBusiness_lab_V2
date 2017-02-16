@@ -29,6 +29,7 @@ Param (
        )
 
 $SecurePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
+$SecureCertPassword = ConvertTo-SecureString -String $CertPassword -AsPlainText -Force
 [PSCredential ]$LocalCreds = New-Object PSCredential ("$env:COMPUTERNAME\$Username", $SecurePassword)
 [PSCredential ]$DomainCreds = New-Object PSCredential ("$DomainName\$Username", $SecurePassword)
 $User=$Share
@@ -183,7 +184,7 @@ $pn = $sa.namespace("c:\ProgramData\Microsoft\Windows\Start Menu\Programs\Skype 
 $pn.invokeverb('taskbarpin')
 $pn = $sa.namespace("$env:ProgramFiles\Skype for Business Server 2015\Deployment").parsename('Deploy.exe')
 $pn.invokeverb('taskbarpin')
-}  -ArgumentList $PSScriptRoot, $Share, $User, $sasToken,$DomainName, $CAComputerName, $CertPassword, $PublicCertbool
+}  -ArgumentList $PSScriptRoot, $Share, $User, $sasToken,$DomainName, $CAComputerName, $SecureCertPassword , $PublicCertbool
 
 Disable-PSRemoting
 Disable-WSManCredSSP -role client

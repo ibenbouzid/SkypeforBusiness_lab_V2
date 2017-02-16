@@ -127,16 +127,9 @@ New-Item $filesharepath -type directory
 New-SmbShare -Name $fileshareName $filesharepath
 Get-smbshare -name $fileshareName | Grant-SmbShareAccess -AccessRight Full -AccountName Everyone -Force
 
-#(Invoke-RestMethod https://api.ipify.org?format=json).ip
-
-
 ## Build and Publish Lync Topology
-
 $sipdomain = $DomainDNSName
 $externalweburl = "webext"+'.'+$sipdomain
-#$_EdgeName = "VM-SFB-EDGE01"
-#$_internalIP = "10.0.0.9"
-#$_externalIP = "192.168.0.5"
 #$_PublicIP = (Invoke-RestMethod https://api.ipify.org?format=json).ip
 $edgeUrls="sip."+$sipdomain
 
