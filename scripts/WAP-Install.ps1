@@ -120,8 +120,9 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 
 	if ($_PublicCert) {
 		#install the WAP certificate
-		$WApcert = 'G:\cert\wap.'+$_DomainName+'.pfx'
-		Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath $WApcert     
+		$WApcert = 'G:\cert\wap.'+$_DomainName+'.pfx' 
+		$CertificateWAPThumbprint = (Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath $WApcert).thumbprint
+		  
 	}
 	else {
 		
@@ -135,6 +136,10 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 		Import-Module .\NewCertReq.ps1
 		# Request Web Application Proxy certificate
 		New-CertificateRequest -subject $CertificateWAPsubjectCN -SANs $CertificateWAPsans -OnlineCA $CertificateAuthority
+
+		#Get thumbprint of WAP certificate
+		$CertificateWAPThumbprint = (dir Cert:\LocalMachine\My | where {$_.subject -match $CertificateWAPsubject}).thumbprint
+ 
  	}
 
 	#Get thumbprint of ADFS certificate
@@ -142,10 +147,6 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
  
 	# install WAP
     Install-WebApplicationProxy –CertificateThumbprint $certificateSTSThumbprint -FederationServiceName $_stsServiceName -FederationServiceTrustCredential $_DomainCreds
- 
-
-	#Get thumbprint of WAP certificate
-	$CertificateWAPThumbprint = (dir Cert:\LocalMachine\My | where {$_.subject -match $CertificateWAPsubject}).thumbprint
  
 	# Publish Lync Urls
 	Add-WebApplicationProxyApplication -Name 'Skype Web Services' -ExternalPreAuthentication PassThrough -ExternalUrl "https://$_SkypeWebServicesRoot$_Sipdomain/" -BackendServerUrl ("https://"+$_SkypeWebServicesRoot+$_Sipdomain+":4443/") -ExternalCertificateThumbprint $CertificateWAPThumbprint
