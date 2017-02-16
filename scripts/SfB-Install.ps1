@@ -171,7 +171,7 @@ Write-Verbose "Installing local configuration store @ $(Get-Date)"
 & 'C:\Program Files\Skype for Business Server 2015\Deployment\bootstrapper.exe' /Bootstraplocalmgmt /SourceDirectory:"G:\SfBServer2015\Setup\amd64"
 
 ## Install Local configuration Store (replica of CMS) within RTCLOCAL
-Install-CSDatabase -ConfiguredDatabases -SqlServerFqdn $Computer -DatabasePaths $Databasespaths -Report $Logfilespath'07_InstallLocalstoreDatabases.html'
+#Install-CSDatabase -ConfiguredDatabases -SqlServerFqdn $Computer -DatabasePaths $Databasespaths -Report $Logfilespath'07_InstallLocalstoreDatabases.html'
 
 ## Filling the local configuration store RTClocal and enabling Replica
 $CSConfigExp = Export-csconfiguration -asbytes
@@ -181,6 +181,9 @@ Start-CSwindowsService Replica -Report $Logfilespath'09_Start-CSwindowsService-R
 
 ## Install Lync Component
 & 'C:\Program Files\Skype for Business Server 2015\Deployment\Bootstrapper.exe' /SourceDirectory:"G:\SfBServer2015\Setup\amd64"
+
+##install local databases contained in SQL instances RTCLOCAL and LYNCLOCAL
+Install-CSDatabase -ConfiguredDatabases -SqlServerFqdn $Computer -DatabasePaths $Databasespaths -Report $Logfilespath'07_InstallLocalstoreDatabases.html'
 
 ## DNS Records ## if your SIPdomain = Internal AD Domain
 
