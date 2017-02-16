@@ -33,7 +33,6 @@ $SecurePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
 [PSCredential ]$DomainCreds = New-Object PSCredential ("$DomainName\$Username", $SecurePassword)
 $User=$Share
 $Share="\\"+$Share+".file.core.windows.net\skype"
-#$PublicCert = $false
 
 #Install all the prereqs
 Add-WindowsFeature RSAT-ADDS, NET-Framework-Core, NET-Framework-45-Core, NET-Framework-45-ASPNET,`
@@ -41,7 +40,7 @@ Add-WindowsFeature RSAT-ADDS, NET-Framework-Core, NET-Framework-45-Core, NET-Fra
 
 
 #This allow to authenticate from a different domain, or with an account local to the remote server
-New-Itemproperty -name LocalAccountTokenFilterPolicy -path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System -propertyType DWord -value 1 -ErrorAction SilentlyContinue
+New-Itemproperty -name LocalAccountTokenFilterPolicy -path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System -propertyType DWord -value 1 -ErrorAction Continue
 
 # Enabling remote powershell + CredSSP ################## Credssp login is needed to request the certificate from a PS remote session
 Enable-PSRemoting
@@ -49,8 +48,10 @@ Enable-WSManCredSSP -Role client -DelegateComputer * -force
 Enable-WSManCredSSP -Role server -force
 
 #Enable AllowFreshCredentialsWhenNTLMOnly local group policy to be able to use credssp on a non domain joined machine
-New-Item -name AllowFreshCredentialsWhenNTLMOnly -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation -ItemType folder -ErrorAction SilentlyContinue
-New-Itemproperty -name 1 -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation\AllowFreshCredentialsWhenNTLMOnly -propertyType string -value wsman/* -ErrorAction SilentlyContinue
+New-Item -name AllowFreshCredentialsWhenNTLMOnly -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation -ItemType folder -ErrorAction Continue
+New-Itemproperty -name 1 -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation\AllowFreshCredentialsWhenNTLMOnly -propertyType string -value wsman/* -ErrorAction Continue
+New-ItemProperty -name AllowFreshCredentialsWhenNTLMOnly -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation -PropertyType Dword -value 1 -ErrorAction Continue
+New-ItemProperty -name ConcatenateDefaults_AllowFreshNTLMOnly -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation -PropertyType Dword -value 1 -ErrorAction Continue
 
 
 #	# Working variables
@@ -149,17 +150,18 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	net use G: $_Share /u:$_User $_sasToken
 	#start-sleep -Seconds 10 
 
-
-	if ($_PublicCert) {
-		$Edgecert = 'G:\cert\edge.'+$_DomainName+'.pfx'
-		#install the certificate that will be used for ADFS Service
-		Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath $Edgecert     
-	}
-	else {
 		#Request Internal Edge Private Certificate from RootCA
 		$certServerInternal = Request-CsCertificate -New -Type Internal -CA $CAName -FriendlyName "Internal Edge Certificate" -PrivateKeyExportable $True -AllSipDomain -Report $Logfilespath'20_Request-CsCertificate_Internal_EDGE.html'
 		Set-CsCertificate -Reference $certServerInternal -Type Internal -Report $Logfilespath'21_Set-CsCertificate-Webserver-Internal.html'
 
+
+	if ($_PublicCert) {
+		#Install External Edge Public Certificate from Shared Folder
+		$Edgecert = 'G:\cert\edge.'+$_DomainName+'.pfx'
+		$ExtCertThumbprint = (Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath $Edgecert).thumbprint   
+		Set-CsCertificate -Thumbprint $ExtCertThumbprint -Type AccessEdgeExternal,DataEdgeExternal,AudioVideoAuthentication -Report $Logfilespath'23_Set-CsCertificate-Webserver-External.html'
+	}
+	else {
 		#Request External Edge Private Certificate from RootCA
 		$certServerExternal = Request-CsCertificate -New -Type AccessEdgeExternal,DataEdgeExternal,AudioVideoAuthentication -CA $CAName -FriendlyName "External Edge Certificate" -Template webserver -PrivateKeyExportable $True -DomainName $_DomainName -Report $Logfilespath'22_Request-CsCertificate_Internal_EDGE.html'
 		Set-CsCertificate -Reference $certServerExternal -Type AccessEdgeExternal,DataEdgeExternal,AudioVideoAuthentication -Report $Logfilespath'23_Set-CsCertificate-Webserver-External.html'
