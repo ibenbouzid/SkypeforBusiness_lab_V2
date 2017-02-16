@@ -44,7 +44,7 @@ Import-DscResource -ModuleName PSDesiredStateConfiguration, xPendingReboot, xDis
       {
             SetScript = {
 
-                Add-WindowsFeature -name "Desktop-Experience","BITS","Server-Media-Foundation", -ErrorAction Continue   
+                Add-WindowsFeature -name "Desktop-Experience","BITS","Server-Media-Foundation" -ErrorAction Continue   
             }
             GetScript =  { @{} }
             TestScript = { $false }
