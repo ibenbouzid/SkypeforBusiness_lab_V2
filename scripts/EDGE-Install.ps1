@@ -21,6 +21,9 @@ Param (
         [string]$CAComputerName,
 
 		[Parameter(Mandatory)]
+        [string]$CertPassword,
+
+		[Parameter(Mandatory)]
         [string]$PublicCert
 
        )
@@ -135,6 +138,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
         $_sasToken,
 		$_DomainName,
 		$_CAComputerName,
+		$_certPassword,
 		$_PublicCert
     )
 	$Logfilespath = "G:\Logs\"
@@ -176,7 +180,7 @@ $pn = $sa.namespace("c:\ProgramData\Microsoft\Windows\Start Menu\Programs\Skype 
 $pn.invokeverb('taskbarpin')
 $pn = $sa.namespace("$env:ProgramFiles\Skype for Business Server 2015\Deployment").parsename('Deploy.exe')
 $pn.invokeverb('taskbarpin')
-}  -ArgumentList $PSScriptRoot, $Share, $User, $sasToken,$DomainName, $CAComputerName, $PublicCert
+}  -ArgumentList $PSScriptRoot, $Share, $User, $sasToken,$DomainName, $CAComputerName, $CertPassword, $PublicCert
 
 Disable-PSRemoting
 Disable-WSManCredSSP -role client

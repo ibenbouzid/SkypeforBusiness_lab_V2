@@ -50,6 +50,12 @@
         "description": "The Server Name of the Certificate Authority"
       }
     },
+    "CertPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The password of the pfx SSL certificate"
+      }
+    },
     "PublicCert": {
       "type": "bool",
       "metadata": {
@@ -108,7 +114,7 @@
           ]
         },
         "protectedsettings": {
-          "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File EDGE-Install.ps1 -DomainName ', parameters('domainName'),' -Username ', parameters('adminUsername'),' -Password ', parameters('adminPassword'),' -CAComputerName ', parameters('CAComputerName'), ' -Share ', parameters('_SfBshareLocation'),' -sasToken ', parameters('_SfBshareSasToken'),' -PublicCert ', parameters('PublicCert'))]"
+          "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File EDGE-Install.ps1 -DomainName ', parameters('domainName'),' -Username ', parameters('adminUsername'),' -Password ', parameters('adminPassword'),' -CAComputerName ', parameters('CAComputerName'), ' -Share ', parameters('_SfBshareLocation'),' -sasToken ', parameters('_SfBshareSasToken'), ' -CertPassword ', parameters('CertPassword'),' -PublicCert ', parameters('PublicCert'))]"
         }
       }
     }

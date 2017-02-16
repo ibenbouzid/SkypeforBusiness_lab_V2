@@ -898,6 +898,9 @@
           "CAComputerName": {
             "value": "[variables('VMservers').VMName[0]]"
           },
+          "CertPassword": {
+            "value": "[parameters('CertPassword')]"
+          },
           "PublicCert": {
             "value": "[parameters('PublicCertificate')]"
           }
