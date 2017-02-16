@@ -33,6 +33,7 @@ $SecurePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
 [PSCredential ]$DomainCreds = New-Object PSCredential ("$DomainName\$Username", $SecurePassword)
 $User=$Share
 $Share="\\"+$Share+".file.core.windows.net\skype"
+$PublicCertbool= [System.Convert]::ToBoolean($PublicCert)
 
 #Install all the prereqs
 Add-WindowsFeature RSAT-ADDS, NET-Framework-Core, NET-Framework-45-Core, NET-Framework-45-ASPNET,`
@@ -182,7 +183,7 @@ $pn = $sa.namespace("c:\ProgramData\Microsoft\Windows\Start Menu\Programs\Skype 
 $pn.invokeverb('taskbarpin')
 $pn = $sa.namespace("$env:ProgramFiles\Skype for Business Server 2015\Deployment").parsename('Deploy.exe')
 $pn.invokeverb('taskbarpin')
-}  -ArgumentList $PSScriptRoot, $Share, $User, $sasToken,$DomainName, $CAComputerName, $CertPassword, $PublicCert
+}  -ArgumentList $PSScriptRoot, $Share, $User, $sasToken,$DomainName, $CAComputerName, $CertPassword, $PublicCertbool
 
 Disable-PSRemoting
 Disable-WSManCredSSP -role client
