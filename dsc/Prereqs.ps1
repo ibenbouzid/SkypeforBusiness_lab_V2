@@ -40,7 +40,15 @@ Import-DscResource -ModuleName PSDesiredStateConfiguration, xPendingReboot, xDis
       #      GetScript =  { @{} }
       #      TestScript = { $false }
       #}
+	        Script PrereqsInstall 
+      {
+            SetScript = {
 
+                Add-WindowsFeature -name "Desktop-Experience","BITS","Server-Media-Foundation", -ErrorAction Continue   
+            }
+            GetScript =  { @{} }
+            TestScript = { $false }
+      }
 	    WindowsFeature DnsTools
 	    {
 	        Ensure = "Present"
