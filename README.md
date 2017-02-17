@@ -1,4 +1,4 @@
-# Azure SkypeforBusiness lab V2
+# Azure SkypeforBusiness lab V2 ---- Still in devlopement
 Azure template for a Skype for Business
 
 # Create a Skype for Business 2015 Standard Lab
