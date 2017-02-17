@@ -11,7 +11,7 @@ Param (
         [Parameter(Mandatory)]
         [PSCredential]$Admincreds,
 		    
-		[string]$Source = $null,
+		[string]$Source = "G:\sources\sxs",
 		[Int]$RetryCount=20,
         [Int]$RetryIntervalSec=30 )
 
@@ -43,8 +43,14 @@ Import-DscResource -ModuleName PSDesiredStateConfiguration, xPendingReboot, xDis
 	        Script PrereqsInstall 
       {
             SetScript = {
+			$share= "ukieb"
+			$sasToken = "nRabLGIiS5b3O8XPf8F0AI91uzNN4zxzDJePhDu1tXf6hH3iGYX1M1gR2AEhp1p9jUo8Tmf+ik2SjAHc7E89fw=="
+			$User=$Share
+			$Share="\\"+$Share+".file.core.windows.net\skype"
+			net use G: $Share /u:$User $sasToken
 
-                Add-WindowsFeature -name "Desktop-Experience","BITS","Server-Media-Foundation" -ErrorAction Continue   
+			Add-WindowsFeature -name "Desktop-Experience","BITS","Server-Media-Foundation" -Source $Source  -ErrorAction Continue
+
             }
             GetScript =  { @{} }
             TestScript = { $false }
@@ -79,155 +85,155 @@ Import-DscResource -ModuleName PSDesiredStateConfiguration, xPendingReboot, xDis
             #>
             Name = "Web-Server"
             Ensure = "Present"
-            #Source = $Source
+            Source = $Source
             }
         WindowsFeature WebAppDev
         {
             Name = "Web-App-Dev"
             Ensure = "Present"
-           # Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
             }
         WindowsFeature WebAspNet
         {
             Name = "Web-Asp-Net"
             Ensure = "Present"
-            #Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
             }
         WindowsFeature WebNetExt
         {
             Name = "Web-Net-Ext"
             Ensure = "Present"
-           # Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
             }
         WindowsFeature WebISAPIExt
         {
             Name = "Web-ISAPI-Ext"
             Ensure = "Present"
-           # Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
             }
         WindowsFeature WebISAPIFilter
         {
             Name = "Web-ISAPI-Filter"
             Ensure = "Present"
-            #Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
             }
         WindowsFeature WebLogLibraries
         {
             Name = "Web-Log-Libraries"
             Ensure = "Present"
-           # Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
             }
         WindowsFeature WebRequestMonitor
         {
             Name = "Web-Request-Monitor"
             Ensure = "Present"
-            #Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
         }
 		WindowsFeature WebHttpTracing
         {
             Name = "Web-Http-Tracing"
             Ensure = "Present"
-           # Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
         }
 		WindowsFeature WebBasicAuth
         {
             Name = "Web-Basic-Auth"
             Ensure = "Present"
-           # Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
         }
 		WindowsFeature WebWindowsAuth
         {
             Name = "Web-Windows-Auth"
             Ensure = "Present"
-           # Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
         }
 		WindowsFeature WebClientAuth
         {
             Name = "Web-Client-Auth"
             Ensure = "Present"
-            #Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
         }
 		WindowsFeature WebDynCompression
         {
             Name = "Web-Dyn-Compression"
             Ensure = "Present"
-            #Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
         }
 		WindowsFeature NETWCFHTTPActivation45
         {
             Name = "NET-WCF-HTTP-Activation45"
             Ensure = "Present"
-           # Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
         }
 		WindowsFeature WebAspNet45
         {
             Name = "Web-Asp-Net45"
             Ensure = "Present"
-            #Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
         }
         WindowsFeature WebMgmtTools
         {
             Name = "Web-Mgmt-Tools"
             Ensure = "Present"
-            #Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
             }
         WindowsFeature WebMgmtConsole
         {
             Name = "Web-Mgmt-Console"
             Ensure = "Present"
-           # Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
         }
 		WindowsFeature WebScriptingTools
         {
             Name = "Web-Scripting-Tools"
             Ensure = "Present"
-           # Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
             }
         WindowsFeature WebMgmtCompat
         {
             Name = "Web-Mgmt-Compat"
             Ensure = "Present"
-           # Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
         }
-        WindowsFeature BITS
-        {
-            Name = "BITS"
-            Ensure = "Present"
-           # Source = $Source
-            DependsOn = "[WindowsFeature]WebServerRole"
-        }
+        #WindowsFeature BITS
+        #{
+        #    Name = "BITS"
+        #    Ensure = "Present"
+        #    Source = $Source
+        #    DependsOn = "[WindowsFeature]WebServerRole"
+        #}
 		WindowsFeature WindowsIdentityFoundation
         {
             Name = "Windows-Identity-Foundation"
             Ensure = "Present"
-          #  Source = $Source
+            Source = $Source
             DependsOn = "[WindowsFeature]WebServerRole"
             }
-        WindowsFeature ServerMediaFoundation
-        {
-            Name = "Server-Media-Foundation"
-            Ensure = "Present"
-           # Source = $Source
-            DependsOn = "[WindowsFeature]WebServerRole"
-        }
+        #WindowsFeature ServerMediaFoundation
+        #{
+        #    Name = "Server-Media-Foundation"
+        #    Ensure = "Present"
+        #    Source = $Source
+        #    DependsOn = "[WindowsFeature]WebServerRole"
+        #}
          xWaitforDisk Disk2
         {
              DiskNumber = 2
@@ -239,13 +245,13 @@ Import-DscResource -ModuleName PSDesiredStateConfiguration, xPendingReboot, xDis
             DiskNumber = 2
             DriveLetter = "F"
         }
-		  WindowsFeature DesktopExperience
-        {
-            Name = "Desktop-Experience"
-            Ensure = "Present"
-           # Source = $Source
-            DependsOn = "[WindowsFeature]WebServerRole"
-        }
+		  #WindowsFeature DesktopExperience
+    #    {
+    #        Name = "Desktop-Experience"
+    #        Ensure = "Present"
+    #        Source = $Source
+    #        DependsOn = "[WindowsFeature]WebServerRole"
+    #    }
 	  xPendingReboot Reboot2
       { 
             Name = "AfterPrereqsInstall"

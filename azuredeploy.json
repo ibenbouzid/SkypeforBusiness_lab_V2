@@ -76,16 +76,31 @@
         "description": "The name of your ADFS service eg sts.contoso.com that is present in the SSL certificate "
       }
     },
-    "CertPassword": {
+    "STSPublicCertificate": {
+      "type": "bool",
+      "defaultValue": "true",
+      "metadata": {
+        "description": "Using public certificate"
+      }
+    },
+    "WAPPublicCertificate": {
+      "type": "bool",
+      "defaultValue": "true",
+      "metadata": {
+        "description": "Using public certificate"
+      }
+    },
+    "EdgePublicCertificate": {
+      "type": "bool",
+      "defaultValue": "true",
+      "metadata": {
+        "description": "Using public certificate"
+      }
+    },
+    "CertificatePassword": {
       "type": "securestring",
       "metadata": {
         "description": "The password of the pfx SSL certificate"
-      }
-    },
-    "PublicCertificate": {
-      "type": "bool",
-      "metadata": {
-        "description": "Using public certificate"
       }
     }
   },
@@ -797,8 +812,14 @@
           "StsServiceName": {
             "value": "[parameters('StsServiceName')]"
           },
+          "ADFS_CA_Name": {
+            "value": "[variables('VMservers').VMName[0]]"
+          },
+          "PublicCert": {
+            "value": "[parameters('STSPublicCertificate')]"
+          },
           "CertPassword": {
-            "value": "[parameters('CertPassword')]"
+            "value": "[parameters('CertificatePassword')]"
           }
         }
       }
@@ -850,10 +871,10 @@
             "value": "[variables('VMservers').VMIPaddr[2]]"
           },
           "CertPassword": {
-            "value": "[parameters('CertPassword')]"
+            "value": "[parameters('CertificatePassword')]"
           },
           "PublicCert": {
-            "value": "[parameters('PublicCertificate')]"
+            "value": "[parameters('WAPPublicCertificate')]"
           }
         }
       }
@@ -899,10 +920,10 @@
             "value": "[variables('VMservers').VMName[0]]"
           },
           "CertPassword": {
-            "value": "[parameters('CertPassword')]"
+            "value": "[parameters('CertificatePassword')]"
           },
           "PublicCert": {
-            "value": "[parameters('PublicCertificate')]"
+            "value": "[parameters('EdgePublicCertificate')]"
           }
         }
       }

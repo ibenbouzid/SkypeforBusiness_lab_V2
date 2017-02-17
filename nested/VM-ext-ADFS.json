@@ -55,6 +55,18 @@
       "metadata": {
         "description": "The password of the pfx SSL certificate"
       }
+    },
+    "ADFS_CA_Name": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of your AD CS internal CA"
+      }
+    },
+    "PublicCert": {
+      "type": "bool",
+      "metadata": {
+        "description": "Is public Certificate to use"
+      }
     }
   },
   "variables": {
@@ -109,11 +121,12 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "[concat(parameters('_artifactsLocation'), '/scripts/ADFS-Install.ps1')]"
+            "[concat(parameters('_artifactsLocation'), '/scripts/ADFS-Install.ps1')]",
+            "[concat(parameters('_artifactsLocation'), '/scripts/NewCertReq.ps1')]"
           ]
         },
         "protectedsettings": {
-          "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File ADFS-Install.ps1 -DomainName ', parameters('domainName'),' -Username ', parameters('adminUsername'),' -Password ', parameters('adminPassword'), ' -Share ', parameters('_SfBshareLocation'),' -sasToken ', parameters('_SfBshareSasToken'), ' -StsServiceName ', parameters('StsServiceName'),' -CertPassword ', parameters('CertPassword'))]"
+          "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File ADFS-Install.ps1 -DomainName ', parameters('domainName'),' -Username ', parameters('adminUsername'),' -Password ', parameters('adminPassword'), ' -Share ', parameters('_SfBshareLocation'),' -sasToken ', parameters('_SfBshareSasToken'), ' -StsServiceName ', parameters('StsServiceName'),' -CertPassword ', parameters('CertPassword'),' -CAComputerName ', parameters('ADFS_CA_Name'),' -PublicCert ', parameters('PublicCert'))]"
         }
       }
     }

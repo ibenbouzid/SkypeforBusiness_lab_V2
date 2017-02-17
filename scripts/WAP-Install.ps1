@@ -110,7 +110,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	Import-Certificate -Filepath $RootCA -CertStoreLocation Cert:\LocalMachine\Root
 
 	#Import STS service root CA   
-    $RootCAfilepath = "G:\cert\STS_RootCA.crt"
+    $RootCAfilepath = "G:\cert\SSL_RootCA.crt"
 	Import-Certificate -Filepath (get-childitem $RootCAfilepath) -CertStoreLocation Cert:\LocalMachine\Root -ErrorAction Continue
 
 	#install the certificate that will be used for ADFS Service

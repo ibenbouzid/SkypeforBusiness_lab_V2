@@ -21,7 +21,13 @@ Param (
         [string]$StsServiceName,
 
 		[Parameter(Mandatory)]
-        [string]$CertPassword
+        [string]$CertPassword,
+
+		[Parameter(Mandatory)]
+        [string]$CAComputerName,
+		[Parameter(Mandatory)]
+        [string]$PublicCert
+
        )
 
 $SecurePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
@@ -29,17 +35,18 @@ $SecurePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
 $SecureCertPassword = ConvertTo-SecureString -String $CertPassword -AsPlainText -Force
 $User=$Share
 $Share="\\"+$Share+".file.core.windows.net\skype"
+$PublicCertbool= [System.Convert]::ToBoolean($PublicCert)
 
 # ADFS Install
 Add-WindowsFeature ADFS-Federation -IncludeManagementTools
 
 # Enabling remote powershell + CredSSP as KDSRootkey command need a Cred SSP session to process
-#Enable-PSRemoting
-#Enable-WSManCredSSP -Role client -DelegateComputer * -force
-#Enable-WSManCredSSP -Role server -force
+Enable-PSRemoting
+Enable-WSManCredSSP -Role client -DelegateComputer * -force
+Enable-WSManCredSSP -Role server -force
 	
-Invoke-Command  -Credential $DomainCreds -ComputerName $env:COMPUTERNAME -ScriptBlock {
-#Invoke-Command  -Credential $DomainCreds -Authentication CredSSP -ComputerName $env:COMPUTERNAME -ScriptBlock {
+#Invoke-Command  -Credential $DomainCreds -ComputerName $env:COMPUTERNAME -ScriptBlock {
+Invoke-Command  -Credential $DomainCreds -Authentication CredSSP -ComputerName $env:COMPUTERNAME -ScriptBlock {
  
 	# Working variables
      param (
@@ -50,7 +57,9 @@ Invoke-Command  -Credential $DomainCreds -ComputerName $env:COMPUTERNAME -Script
 		$_certPassword,
 		$_stsServiceName,
 		$_DomainCreds,
-		$_DomainName
+		$_DomainName,
+		$_CAComputerName,
+		$_PublicCert
     )
 
     #connect to file share on storage account
@@ -59,18 +68,34 @@ Invoke-Command  -Credential $DomainCreds -ComputerName $env:COMPUTERNAME -Script
     #go to our packages scripts folder
     Set-Location $workingDir
 
-	#Import STS service root CA   
-    $RootCAfilepath = "G:\cert\STS_RootCA.crt"
-	Import-Certificate -Filepath (get-childitem $RootCAfilepath) -CertStoreLocation Cert:\LocalMachine\Root -ErrorAction Continue
 
-	#install the certificate that will be used for ADFS Service
-  	$STScert = 'G:\cert\sts.'+$_DomainName+'.pfx'
-    Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath $STScert  
-            
+    
+	if ($_PublicCert) {
+		#Import STS service root CA   
+		$RootCAfilepath = "G:\cert\STS_RootCA.crt"
+		Import-Certificate -Filepath (get-childitem $RootCAfilepath) -CertStoreLocation Cert:\LocalMachine\Root -ErrorAction Continue
+
+		#install the certificate that will be used for ADFS Service
+		$STScert = 'G:\cert\sts.'+$_DomainName+'.pfx'
+		Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath $STScert  
+	}
+	else {
+		
+		# Private CA for Online Request
+		$CertificateAuthority = $_CAComputerName+'.'+$_DomainName+'\'+$_DomainName+'-CA'
+	
+		Import-Module .\NewCertReq.ps1
+		# Request Web Application Proxy certificate
+		New-CertificateRequest -subject $_stsServiceName -OnlineCA $CertificateAuthority
+  	}   
+	 
 	#get thumbprint of certificate
 	#$cert = Get-ChildItem -Path Cert:\LocalMachine\my | ?{$_.Subject -eq "CN=$_stsServiceName, OU=Free SSL, OU=Domain Control Validated"} 
 	$certificateThumbprint = (get-childitem Cert:\LocalMachine\My | where {$_.subject -eq "CN="+$_stsServiceName} | Sort-Object -Descending NotBefore)[0].thumbprint
  
+	$STScert = 'G:\share\sts.'+$_DomainName+'.pfx'
+    Export-pfxCertificate -Cert (get-childitem Cert:\LocalMachine\My | where {$_.subject -like $_stsServiceName}) -FilePath $STScert -Password $_certPassword -Force
+
 	#Configure ADFS Farm
     Import-Module ADFS
  
@@ -85,10 +110,10 @@ Invoke-Command  -Credential $DomainCreds -ComputerName $env:COMPUTERNAME -Script
    $pn = $sa.namespace("C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Administrative Tools").parsename('Windows PowerShell ISE.lnk')
    $pn.invokeverb('taskbarpin')
 
-} -ArgumentList $PSScriptRoot, $Share, $User, $sasToken, $SecureCertPassword, $StsServiceName, $DomainCreds, $DomainName
+} -ArgumentList $PSScriptRoot, $Share, $User, $sasToken, $SecureCertPassword, $StsServiceName, $DomainCreds, $DomainName, $CAComputerName, $PublicCertbool
 
 
-#Disable-PSRemoting
-#Disable-WSManCredSSP -role client
-#Disable-WSManCredSSP -role server
+Disable-PSRemoting
+Disable-WSManCredSSP -role client
+Disable-WSManCredSSP -role server
 Restart-Computer
