@@ -173,18 +173,6 @@ Write-Verbose "Installing local configuration store @ $(Get-Date)"
 ## Install Local configuration Store (replica of CMS) within RTCLOCAL
 #Install-CSDatabase -ConfiguredDatabases -SqlServerFqdn $Computer -DatabasePaths $Databasespaths -Report $Logfilespath'07_InstallLocalstoreDatabases.html'
 
-## Filling the local configuration store RTClocal and enabling Replica
-$CSConfigExp = Export-csconfiguration -asbytes
-Import-CsConfiguration -Byteinput $CSConfigExp -Localstore
-Enable-CsReplica -Report $Logfilespath'08_Enable-CsReplica.html'
-Start-CSwindowsService Replica -Report $Logfilespath'09_Start-CSwindowsService-Replica.html'
-
-## Install Lync Component
-& 'C:\Program Files\Skype for Business Server 2015\Deployment\Bootstrapper.exe' /SourceDirectory:"G:\SfBServer2015\Setup\amd64"
-
-##install local databases contained in SQL instances RTCLOCAL and LYNCLOCAL
-Install-CSDatabase -ConfiguredDatabases -SqlServerFqdn $Computer -DatabasePaths $Databasespaths -Report $Logfilespath'07_InstallLocalstoreDatabases.html'
-
 ## DNS Records ## if your SIPdomain = Internal AD Domain
 
 $lyncIP = Get-NetAdapter | Get-NetIPAddress -AddressFamily IPv4
@@ -203,6 +191,20 @@ $simpleUrl3 = New-CsSimpleUrl -Component "Cscp" -Domain "*" -SimpleUrlEntry $url
 
 Remove-CsSimpleUrlConfiguration -Identity "Global"     
 set-CsSimpleUrlConfiguration -Identity "Global" -SimpleUrl @{Add=$simpleUrl1,$simpleUrl2,$simpleUrl3}
+
+## Filling the local configuration store RTClocal and enabling Replica
+$CSConfigExp = Export-csconfiguration -asbytes
+Import-CsConfiguration -Byteinput $CSConfigExp -Localstore
+Enable-CsReplica -Report $Logfilespath'08_Enable-CsReplica.html'
+Start-CSwindowsService Replica -Report $Logfilespath'09_Start-CSwindowsService-Replica.html'
+
+## Install Lync Component
+& 'C:\Program Files\Skype for Business Server 2015\Deployment\Bootstrapper.exe' /SourceDirectory:"G:\SfBServer2015\Setup\amd64"
+
+##install local databases contained in SQL instances RTCLOCAL and LYNCLOCAL
+Install-CSDatabase -ConfiguredDatabases -SqlServerFqdn $Computer -DatabasePaths $Databasespaths -Report $Logfilespath'07_InstallLocalstoreDatabases.html'
+
+#enable the FE01 computer
 Enable-CsComputer -Report $Logfilespath'10_Enable-CsComputer.html'
 
 
