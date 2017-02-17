@@ -255,7 +255,7 @@ Import-DscResource -ModuleName PSDesiredStateConfiguration, xPendingReboot, xDis
 	  xPendingReboot Reboot2
       { 
             Name = "AfterPrereqsInstall"
-			DependsOn = "[WindowsFeature]DesktopExperience", "[cDiskNoRestart]ADDataDisk"
+			DependsOn = "[WindowsFeature]PrereqsInstall", "[cDiskNoRestart]ADDataDisk"
       }
 
 	  LocalConfigurationManager 
