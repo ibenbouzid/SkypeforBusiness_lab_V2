@@ -98,8 +98,12 @@ $RootCA= "G:\Share\"+$_DomainName+"-CA.crt"
 $CAName = $_CAComputerName+'.'+$_DomainName+'\'+$_DomainName+'-CA'
 #$CAName = $CAComputerName+'.'+$_DomainName+'\csalab-VM-SFB-AD01-CA'
 
-#Import RootCA Certificate to Trusted Root Store
+#Import private AD RootCA Certificate to Trusted Root Store
 Import-Certificate -Filepath $RootCA -CertStoreLocation Cert:\LocalMachine\Root
+
+#Import public SSL Root CA if any  
+$RootCAfilepath = "G:\cert\SSL_RootCA.crt"
+Import-Certificate -Filepath (get-childitem $RootCAfilepath) -CertStoreLocation Cert:\LocalMachine\Root -ErrorAction Continue
 
 start-sleep -Seconds 10
 & 'C:\Program Files\Skype for Business Server 2015\Deployment\bootstrapper.exe' /Bootstraplocalmgmt /SourceDirectory:"G:\SfBServer2015\Setup\amd64"

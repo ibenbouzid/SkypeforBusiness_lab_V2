@@ -105,16 +105,16 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
             Add-Content -Path $hostsFile -Value $NewHostEntry;
 	  }
 	
-	#Import ADFS root CA
+	#Import Private AD Root CA
 	$RootCA= "G:\Share\"+$_DomainName+"-CA.crt"
 	Import-Certificate -Filepath $RootCA -CertStoreLocation Cert:\LocalMachine\Root
 
-	#Import STS service root CA   
+	#Import Public SSL Root CA if any   
     $RootCAfilepath = "G:\cert\SSL_RootCA.crt"
 	Import-Certificate -Filepath (get-childitem $RootCAfilepath) -CertStoreLocation Cert:\LocalMachine\Root -ErrorAction Continue
 
 	#install the certificate that will be used for ADFS Service
-	$STScert = 'G:\cert\sts.'+$_DomainName+'.pfx'
+	$STScert = 'G:\Share\sts.'+$_DomainName+'.pfx'
     Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath $STScert     
 	
 

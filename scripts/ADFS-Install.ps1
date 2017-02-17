@@ -71,11 +71,11 @@ Invoke-Command  -Credential $DomainCreds -Authentication CredSSP -ComputerName $
 
     
 	if ($_PublicCert) {
-		#Import STS service root CA   
-		$RootCAfilepath = "G:\cert\STS_RootCA.crt"
+		#Import public STS service root CA   
+		$RootCAfilepath = "G:\cert\SSL_RootCA.crt"
 		Import-Certificate -Filepath (get-childitem $RootCAfilepath) -CertStoreLocation Cert:\LocalMachine\Root -ErrorAction Continue
 
-		#install the certificate that will be used for ADFS Service
+		#Install the certificate that will be used for ADFS Service
 		$STScert = 'G:\cert\sts.'+$_DomainName+'.pfx'
 		Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath $STScert  
 	}
@@ -93,8 +93,9 @@ Invoke-Command  -Credential $DomainCreds -Authentication CredSSP -ComputerName $
 	#$cert = Get-ChildItem -Path Cert:\LocalMachine\my | ?{$_.Subject -eq "CN=$_stsServiceName, OU=Free SSL, OU=Domain Control Validated"} 
 	$certificateThumbprint = (get-childitem Cert:\LocalMachine\My | where {$_.subject -eq "CN="+$_stsServiceName} | Sort-Object -Descending NotBefore)[0].thumbprint
  
+	#Export the STS certificate into the shared folder
 	$STScert = 'G:\share\sts.'+$_DomainName+'.pfx'
-    Export-pfxCertificate -Cert (get-childitem Cert:\LocalMachine\My | where {$_.subject -like $_stsServiceName}) -FilePath $STScert -Password $_certPassword -Force
+    Export-pfxCertificate -Cert (get-childitem Cert:\LocalMachine\My\$certificateThumbprint) -FilePath $STScert -Password $_certPassword -Force
 
 	#Configure ADFS Farm
     Import-Module ADFS
