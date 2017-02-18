@@ -52,7 +52,7 @@ Enable-WSManCredSSP -Role server -force
 #Enable AllowFreshCredentialsWhenNTLMOnly local group policy to be able to use credssp on a non domain joined machine
 New-Item 'HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation\AllowFreshCredentialsWhenNTLMOnly' -force -ErrorAction Continue
 
-New-Itemproperty -name 1 -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation\AllowFreshCredentialsWhenNTLMOnly -propertyType string -value wsman/* -ErrorAction Continue
+New-Itemproperty -name 1 -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation\AllowFreshCredentialsWhenNTLMOnly -propertyType string -value wsman/* -Force -ErrorAction Continue
 New-ItemProperty -name AllowFreshCredentialsWhenNTLMOnly -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation -PropertyType Dword -value 1 -ErrorAction Continue
 New-ItemProperty -name ConcatenateDefaults_AllowFreshNTLMOnly -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation -PropertyType Dword -value 1 -ErrorAction Continue
 

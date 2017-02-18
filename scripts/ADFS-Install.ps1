@@ -41,7 +41,7 @@ $PublicCertbool= [System.Convert]::ToBoolean($PublicCert)
 Add-WindowsFeature ADFS-Federation -IncludeManagementTools
 
 #This allow to authenticate from a different domain, or with an account local to the remote server
-New-Itemproperty -name LocalAccountTokenFilterPolicy -path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System -propertyType DWord -value 1 -ErrorAction SilentlyContinue
+New-Itemproperty -name LocalAccountTokenFilterPolicy -path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System -propertyType DWord -value 1 -Force -ErrorAction SilentlyContinue
 
 # Enabling remote powershell + CredSSP as KDSRootkey command need a Cred SSP session to process
 #Enable-PSRemoting
@@ -52,8 +52,9 @@ Enable-WSManCredSSP -Role server -force
 #In windows server 2016 Enable-WSManCredSSP create the AllowFreshCredentialsWhenNTLMOnly by default but with the server name without the dns prefix we have to remove the value and recreate with *
 #New-Item -name AllowFreshCredentialsWhenNTLMOnly -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation -ItemType folder -ErrorAction Continue
 New-Item 'HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation\AllowFreshCredentialsWhenNTLMOnly' -force -ErrorAction Continue
-Remove-ItemProperty -name 1 -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation\AllowFreshCredentialsWhenNTLMOnly -ErrorAction Continue
-New-Itemproperty -name 1 -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation\AllowFreshCredentialsWhenNTLMOnly -propertyType string -value "wsman/*" -ErrorAction Continue
+New-Itemproperty -name 1 -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation\AllowFreshCredentialsWhenNTLMOnly -propertyType string -value "wsman/*" -Force -ErrorAction Continue
+New-ItemProperty -name AllowFreshCredentialsWhenNTLMOnly -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation -PropertyType Dword -value 1 -ErrorAction Continue
+New-ItemProperty -name ConcatenateDefaults_AllowFreshNTLMOnly -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation -PropertyType Dword -value 1 -ErrorAction Continue
 
 
 #Invoke-Command  -Credential $DomainCreds -ComputerName $env:COMPUTERNAME -ScriptBlock {
@@ -126,6 +127,6 @@ Invoke-Command  -Credential $DomainCreds -Authentication CredSSP -ComputerName $
 
 
 #Disable-PSRemoting
-Disable-WSManCredSSP -role client
-Disable-WSManCredSSP -role server
+#Disable-WSManCredSSP -role client
+#Disable-WSManCredSSP -role server
 Restart-Computer
