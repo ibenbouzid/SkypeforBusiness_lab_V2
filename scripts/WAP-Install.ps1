@@ -54,9 +54,10 @@ Enable-WSManCredSSP -Role server -force
 
 #Enable AllowFreshCredentialsWhenNTLMOnly local group policy to be able to use credssp on a non domain joined machine
 #In windows server 2016 Enable-WSManCredSSP create the AllowFreshCredentialsWhenNTLMOnly by default but with the server name without the dns prefix we have to remove the value and recreate with *
-New-Item -name AllowFreshCredentialsWhenNTLMOnly -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation -ItemType folder -ErrorAction SilentlyContinue
-Remove-ItemProperty -name 1 -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation\AllowFreshCredentialsWhenNTLMOnly -ErrorAction SilentlyContinue
-New-Itemproperty -name 1 -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation\AllowFreshCredentialsWhenNTLMOnly -propertyType string -value "wsman/*" -ErrorAction SilentlyContinue
+#New-Item -name AllowFreshCredentialsWhenNTLMOnly -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation -ItemType folder -ErrorAction Continue
+New-Item 'HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation\AllowFreshCredentialsWhenNTLMOnly' -force -ErrorAction Continue
+Remove-ItemProperty -name 1 -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation\AllowFreshCredentialsWhenNTLMOnly -ErrorAction Continue
+New-Itemproperty -name 1 -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation\AllowFreshCredentialsWhenNTLMOnly -propertyType string -value "wsman/*" -ErrorAction Continue
 
 
 Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $env:COMPUTERNAME -ScriptBlock {
