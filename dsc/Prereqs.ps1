@@ -27,7 +27,7 @@ Import-DscResource -ModuleName PSDesiredStateConfiguration, xPendingReboot, xDis
       #{ 
       #      Name = "BeforePrereqsInstall"
       #}
-      # Script PrereqsInstall 
+      # Script PrereqsInstall
       #{
       #      SetScript = {
 
@@ -40,7 +40,7 @@ Import-DscResource -ModuleName PSDesiredStateConfiguration, xPendingReboot, xDis
       #      GetScript =  { @{} }
       #      TestScript = { $false }
       #}
-	        Script PrereqsInstall 
+	  Script PrereqsInstall
       {
             SetScript = {
 			$share= "ukieb"
@@ -255,7 +255,7 @@ Import-DscResource -ModuleName PSDesiredStateConfiguration, xPendingReboot, xDis
 	  xPendingReboot Reboot2
       { 
             Name = "AfterPrereqsInstall"
-			DependsOn = "[WindowsFeature]PrereqsInstall", "[cDiskNoRestart]ADDataDisk"
+			DependsOn = "[WindowsFeature]WindowsIdentityFoundation", "[cDiskNoRestart]ADDataDisk"
       }
 
 	  LocalConfigurationManager 
