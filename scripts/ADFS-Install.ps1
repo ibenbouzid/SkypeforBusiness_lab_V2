@@ -109,9 +109,9 @@ Invoke-Command  -Credential $DomainCreds -Authentication CredSSP -ComputerName $
 
 	#Configure ADFS Farm
     Import-Module ADFS
- 
+	$FSDisplayName = "Welcome to "+ $_DomainName
 	Install-AdfsFarm -CertificateThumbprint $certificateThumbprint -FederationServiceName $_stsServiceName -Credential $_DomainCreds `
-	 -FederationServiceDisplayName "SFBlab AD Federation Service" -ServiceAccountCredential $_DomainCreds -OverwriteConfiguration 
+	 -FederationServiceDisplayName $FSDisplayName -ServiceAccountCredential $_DomainCreds -OverwriteConfiguration 
 
 	#Remove installation file Drive
 	net use G: /d
