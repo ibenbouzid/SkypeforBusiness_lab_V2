@@ -91,7 +91,7 @@ Import-Module "C:\Program Files\Common Files\Skype for Business Server 2015\Modu
 
 ## Variables ##
 $_DomainName = $DomainName
-$Logfilespath = "G:\Logs\"
+$Logfilespath = "G:\Logs\"+$_DomainName+'\'
 $Databasespaths= "F:\SQLLogs","F:\SQLData"
 $CSConfigExp = 'G:\Share\Config'+$_DomainName+'.zip'
 $RootCA= "G:\Share\"+$_DomainName+"-CA.crt"
