@@ -93,10 +93,10 @@ Invoke-Command  -Credential $DomainCreds -Authentication CredSSP -ComputerName $
 		
 		# Private CA for Online Request
 		$CertificateAuthority = $_CAComputerName+'.'+$_DomainName+'\'+$_DomainName+'-CA'
-	
+	    $stsSubjectCN = "CN=" + $_stsServiceName
 		Import-Module .\NewCertReq.ps1
 		# Request Web Application Proxy certificate
-		New-CertificateRequest -subject $_stsServiceName -OnlineCA $CertificateAuthority
+		New-CertificateRequest -subject $stsSubjectCN -OnlineCA $CertificateAuthority
   	}   
 	 
 	#get thumbprint of certificate
