@@ -49,7 +49,7 @@ Import-DscResource -ModuleName PSDesiredStateConfiguration, xPendingReboot, xDis
 			$Share="\\"+$Share+".file.core.windows.net\skype"
 			net use G: $Share /u:$User $sasToken
 
-			Add-WindowsFeature -name "Desktop-Experience","BITS","Server-Media-Foundation" -Source $Source  -ErrorAction Continue
+			Add-WindowsFeature -name "Desktop-Experience","BITS","Server-Media-Foundation" -Source $using:Source  -ErrorAction Continue
 
             }
             GetScript =  { @{} }
