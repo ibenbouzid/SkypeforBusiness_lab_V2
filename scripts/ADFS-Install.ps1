@@ -40,8 +40,11 @@ $PublicCertbool= [System.Convert]::ToBoolean($PublicCert)
 # ADFS Install
 Add-WindowsFeature ADFS-Federation -IncludeManagementTools
 
+#This allow to authenticate from a different domain, or with an account local to the remote server
+New-Itemproperty -name LocalAccountTokenFilterPolicy -path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System -propertyType DWord -value 1 -ErrorAction SilentlyContinue
+
 # Enabling remote powershell + CredSSP as KDSRootkey command need a Cred SSP session to process
-Enable-PSRemoting
+#Enable-PSRemoting
 Enable-WSManCredSSP -Role client -DelegateComputer * -force
 Enable-WSManCredSSP -Role server -force
 	
@@ -94,7 +97,7 @@ Invoke-Command  -Credential $DomainCreds -Authentication CredSSP -ComputerName $
 	$certificateThumbprint = (get-childitem Cert:\LocalMachine\My | where {$_.subject -eq "CN="+$_stsServiceName} | Sort-Object -Descending NotBefore)[0].thumbprint
  
 	#Export the STS certificate into the shared folder
-	$STScert = 'G:\share\sts.'+$_DomainName+'.pfx'
+	$STScert = 'G:\Share\sts.'+$_DomainName+'.pfx'
     Export-pfxCertificate -Cert (get-childitem Cert:\LocalMachine\My\$certificateThumbprint) -FilePath $STScert -Password $_certPassword -Force
 
 	#Configure ADFS Farm
@@ -114,7 +117,7 @@ Invoke-Command  -Credential $DomainCreds -Authentication CredSSP -ComputerName $
 } -ArgumentList $PSScriptRoot, $Share, $User, $sasToken, $SecureCertPassword, $StsServiceName, $DomainCreds, $DomainName, $CAComputerName, $PublicCertbool
 
 
-Disable-PSRemoting
+#Disable-PSRemoting
 Disable-WSManCredSSP -role client
 Disable-WSManCredSSP -role server
 Restart-Computer
