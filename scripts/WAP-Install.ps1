@@ -138,7 +138,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 		New-CertificateRequest -subject $CertificateWAPsubjectCN -SANs $CertificateWAPsans -OnlineCA $CertificateAuthority
 
 		#Get thumbprint of WAP certificate
-		$CertificateWAPThumbprint = (dir Cert:\LocalMachine\My | where {$_.subject -match $CertificateWAPsubject}).thumbprint
+		$CertificateWAPThumbprint = (dir Cert:\LocalMachine\My | where {$_.subject -match $CertificateWAPsubject})[0].thumbprint
  
  	}
 
