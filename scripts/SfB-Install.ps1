@@ -100,9 +100,10 @@ $Sbase = "CN=Configuration,"+$Domain.DistinguishedName
 $fileshareName = "LyncShare"
 $filesharepath = "F:\"+$fileshareName
 $Databasespaths= "F:\SQLLogs","F:\SQLData"
-$Logfilespath = "G:\Logs\"
+$Logfilespath = "G:\Logs\"+$DomainDNSName+'\'
 $NewTopologypath="F:\"+$domain.DNSRoot+"Topology.xml"
 New-Item G:\Share,G:\Logs -type directory -ErrorAction SilentlyContinue
+New-Item $Logfilespath -type directory -ErrorAction SilentlyContinue
 
 ## Prepare the AD Forest
 Install-CSAdServerSchema -Confirm:$false -Verbose -Report $Logfilespath"01_Install-CSAdServerSchema.html"
