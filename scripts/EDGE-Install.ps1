@@ -149,7 +149,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 		$_certPassword,
 		$_PublicCert
     )
-	$Logfilespath = "G:\Logs\"
+	$Logfilespath = "G:\Logs\"+$_DomainName+'\'
 	#$CAName = $_CAComputerName+'.'+$_DomainName+'\csalab-VM-SFB-AD01-CA'
 	$CAName = $_CAComputerName+'.'+$_DomainName+'\'+$_DomainName+'-CA'
 

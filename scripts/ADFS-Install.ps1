@@ -37,9 +37,6 @@ $User=$Share
 $Share="\\"+$Share+".file.core.windows.net\skype"
 $PublicCertbool= [System.Convert]::ToBoolean($PublicCert)
 
-# ADFS Install
-Add-WindowsFeature ADFS-Federation -IncludeManagementTools
-
 #This allow to authenticate from a different domain, or with an account local to the remote server
 New-Itemproperty -name LocalAccountTokenFilterPolicy -path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System -propertyType DWord -value 1 -Force -ErrorAction SilentlyContinue
 
@@ -56,6 +53,8 @@ New-Itemproperty -name 1 -path HKLM:\Software\Policies\Microsoft\Windows\Credent
 New-ItemProperty -name AllowFreshCredentialsWhenNTLMOnly -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation -PropertyType Dword -value 1 -ErrorAction Continue
 New-ItemProperty -name ConcatenateDefaults_AllowFreshNTLMOnly -path HKLM:\Software\Policies\Microsoft\Windows\CredentialsDelegation -PropertyType Dword -value 1 -ErrorAction Continue
 
+# ADFS Install
+Add-WindowsFeature ADFS-Federation -IncludeManagementTools
 
 #Invoke-Command  -Credential $DomainCreds -ComputerName $env:COMPUTERNAME -ScriptBlock {
 Invoke-Command  -Credential $DomainCreds -Authentication CredSSP -ComputerName $env:COMPUTERNAME -ScriptBlock {
