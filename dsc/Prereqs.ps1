@@ -43,13 +43,8 @@ Import-DscResource -ModuleName PSDesiredStateConfiguration, xPendingReboot, xDis
 	  Script PrereqsInstall
       {
             SetScript = {
-			$share= "ukieb"
-			$sasToken = "nRabLGIiS5b3O8XPf8F0AI91uzNN4zxzDJePhDu1tXf6hH3iGYX1M1gR2AEhp1p9jUo8Tmf+ik2SjAHc7E89fw=="
-			$User=$Share
-			$Share="\\"+$Share+".file.core.windows.net\skype"
-			net use G: $Share /u:$User $sasToken
 
-			Add-WindowsFeature -name "Desktop-Experience","BITS","Server-Media-Foundation" -Source $using:Source  -ErrorAction Continue
+			Add-WindowsFeature -name "Desktop-Experience","BITS","Server-Media-Foundation"  -ErrorAction Continue
 
             }
             GetScript =  { @{} }

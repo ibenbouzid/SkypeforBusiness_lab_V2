@@ -223,6 +223,24 @@
       }
     },
     {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/loadBalancers/inboundNatRules",
+      "name": "[concat('/',parameters('LoadBalancerName'),'/',parameters('VMName'),'-AVSTUN')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "VM-LBNAT-Rule-AVSTUN"
+      },
+      "properties": {
+        "frontendIPConfiguration": {
+          "id": "[variables('LBFEid')]"
+        },
+        "protocol": "tcp",
+        "frontendPort": 3478,
+        "backendPort": 3478,
+        "enableFloatingIP": false
+      }
+    },
+    {
       "name": "[variables('VM-NICName-INT')]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[resourceGroup().location]",
