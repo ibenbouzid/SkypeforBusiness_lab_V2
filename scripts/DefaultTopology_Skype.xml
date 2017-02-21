@@ -60,6 +60,9 @@
         </Dependency>
         <Dependency Usage="Default">
           <ServiceId SiteId="1" RoleName="WebServices" Instance="1" />
+        </Dependency>        
+          <Dependency Usage="Default">
+          <ServiceId SiteId="1" RoleName="EdgeServer" Instance="1" />
         </Dependency>
       </DependsOn>
       <InstalledOn>
@@ -174,6 +177,9 @@
         <Dependency Usage="Default">
           <ServiceId SiteId="1" RoleName="UserServices" Instance="1" />
         </Dependency>
+        <Dependency Usage="Default">
+          <ServiceId SiteId="1" RoleName="EdgeServer" Instance="1" />
+        </Dependency>
       </DependsOn>
       <InstalledOn>
         <ClusterId SiteId="1" Number="1" />
@@ -205,6 +211,9 @@
       <DependsOn>
         <Dependency Usage="Default">
           <ServiceId SiteId="1" RoleName="Registrar" Instance="1" />
+        </Dependency>
+        <Dependency Usage="Default">
+          <ServiceId SiteId="1" RoleName="EdgeServer" Instance="1" />
         </Dependency>
       </DependsOn>
       <InstalledOn>
