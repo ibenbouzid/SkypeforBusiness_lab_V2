@@ -241,7 +241,7 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet
 
 
 #Enable external Edge access and federation
-Set-CsAccessEdgeConfiguration -Identity "Global" -AllowAnonymousUsers $true -AllowFederatedUsers $True -AllowOutsideUsers $True 
+Set-CsAccessEdgeConfiguration -Identity "Global" -AllowAnonymousUsers $true -AllowFederatedUsers $True -AllowOutsideUsers $True -UseDnsSrvRouting -EnablePartnerDiscovery $True
 Set-CsExternalAccessPolicy -Identity "Global" -EnableFederationAccess $True -EnableOutsideAccess $True
 
 #Export the topology for the Edge srever
