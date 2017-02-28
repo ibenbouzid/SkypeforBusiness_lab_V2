@@ -1,10 +1,17 @@
-# Azure SkypeforBusiness lab V2 ---- Still in devlopement
+# Azure SkypeforBusiness lab V2
 Azure template for a Skype for Business
 
 # Create a Skype for Business 2015 Standard Lab
 
-This template will deploy a complete Skype for Business 2015 setup in a minimum of 2hr35min, a kind of onpremises deployment lab, mainly for training and test purpose. 
-For this first release, it includes 3 VM's 1 AD Domain Controler , 1 SfB Front End server and 1 Windows 10 client which include Skype client. Edge Server, Reverse Proxy and ADFS will be added shortly in order to setup external connectivity as well as hybrid labs with Office365 CloudPBX.
+This template will deploy and configure automatically a complete Skype for Business 2015 setup in a minimum of #3hr30min, a kind of onprem deployment lab, mainly for training and test purpose. 
+This the second focus on Skype Hybrid with Shared Sip config with Office 365 which includes :
+- VM-SFB-AD01 Active Directory
+- VM-SFB-FE01 Skype for Business Front End Standard Edition
+- VM-SFB-ADFS01 Adctive Directory Federation Service server mandatory for WAP reverse proxy deployment and used for SSO with Azure Active Directory
+- VM-SFB-RP01 Reverse Proxy that publish Federation service and Skype URLs
+- VM-SFB-EDGE01 Skype For Business EDGE Server fro remote connectivity, Hybrid and Federation purpose.
+
+The Azure template will create the VM's, perform the installation of domain controller, windows feature , SfB software and perform all the configuration up to the creation of users. Azure DSC and scrpit extentions are leveraged.
 
 Before starting the deployment there is some steps to follow:
 
@@ -12,8 +19,9 @@ Before starting the deployment there is some steps to follow:
 2. Create a correct folder structure where to put SfB software see below
 3. Download Skype for Business 2015 eval software and put the content of the ISO in "\skype\SfBserver2015\"
 4. Download Skype Basic or Skype 2016 eval, rename it to "setup.exe" and put it in "\skype\SfB2016\"
-5. Download Silverlight_x64.exe and put it in "\skype" folder
+5. Download Silverlight_x64.exe and Azure AD connect and put it in "\skype" folder
 6. Download 3 mandatory Windows Server 2012 updtates (KB2919355, KB2919442, KB2982006) and put them into "\Skype" folder
+7. Depending on whether Hybrid is needed or not a certificate request for public CA will be needed prior to installation (see below for guidlines)
 7. Then Click the button below to deploy
 8. You will have to fill some parameters like your storage account name and the sastoken as well as some other mandatory parameters like the dns prefix of your lab. Please remember to use only numbers plus lower case letters for your resource group name because it is concatenated to create a storage account name which support only lower case. Use Western Europe instead of Uk south it doesn't support yet the types of VM's used.
 
@@ -49,6 +57,22 @@ https://www.microsoft.com/en-gb/evalcenter/evaluate-skype-for-business-server
 And the Skype 2016 or Basic client Here
 https://products.office.com/en-gb/skype-for-business/download-app?tab=tabs-3
 
+Azure AD connect :
+https://www.microsoft.com/en-us/download/details.aspx?id=47594
+
+# Certificate Guidlines
+The lab will need 3 certificates that will be exposed externally:
+- sts.yourdomain.com.pfx (SSL for federation service url: whatever you want eg : sts.yourdomain.com)
+- wap.yourdomain.com.pfx (SAN for Skype urls:SN:webext.yourdomain.com CN:webext.yourdomain.com,dialin.yourdomain.com,meet.yourdomain.com,lyncdiscover.yourdomain.com)
+- edge.yourdomain.com.pfx (SSL for Access edge : sip.yourdomain.com)
+For each of theses certificates the template gives you the option whether public or private. If Public is set to "false" the template will request a private CA from the domain controler. If public is set to "true" the template will expect that a public certificates is available and will try to download it from your storage account using the path "skype\cert"
+One could be set to public and others to private for example if you are not able to buy a SAN certificate for WAP you could get a free Public SSL for the federation service this will enable hybrid and ADFS SSO testing but not Shared sip configuration.
+
+It is possible to get free SSL trough the Let's encrypt project : https://www.sslforfree.com/
+Because not all public CA's are deployed to servers but mainly client you could add your public root CA into the folder "Skype\cert" with the name "SSL_RootCA.crt"
+
+Certificate names: please respect carefully the certificate names above and give care to the case otherwise your 3 houres deployment will be unsucessful. Thoses certificates should be in pfx format (except SSL_RootCA.crt) and use the same password. There is many ways to convert other certificates format to pfx just ask the web.
+
 # How to fillin parameters
 
  "dnsPrefix":  The DNS prefix for the public IP address used by the Load Balancer
@@ -59,9 +83,8 @@ https://products.office.com/en-gb/skype-for-business/download-app?tab=tabs-3
      
  "adminPassword": The password for the Administrator account: must be at least 12 caracters
     
-"_artifactsLocation":  The location of resources such as templates and DSC modules that the script is dependent. Don't Change the defaultValue: "https://raw.githubusercontent.com/ibenbouzid/Azure_sfb2015_lab/master"
-   
  "ShareLocation": the name of your azure storage account - not the url - eg "mystorage" where you created your "skype" folder with all the source files 
  
  "ShareAccessKey": The token to used to access your storage account. You can find it on your storage account settings.
+
 
