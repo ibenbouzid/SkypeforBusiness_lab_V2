@@ -65,6 +65,7 @@ The lab will need 3 certificates that will be exposed externally:
 - sts.yourdomain.com.pfx (SSL for federation service url: whatever you want eg : sts.yourdomain.com)
 - wap.yourdomain.com.pfx (SAN for Skype urls:SN:webext.yourdomain.com CN:webext.yourdomain.com,dialin.yourdomain.com,meet.yourdomain.com,lyncdiscover.yourdomain.com)
 - edge.yourdomain.com.pfx (SSL for Access edge : sip.yourdomain.com)
+
 For each of theses certificates the template gives you the option whether public or private. If Public is set to "false" the template will request a private CA from the domain controler. If public is set to "true" the template will expect that a public certificates is available and will try to download it from your storage account using the path "skype\cert"
 One could be set to public and others to private for example if you are not able to buy a SAN certificate for WAP you could get a free Public SSL for the federation service this will enable hybrid and ADFS SSO testing but not Shared sip configuration.
 
