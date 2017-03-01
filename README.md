@@ -69,7 +69,7 @@ The lab will need 3 certificates that will be exposed externally:
 For each of theses certificates the template gives you the option whether public or private. If Public is set to "false" the template will request a private CA from the domain controler. If public is set to "true" the template will expect that a public certificates is available and will try to download it from your storage account using the path "skype\cert"
 One could be set to public and others to private for example if you are not able to buy a SAN certificate for WAP you could get a free Public SSL for the federation service this will enable hybrid and ADFS SSO testing but not Shared sip configuration.
 
-It is possible to get free SSL trough the Let's encrypt project : https://www.sslforfree.com/
+It is possible to get free SSL through the Let's encrypt project : https://www.sslforfree.com/
 Because not all public CA's are deployed to servers but mainly client you could add your public root CA into the folder "Skype\cert" with the name "SSL_RootCA.crt"
 
 Certificate names: please respect carefully the certificate names above and give care to the case otherwise your 3 houres deployment will be unsucessful. Thoses certificates should be in pfx format (except SSL_RootCA.crt) and use the same password. There is many ways to convert other certificates format to pfx just ask the web.

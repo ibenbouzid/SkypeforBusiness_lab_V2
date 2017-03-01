@@ -16,17 +16,17 @@
         "description": "The storage account Type used to store VHD's"
       }
     },
-    "publicIPAddressType": {
-      "type": "string",
-      "allowedValues": [
-        "Dynamic",
-        "Static"
-      ],
-      "metadata": {
-        "description": "The type of the public IP address used by the Load Balancer "
-      },
-      "defaultValue": "Static"
-    },
+    //"publicIPAddressType": {
+    //  "type": "string",
+    //  "allowedValues": [
+    //    "Dynamic",
+    //    "Static"
+    //  ],
+    //  "metadata": {
+    //    "description": "The type of the public IP address used by the Load Balancer "
+    //  },
+    //  "defaultValue": "Static"
+    //},
     "dnsPrefix": {
       "type": "string",
       "metadata": {
@@ -51,13 +51,13 @@
         "description": "The password for the Administrator account "
       }
     },
-    "_artifactsLocation": {
-      "type": "string",
-      "metadata": {
-        "description": "The location of resources such as templates and DSC modules that the script is dependent"
-      },
-      "defaultValue": "https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V2/master"
-    },
+    //"_artifactsLocation": {
+    //  "type": "string",
+    //  "metadata": {
+    //    "description": "The location of resources such as templates and DSC modules that the script is dependent"
+    //  },
+    //  "defaultValue": "https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V2/master"
+    //},
     "ShareLocation": {
       "type": "string",
       "metadata": {
@@ -106,6 +106,7 @@
   },
   "variables": {
     "apiVersion": "2015-06-15",
+    "_artifactsLocation": "https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V2/master",
     "StorageAccountName": "[concat(resourceGroup().name, uniqueString(resourceGroup().id))]",
     "AVSetName": [ "AvailabilitySet-INT", "AvailabilitySet-DMZ" ],
     "LoadBalancerName": [ "LB-INT", "LB-DMZ" ],
@@ -153,18 +154,18 @@
       "EdgeExtIP": "[variables('DMZEXT-IPaddr')[1]]"
     },
     "tojoindomain": [ "VM-SFB-FE01", "VM-SFB-ADFS01", "VM-SFB-CL1" ],
-    "Shared-ResourcesTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/Shared.json')]",
-    "VM_deployTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-deploy.json')]",
-    "VM_deployWAPTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-deploy-WAP.json')]",
-    "VM_deployEDGETemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-deploy-EDGE.json')]",
-    "VM_ADDSCSTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-ext-ADDSCS.json')]",
-    "VM_DjoinTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-ext-Domainjoin.json')]",
-    "VM_DiagTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-ext-Diagnostics.json')]",
-    "VM_SFBFETemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-ext-SFBFE.json')]",
-    "VM_SFBClientTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-ext-SFBClient.json')]",
-    "VM_ADFSTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-ext-ADFS.json')]",
-    "VM_WAPTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-ext-WAP.json')]",
-    "VM_EDGETemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-ext-EDGE.json')]"
+    "Shared-ResourcesTemplateUri": "[concat(variables('_artifactsLocation'),'/nested/Shared.json')]",
+    "VM_deployTemplateUri": "[concat(variables('_artifactsLocation'),'/nested/VM-deploy.json')]",
+    "VM_deployWAPTemplateUri": "[concat(variables('_artifactsLocation'),'/nested/VM-deploy-WAP.json')]",
+    "VM_deployEDGETemplateUri": "[concat(variables('_artifactsLocation'),'/nested/VM-deploy-EDGE.json')]",
+    "VM_ADDSCSTemplateUri": "[concat(variables('_artifactsLocation'),'/nested/VM-ext-ADDSCS.json')]",
+    "VM_DjoinTemplateUri": "[concat(variables('_artifactsLocation'),'/nested/VM-ext-Domainjoin.json')]",
+    "VM_DiagTemplateUri": "[concat(variables('_artifactsLocation'),'/nested/VM-ext-Diagnostics.json')]",
+    "VM_SFBFETemplateUri": "[concat(variables('_artifactsLocation'),'/nested/VM-ext-SFBFE.json')]",
+    "VM_SFBClientTemplateUri": "[concat(variables('_artifactsLocation'),'/nested/VM-ext-SFBClient.json')]",
+    "VM_ADFSTemplateUri": "[concat(variables('_artifactsLocation'),'/nested/VM-ext-ADFS.json')]",
+    "VM_WAPTemplateUri": "[concat(variables('_artifactsLocation'),'/nested/VM-ext-WAP.json')]",
+    "VM_EDGETemplateUri": "[concat(variables('_artifactsLocation'),'/nested/VM-ext-EDGE.json')]"
 
   },
   "resources": [
@@ -238,7 +239,7 @@
             "value": "[variables('Subnet-DMZ-EXT-Prefix')]"
           },
           "_artifactsLocation": {
-            "value": "[parameters('_artifactsLocation')]"
+            "value": "[variables('_artifactsLocation')]"
           }
         }
       }
@@ -282,7 +283,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "_artifactsLocation": {
-            "value": "[parameters('_artifactsLocation')]"
+            "value": "[variables('_artifactsLocation')]"
           }
         }
       }
@@ -345,7 +346,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "_artifactsLocation": {
-            "value": "[parameters('_artifactsLocation')]"
+            "value": "[variables('_artifactsLocation')]"
           },
           "DMZ_DNSRecordsNames": {
             "value": [ "[parameters('StsServiceName')]", "[variables('VMservers').VMName[3]]", "[variables('VMservers').VMName[4]]" ]
@@ -406,7 +407,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "_artifactsLocation": {
-            "value": "[parameters('_artifactsLocation')]"
+            "value": "[variables('_artifactsLocation')]"
           }
         }
       }
@@ -487,7 +488,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "_artifactsLocation": {
-            "value": "[parameters('_artifactsLocation')]"
+            "value": "[variables('_artifactsLocation')]"
           }
         }
       }
@@ -568,7 +569,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "_artifactsLocation": {
-            "value": "[parameters('_artifactsLocation')]"
+            "value": "[variables('_artifactsLocation')]"
           }
         }
       }
@@ -644,7 +645,7 @@
     //        "value": "[parameters('adminPassword')]"
     //      },
     //      "_artifactsLocation": {
-    //        "value": "[parameters('_artifactsLocation')]"
+    //        "value": "[variables('_artifactsLocation')]"
     //      }
     //    }
     //  }
@@ -677,7 +678,7 @@
     //        "value": "[parameters('adminPassword')]"
     //      },
     //      "_artifactsLocation": {
-    //        "value": "[parameters('_artifactsLocation')]"
+    //        "value": "[variables('_artifactsLocation')]"
     //      }
     //    }
     //  }
@@ -717,7 +718,7 @@
             "value": "[reference('Shared-Resources').outputs.DMZPublicIP.value]"
           },
           "_artifactsLocation": {
-            "value": "[parameters('_artifactsLocation')]"
+            "value": "[variables('_artifactsLocation')]"
           },
           "_SfBshareLocation": {
             "value": "[parameters('ShareLocation')]"
@@ -761,7 +762,7 @@
     //        "value": "[parameters('adminPassword')]"
     //      },
     //      "_artifactsLocation": {
-    //        "value": "[parameters('_artifactsLocation')]"
+    //        "value": "[variables('_artifactsLocation')]"
     //      },
     //      "_SfBshareLocation": {
     //        "value": "[parameters('ShareLocation')]"
@@ -801,7 +802,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "_artifactsLocation": {
-            "value": "[parameters('_artifactsLocation')]"
+            "value": "[variables('_artifactsLocation')]"
           },
           "_SfBshareLocation": {
             "value": "[parameters('ShareLocation')]"
@@ -853,7 +854,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "_artifactsLocation": {
-            "value": "[parameters('_artifactsLocation')]"
+            "value": "[variables('_artifactsLocation')]"
           },
           "_SfBshareLocation": {
             "value": "[parameters('ShareLocation')]"
@@ -908,7 +909,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "_artifactsLocation": {
-            "value": "[parameters('_artifactsLocation')]"
+            "value": "[variables('_artifactsLocation')]"
           },
           "_SfBshareLocation": {
             "value": "[parameters('ShareLocation')]"
