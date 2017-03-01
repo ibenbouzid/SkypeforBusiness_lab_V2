@@ -27,12 +27,12 @@
     //  },
     //  "defaultValue": "Static"
     //},
-    "dnsPrefix": {
-      "type": "string",
-      "metadata": {
-        "description": "The DNS prefix for the public IP address used by the Load Balancer"
-      }
-    },
+    //"dnsPrefix": {
+    //  "type": "string",
+    //  "metadata": {
+    //    "description": "The DNS prefix for the public IP address used by the Load Balancer"
+    //  }
+    //},
     "domainName": {
       "type": "string",
       "metadata": {
@@ -108,6 +108,7 @@
     "apiVersion": "2015-06-15",
     "_artifactsLocation": "https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V2/master",
     "StorageAccountName": "[concat(resourceGroup().name, uniqueString(resourceGroup().id))]",
+    "dnsPrefix": "[resourceGroup().name]",
     "AVSetName": [ "AvailabilitySet-INT", "AvailabilitySet-DMZ" ],
     "LoadBalancerName": [ "LB-INT", "LB-DMZ" ],
     "VnetName": "Vnet1",
@@ -206,7 +207,7 @@
             "value": "[variables('DMZPublicIPName')]"
           },
           "DnsPrefix": {
-            "value": "[parameters('dnsPrefix')]"
+            "value": "[variables('dnsPrefix')]"
           },
           "publicIPAddressType": {
             "value": "Static"
