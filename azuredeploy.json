@@ -60,12 +60,14 @@
     //},
     "ShareLocation": {
       "type": "string",
+      "defaultValue": "eg: yourStorageAccountName that contain skype folder",
       "metadata": {
         "description": "The storage account Name - not the url - where Skype for Business executable files are strored"
       }
     },
     "ShareAccessKey": {
       "type": "string",
+      "defaultValue": "eg: nRabLGIiS5b3O8XPf8F0AI91uzNN4zxzDJePhDu1tXf6hH3iGYX1M1gR2AEhp1p9jUo8Tmf+ik2SjAHc7E89fw==",
       "metadata": {
         "description": "The token for the share where the software is stored"
       }
