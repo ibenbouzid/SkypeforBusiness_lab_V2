@@ -36,6 +36,7 @@ Before starting the deployment there is some steps to follow:
 
 You can either deploy through the azure deploy button (which take less time) or via the azuredeploy.ps1 powershell script which requires to previously setup your machine with the right Azure modules.
 
+# Storage Account and Folder Structure
 The folder structure inside your storage account should look like this
 
 <a >
