@@ -76,8 +76,6 @@ Certificate names: please respect carefully the certificate names above and give
 
 # How to fillin parameters
 
- "dnsPrefix":  The DNS prefix for the public IP address used by the Load Balancer
-
  "domainName": The FQDN of the AD Domain eg: contoso.com or adatum.local
      
  "adminUsername": The name of the Administrator of all your VM's and Domain Admin
@@ -88,4 +86,12 @@ Certificate names: please respect carefully the certificate names above and give
  
  "ShareAccessKey": The token to used to access your storage account. You can find it on your storage account settings.
 
+ "StsServiceName": The name of your ADFS service eg sts.contoso.com that is present in the SSL certificate
 
+ "STSPublicCertificate": True if using public certificate for Federation Service
+
+ "WAPPublicCertificate": True if using public certificate for Skype URL's
+    
+ "EdgePublicCertificate": True if using public certificate for Edge Server
+
+ "CertificatePassword" : Only needed if at least one public certificate, should be the same password for all public certificate
