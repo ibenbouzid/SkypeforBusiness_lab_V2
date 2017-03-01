@@ -35,18 +35,21 @@
     //},
     "domainName": {
       "type": "string",
+      "defaultValue": "eg: contoso.com",
       "metadata": {
         "description": "The FQDN of the AD Domain eg: contoso.com or adatum.local "
       }
     },
     "adminUsername": {
       "type": "string",
+      "defaultValue": "eg: ContosoAdmin",
       "metadata": {
         "description": "The name of the Administrator and Domain Admin"
       }
     },
     "adminPassword": {
       "type": "securestring",
+      "defaultValue": "eg: @Contoso1234",
       "metadata": {
         "description": "The password for the Administrator account "
       }
@@ -74,6 +77,7 @@
     },
     "StsServiceName": {
       "type": "string",
+      "defaultValue": "eg: sts.contoso.com",
       "metadata": {
         "description": "The name of your ADFS service eg sts.contoso.com that is present in the SSL certificate "
       }
