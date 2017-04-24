@@ -1,5 +1,7 @@
 # Azure SkypeforBusiness lab V2
 Azure template for a Skype for Business
+## Goto last version : SkypeforBusiness lab V3 :
+https://github.com/ibenbouzid/SkypeforBusiness_lab_V3
 
 # Create a Skype for Business 2015 Standard Lab
 
